@@ -6,8 +6,8 @@ export function create$Board(board) {
 
     $board.classList.add('board');
     grid.classList.add('grid');
-    columnLabels.classList = 'column-label';
-    rowLabels.classList = 'row-label';
+    columnLabels.classList.add('column-label');
+    rowLabels.classList.add('row-label');
 
     for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
         const columnLabelCell = document.createElement('div');
@@ -32,11 +32,24 @@ export function create$Board(board) {
             cell.dataset.row = indexRow;
             cell.dataset.column = indexColumn;
 
+            cell.addEventListener('click', clickCellHandler);
+
+            // otherPlayerBoard.receiveAttack([x, y]);
+            // activePlayer.active = false;)
+
             grid.appendChild(cell);
         });
     });
     $board.appendChild(grid);
     return $board;
+}
+
+// todo => finish this function
+export function clickCellHandler(e) {
+    // const x = parseInt(e.target.dataset.row);
+    // const y = parseInt(e.target.dataset.column);
+
+    console.log(e.target.parentNode.parentNode);
 }
 
 export function updateGrid(board, matrix, $board) {

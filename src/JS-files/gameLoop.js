@@ -1,5 +1,7 @@
 import CreateGameBoard from './gameboardFactory';
-import { create$Board, updateGrid } from './interfaceController';
+import { clickCellHandler, create$Board, updateGrid } from './interfaceController';
+
+export { playerGameBoard, $playerBoard, computerGameBoard, $computerBoard };
 
 const playerGameBoard = CreateGameBoard();
 const $playerBoard = create$Board(playerGameBoard.board);
@@ -13,6 +15,8 @@ export function setUpInterface() {
     playerGameBoard.placeShip([10, 9], [10, 10]);
 
     computerGameBoard.placeShip([1, 1], [1, 2]);
+    computerGameBoard.placeShip([8, 6], [8, 10]);
+    computerGameBoard.placeShip([2, 4], [6, 4]);
 
     const main = document.createElement('main');
     document.body.appendChild(main);
@@ -20,32 +24,37 @@ export function setUpInterface() {
     main.appendChild($computerBoard);
     main.appendChild($playerBoard);
 
-    updateGrid(playerGameBoard.board, playerGameBoard.matrix, $playerBoard);
-    updateGrid(computerGameBoard, computerGameBoard.matrix, $computerBoard);
+    updateGrid(playerGameBoard.board, computerGameBoard.matrix, $playerBoard);
 }
 
-export function gameLoop(player1, player2) {
-    let turnCount = 0;
+// todo => finish gameLoop and make it works
+export function gameLoop(player1, player2, boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
+    console.log($boardPlayer2);
+    // ! <= $boardPlayer2 is undefined => parameters missing in index.js
+    if (player1.active) {
+        toggleEventListener($boardPlayer2, clickCellHandler);
+        updateGrid(boardPlayer1.board, boardPlayer2.matrix, $boardPlayer1);
+        boardPlayer1.checkWinner();
+    } else if (player2.active) {
+        toggleEventListener($boardPlayer1, clickCellHandler);
 
-    if (turnCount === 0) {
-        setUpInterface();
+        updateGrid(boardPlayer2.board, boardPlayer2.matrix, $boardPlayer2);
     } else {
-        if (player1.active) {
-            // playTurn(player1, player2);
-        } else if (player2.active) {
-            // playTurn(player2, player1);
-        } else {
-            player1.active = true;
-            player2.active = true;
-        }
-        turnCount++;
+        player1.active = true;
+        player2.active = true;
     }
-    // todo => create playTurn function
-    // todo =>
-    // todo =>
+
+    gameLoop(player1, player2, boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
 }
 
-// function playTurn(player, ennemy) {
-//     const ennemyCells = $computerBoard.querySelectorAll('.cell');
-//     $computerBoard;
-// }
+// todo => check if this function works as expected
+function toggleEventListener(element, functionName) {
+    console.log(element);
+    if (element.hasEventListener) {
+        element.removeEventListener('click', functionName);
+        element.hasEventListener = false;
+    } else {
+        element.addEventListener('click', functionName);
+        element.hasEventListener = true;
+    }
+}

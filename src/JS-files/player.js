@@ -68,4 +68,6 @@ export default function Player(name) {
 
         return [x, y];
     };
+
+    return player;
 }
