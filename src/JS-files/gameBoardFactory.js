@@ -21,12 +21,12 @@ export default function CreateGameBoard() {
         return matrix;
     };
 
-    gameBoard.shipLength = ([coordX1, coordY1], [coordX2, coordY2]) => {
+    gameBoard.shipLength = ([x1, y1], [x2, y2]) => {
         let length = 0;
-        if (coordX1 == coordX2) {
-            length = coordY2 - coordY1 + 1;
+        if (x1 == x2) {
+            length = y2 - y1 + 1;
         } else {
-            length = coordX2 - coordX1 + 1;
+            length = x2 - x1 + 1;
         }
         return length;
     };
@@ -36,44 +36,51 @@ export default function CreateGameBoard() {
     gameBoard.shipsList = [];
     gameBoard.sunkList = [];
 
-    gameBoard.placeShip = ([coordX1, coordY1], [coordX2, coordY2]) => {
-        const length = gameBoard.shipLength([coordX1, coordY1], [coordX2, coordY2]);
+    gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
+        const length = gameBoard.shipLength([x1, y1], [x2, y2]);
         const ship = createShip(length);
 
-        if (coordY1 == coordY2) {
-            gameBoard.board[coordY1 - 1][coordX1 - 1] = true;
+        if (y1 == y2) {
+            gameBoard.board[y1 - 1][x1 - 1] = 1;
             for (let i = 0; i < length; i++) {
-                gameBoard.board[coordY1 - 1][coordX1 - 1 + i] = true;
-                ship.coord.push([coordX1 - 1 + i, coordY1 - 1]);
+                gameBoard.board[y1 - 1][x1 - 1 + i] = 1;
+                ship.coord.push([x1 - 1 + i, y1 - 1]);
             }
         } else {
-            gameBoard.board[coordY1 - 1][coordX1 - 1] = true;
+            gameBoard.board[y1 - 1][x1 - 1] = 1;
             for (let i = 0; i < length; i++) {
-                gameBoard.board[coordY1 - 1 + i][coordX1 - 1] = true;
-                ship.coord.push([coordX1 - 1, coordY1 - 1 + i]);
+                gameBoard.board[y1 - 1 + i][x1 - 1] = 1;
+                ship.coord.push([x1 - 1, y1 - 1 + i]);
             }
         }
         gameBoard.shipsList.push(ship);
     };
 
-    gameBoard.isOccupied = ([coordX1, coordY1]) => {
-        return gameBoard.board[coordY1 - 1][coordX1 - 1] === true;
+    gameBoard.isOccupied = ([x1, y1]) => {
+        return gameBoard.board[y1 - 1][x1 - 1] === true;
     };
 
-    gameBoard.receiveAttack = ([coordX, coordY]) => {
-        if (gameBoard.board[coordY - 1][coordX - 1] === true) {
+    gameBoard.receiveAttack = ([x, y]) => {
+        if (gameBoard.board[y - 1][x - 1] === 1) {
             const ship = gameBoard.shipsList.find((ship) => {
-                return ship.coord.some(([x, y]) => x === coordX - 1 && y === coordY - 1);
+                return ship.coord.some(([x, y]) => x === x - 1 && y === y - 1);
             });
             ship.hit();
+            gameBoard.board[y - 1][x - 1] = 2;
+
             if (ship.isSunk()) {
                 gameBoard.sunkList.push(ship);
-                gameBoard.board[coordY - 1][coordX - 1] = undefined;
+
+                ship.coord.forEach((coord) => {
+                    const [y, x] = coord;
+                    gameBoard.board[x][y] = 3;
+                });
+
                 gameBoard.checkWinner();
             }
         } else {
-            if (!gameBoard.matrix[coordY - 1][coordX - 1]) {
-                gameBoard.matrix[coordY - 1][coordX - 1] = true;
+            if (!gameBoard.matrix[y - 1][x - 1]) {
+                gameBoard.matrix[y - 1][x - 1] = true;
             }
         }
     };
@@ -84,16 +91,3 @@ export default function CreateGameBoard() {
 
     return gameBoard;
 }
-
-// const correspondences =  {
-//     a: 1,
-//     b: 2,
-//     c: 3,
-//     d:4,
-//     e:5,
-//     f:6,
-//     g:7,
-//     h:8,
-//     i:9,
-//     j:10,
-// };

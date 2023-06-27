@@ -2,6 +2,15 @@ export default function Player(name) {
     const player = {};
     player.name = name;
     player.moves = [];
+    player.active = true;
+
+    player.attack = ([x, y], boardAttacked) => {
+        boardAttacked.receiveAttack([x, y]);
+    };
+
+    // player.switchPlayerTurn = () => {
+    //     player.active = player.active === true ? false : true;
+    // };
 
     player.randomMove = () => {
         const x = Math.floor(Math.random() * 10);

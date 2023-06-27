@@ -1,16 +1,11 @@
-import CreateGameBoard from './gameboardFactory';
-
-const playerGameBoard = CreateGameBoard();
-const $playerBoard = create$Board(playerGameBoard.board);
-
-function create$Board(board) {
+export function create$Board(board) {
     const $board = document.createElement('div'),
         grid = document.createElement('div'),
         columnLabels = document.createElement('div'),
         rowLabels = document.createElement('div');
 
-    $board.id = 'board';
-    grid.id = 'grid';
+    $board.classList.add('board');
+    grid.classList.add('grid');
     columnLabels.classList = 'column-label';
     rowLabels.classList = 'row-label';
 
@@ -44,61 +39,9 @@ function create$Board(board) {
     return $board;
 }
 
-// function create$Board(board) {
-//     const $board = document.createElement('div');
-//     $board.classList = 'board';
-
-//     // Create the top row for column labels
-//     const columnsLabels = document.createElement('div');
-//     columnsLabels.classList.add('row', 'labels');
-
-//     const emptyLabelCell = document.createElement('div');
-//     emptyLabelCell.classList.add('label');
-//     columnsLabels.appendChild(emptyLabelCell);
-
-//     for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
-//         const labelCell = document.createElement('div');
-//         labelCell.classList.add('label');
-//         labelCell.textContent = String.fromCharCode(65 + columnIndex); // Convert ASCII code to character
-//         columnsLabels.appendChild(labelCell);
-//     }
-
-//     $board.appendChild(columnsLabels);
-
-//     // Create the grid cells
-//     board.forEach((row, indexRow) => {
-//         const rowElement = document.createElement('div');
-//         rowElement.classList.add('row');
-
-//         const rowLabelCell = document.createElement('div');
-//         rowLabelCell.classList.add('cell', 'label');
-//         rowLabelCell.textContent = indexRow + 1; // Add 1 to convert index to 1-based numbering
-//         rowElement.appendChild(rowLabelCell);
-
-//         row.forEach((cell, indexColumn) => {
-//             const cellElement = document.createElement('button');
-//             cellElement.classList.add('cell');
-//             cellElement.dataset.row = indexRow;
-//             cellElement.dataset.column = indexColumn;
-//             rowElement.appendChild(cellElement);
-//         });
-
-//         $board.appendChild(rowElement);
-//     });
-
-//     return $board;
-// }
-
-export function setUpInterface() {
-    playerGameBoard.placeShip([1, 1], [1, 5]);
-    playerGameBoard.placeShip([3, 4], [7, 4]);
-    playerGameBoard.placeShip([10, 9], [10, 10]);
-
-    const main = document.createElement('main');
-    document.body.appendChild(main);
-
-    main.appendChild($playerBoard);
-    updateBoard(playerGameBoard.board, $playerBoard);
+export function updateGrid(board, matrix, $board) {
+    updateBoard(board, $board);
+    updateMatrix(matrix, $board);
 }
 
 function updateBoard(board, $board) {
@@ -108,25 +51,30 @@ function updateBoard(board, $board) {
         const rowIndex = parseInt(cell.dataset.row, 10);
         const columnIndex = parseInt(cell.dataset.column, 10);
 
-        if (board[rowIndex][columnIndex]) {
+        if (board[rowIndex][columnIndex] === 1) {
             cell.classList.add('occupied');
         }
-        if (board[rowIndex][columnIndex] === undefined) {
+        if (board[rowIndex][columnIndex] === 2) {
+            cell.classList.add('hit');
+        }
+        if (board[rowIndex][columnIndex] === 3) {
             cell.classList.add('sunk');
         }
     });
 }
 
-// function updateMatrix(matrix) {
-//     matrix.forEach((row) => {
-//         row.forEach((cell) => {
-//             if (cell) {
-//                 cell.classList = 'occupied';
-//             }
-//         });
-//     });
+function updateMatrix(matrix, $board) {
+    const $cells = $board.querySelectorAll('.cell');
 
-// }
+    $cells.forEach((cell) => {
+        const rowIndex = parseInt(cell.dataset.row, 10);
+        const columnIndex = parseInt(cell.dataset.column, 10);
+
+        if (matrix[rowIndex][columnIndex]) {
+            cell.classList.add('miss');
+        }
+    });
+}
 
 export function interfaceController() {}
 

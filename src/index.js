@@ -1,17 +1,11 @@
-// import Player from './JS-files/player';
+import Player from './JS-files/player';
 
 import './CSS-files/global.css';
-import { setUpInterface } from './JS-files/interfaceController';
+import './CSS-files/board.css';
+import { gameLoop } from './JS-files/gameLoop';
 
-// const computer = Player('Computer');
+const human = Player('human');
 
-// const computerGameBoard = createGameBoard();
-// computerGameBoard.placeShip([1, 1], [1, 5]);
-// computerGameBoard.placeShip([3, 4], [7, 4]);
+const computer = Player('computer');
 
-setUpInterface();
-
-// * Helper function
-// const $ = (element) => {
-//     return document.querySelector(element);
-// };
+gameLoop(human, computer);
