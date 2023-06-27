@@ -42,7 +42,6 @@ export default function CreateGameBoard() {
 
         if (coordY1 == coordY2) {
             gameBoard.board[coordY1 - 1][coordX1 - 1] = true;
-            // ship.coord.push([coordX1 - 1, coordY1 - 1]);
             for (let i = 0; i < length; i++) {
                 gameBoard.board[coordY1 - 1][coordX1 - 1 + i] = true;
                 ship.coord.push([coordX1 - 1 + i, coordY1 - 1]);
@@ -69,6 +68,7 @@ export default function CreateGameBoard() {
             ship.hit();
             if (ship.isSunk()) {
                 gameBoard.sunkList.push(ship);
+                gameBoard.board[coordY - 1][coordX - 1] = undefined;
                 gameBoard.checkWinner();
             }
         } else {

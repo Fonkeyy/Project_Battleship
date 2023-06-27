@@ -1,12 +1,17 @@
-import createGameBoard from './JS-files/gameboardFactory';
-import Player from './JS-files/player';
+// import Player from './JS-files/player';
 
-const computer = Player('Computer');
+import './CSS-files/global.css';
+import { setUpInterface } from './JS-files/interfaceController';
 
-const computerGameBoard = createGameBoard();
-computerGameBoard.placeShip([1, 1], [1, 5]);
-computerGameBoard.placeShip([3, 4], [7, 4]);
+// const computer = Player('Computer');
 
-const playerGameBoard = createGameBoard();
-playerGameBoard.placeShip([1, 1], [1, 5]);
-playerGameBoard.placeShip([3, 4], [7, 4]);
+// const computerGameBoard = createGameBoard();
+// computerGameBoard.placeShip([1, 1], [1, 5]);
+// computerGameBoard.placeShip([3, 4], [7, 4]);
+
+setUpInterface();
+
+// * Helper function
+// const $ = (element) => {
+//     return document.querySelector(element);
+// };
