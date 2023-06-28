@@ -1,4 +1,4 @@
-import createShip from './shipsFactory';
+import CreateShip from './shipsFactory';
 
 export default function CreateGameBoard() {
     const gameBoard = {};
@@ -38,7 +38,8 @@ export default function CreateGameBoard() {
 
     gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
         const length = gameBoard.shipLength([x1, y1], [x2, y2]);
-        const ship = createShip(length);
+        const ship = CreateShip(length);
+        // console.log(ship);
 
         if (y1 == y2) {
             gameBoard.board[y1 - 1][x1 - 1] = 1;
@@ -57,13 +58,13 @@ export default function CreateGameBoard() {
     };
 
     gameBoard.isOccupied = ([x1, y1]) => {
-        return gameBoard.board[y1 - 1][x1 - 1] === true;
+        if (gameBoard.board[y1 - 1][x1 - 1] >= 1) return true;
     };
 
     gameBoard.receiveAttack = ([x, y]) => {
         if (gameBoard.board[y - 1][x - 1] === 1) {
             const ship = gameBoard.shipsList.find((ship) => {
-                return ship.coord.some(([x, y]) => x === x - 1 && y === y - 1);
+                return ship.coord.some(([coordX, coordY]) => coordX === x - 1 && coordY === y - 1);
             });
             ship.hit();
             gameBoard.board[y - 1][x - 1] = 2;
@@ -75,11 +76,9 @@ export default function CreateGameBoard() {
                     const [y, x] = coord;
                     gameBoard.board[x][y] = 3;
                 });
-
-                gameBoard.checkWinner();
             }
         } else {
-            if (!gameBoard.matrix[y - 1][x - 1]) {
+            if (!gameBoard.matrix[y - 1][x - 1] && !gameBoard.board[y - 1][x - 1] >= 1) {
                 gameBoard.matrix[y - 1][x - 1] = true;
             }
         }

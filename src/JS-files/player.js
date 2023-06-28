@@ -2,7 +2,7 @@ export default function Player(name) {
     const player = {};
     player.name = name;
     player.moves = [];
-    player.active = true;
+    player.active = false;
 
     player.attack = ([x, y], boardAttacked) => {
         boardAttacked.receiveAttack([x, y]);
@@ -67,6 +67,13 @@ export default function Player(name) {
         }
 
         return [x, y];
+    };
+
+    player.randomAttack = (opponentBoard) => {
+        const coord = player.randomMove();
+        // console.log(coord);
+        opponentBoard.receiveAttack(coord);
+        return coord;
     };
 
     return player;

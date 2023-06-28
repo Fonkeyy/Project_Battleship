@@ -1,4 +1,5 @@
 .board {
+    width: min-content;
     display: grid;
     grid-template-columns: min-content auto;
 }
@@ -45,4 +46,8 @@
 
 .sunk {
     background: lightgray;
+}
+
+.miss {
+    background: lightsalmon;
 }

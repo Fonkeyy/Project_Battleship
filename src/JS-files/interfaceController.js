@@ -32,10 +32,9 @@ export function create$Board(board) {
             cell.dataset.row = indexRow;
             cell.dataset.column = indexColumn;
 
-            cell.addEventListener('click', clickCellHandler);
+            cell.hasEventListener = true;
 
-            // otherPlayerBoard.receiveAttack([x, y]);
-            // activePlayer.active = false;)
+            cell.addEventListener('click', clickCellHandler);
 
             grid.appendChild(cell);
         });
@@ -46,18 +45,22 @@ export function create$Board(board) {
 
 // todo => finish this function
 export function clickCellHandler(e) {
-    // const x = parseInt(e.target.dataset.row);
-    // const y = parseInt(e.target.dataset.column);
+    const x = parseInt(e.target.dataset.row);
+    const y = parseInt(e.target.dataset.column);
 
-    console.log(e.target.parentNode.parentNode);
+    const eventValue = [y + 1, x + 1];
+
+    const event = new CustomEvent('playerHasPlay', { detail: eventValue });
+    document.dispatchEvent(event);
 }
 
-export function updateGrid(board, matrix, $board) {
+export function updateGrid(board, opponentBoard, playerMatrix, $board, $opponentBoard) {
     updateBoard(board, $board);
-    updateMatrix(matrix, $board);
+    updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard);
+    // updateMatrix(playerMatrix, $opponentBoard);
 }
 
-function updateBoard(board, $board) {
+export function updateBoard(board, $board) {
     const $cells = $board.querySelectorAll('.cell');
 
     $cells.forEach((cell) => {
@@ -76,7 +79,26 @@ function updateBoard(board, $board) {
     });
 }
 
-function updateMatrix(matrix, $board) {
+function updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard) {
+    const $cells = $opponentBoard.querySelectorAll('.cell');
+
+    $cells.forEach((cell) => {
+        const rowIndex = parseInt(cell.dataset.row, 10);
+        const columnIndex = parseInt(cell.dataset.column, 10);
+
+        if (opponentBoard[rowIndex][columnIndex] === 2) {
+            cell.classList.add('hit');
+        }
+        if (opponentBoard[rowIndex][columnIndex] === 3) {
+            cell.classList.add('sunk');
+        }
+        if (playerMatrix[rowIndex][columnIndex]) {
+            cell.classList.add('miss');
+        }
+    });
+}
+
+export function updateMatrix(matrix, $board) {
     const $cells = $board.querySelectorAll('.cell');
 
     $cells.forEach((cell) => {
@@ -88,10 +110,3 @@ function updateMatrix(matrix, $board) {
         }
     });
 }
-
-export function interfaceController() {}
-
-// * Helper function
-// const $ = (element) => {
-//     return document.querySelector(element);
-// };
