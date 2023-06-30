@@ -8,15 +8,10 @@ export default function Player(name) {
         boardAttacked.receiveAttack([x, y]);
     };
 
-    // player.switchPlayerTurn = () => {
-    //     player.active = player.active === true ? false : true;
-    // };
-
     player.randomMove = () => {
-        const x = Math.floor(Math.random() * 10);
-        const y = Math.floor(Math.random() * 10);
+        const x = Math.ceil(Math.random() * 10);
+        const y = Math.ceil(Math.random() * 10);
 
-        player.moves.push(x, y);
         return [x, y];
     };
 
@@ -69,9 +64,18 @@ export default function Player(name) {
         return [x, y];
     };
 
+    // todo => check if the move has already been done before attacking
     player.randomAttack = (opponentBoard) => {
         const coord = player.randomMove();
-        // console.log(coord);
+
+        player.moves.forEach((move) => {
+            console.log(move);
+            if (move == coord) {
+                player.randomAttack();
+            }
+        });
+        player.moves.push(coord);
+
         opponentBoard.receiveAttack(coord);
         return coord;
     };

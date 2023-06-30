@@ -43,7 +43,7 @@ export function create$Board(board) {
     return $board;
 }
 
-// todo => finish this function
+// todo => remove event listener on the already clicked cells
 export function clickCellHandler(e) {
     const x = parseInt(e.target.dataset.row);
     const y = parseInt(e.target.dataset.column);
@@ -57,7 +57,6 @@ export function clickCellHandler(e) {
 export function updateGrid(board, opponentBoard, playerMatrix, $board, $opponentBoard) {
     updateBoard(board, $board);
     updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard);
-    // updateMatrix(playerMatrix, $opponentBoard);
 }
 
 export function updateBoard(board, $board) {
@@ -79,7 +78,7 @@ export function updateBoard(board, $board) {
     });
 }
 
-function updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard) {
+export function updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard) {
     const $cells = $opponentBoard.querySelectorAll('.cell');
 
     $cells.forEach((cell) => {
@@ -98,6 +97,7 @@ function updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard) {
     });
 }
 
+// todo => check if this fucntion is still needed
 export function updateMatrix(matrix, $board) {
     const $cells = $board.querySelectorAll('.cell');
 
