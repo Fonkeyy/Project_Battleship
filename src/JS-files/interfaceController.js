@@ -32,8 +32,6 @@ export function create$Board(board) {
             cell.dataset.row = indexRow;
             cell.dataset.column = indexColumn;
 
-            cell.hasEventListener = true;
-
             cell.addEventListener('click', clickCellHandler);
 
             grid.appendChild(cell);
@@ -93,20 +91,6 @@ export function updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard)
             cell.classList.add('sunk');
         }
         if (playerMatrix[rowIndex][columnIndex]) {
-            cell.classList.add('miss');
-        }
-    });
-}
-
-// todo => check if this fucntion is still needed
-export function updateMatrix(matrix, $board) {
-    const $cells = $board.querySelectorAll('.cell');
-
-    $cells.forEach((cell) => {
-        const rowIndex = parseInt(cell.dataset.row, 10);
-        const columnIndex = parseInt(cell.dataset.column, 10);
-
-        if (matrix[rowIndex][columnIndex]) {
             cell.classList.add('miss');
         }
     });

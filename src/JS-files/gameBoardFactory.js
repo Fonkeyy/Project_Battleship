@@ -84,7 +84,6 @@ export default function CreateGameBoard() {
         }
     };
 
-    // todo => remove click and finish the game
     gameBoard.checkWinner = () => {
         return gameBoard.shipsList.length === gameBoard.sunkList.length ? true : false;
     };
