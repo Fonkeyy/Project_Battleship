@@ -43,7 +43,6 @@ export function create$Board(board) {
     return $board;
 }
 
-// todo => remove event listener on the already clicked cells
 export function clickCellHandler(e) {
     const x = parseInt(e.target.dataset.row);
     const y = parseInt(e.target.dataset.column);
@@ -52,6 +51,8 @@ export function clickCellHandler(e) {
 
     const event = new CustomEvent('playerHasPlay', { detail: eventValue });
     document.dispatchEvent(event);
+
+    e.target.removeEventListener('click', clickCellHandler);
 }
 
 export function updateGrid(board, opponentBoard, playerMatrix, $board, $opponentBoard) {
