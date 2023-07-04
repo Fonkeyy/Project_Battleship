@@ -3,7 +3,27 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="/dist/output.css" rel="stylesheet" />
         <title>Document</title>
     </head>
-    <body></body>
+    <body>
+        <header>
+            <h1>Battleship</h1>
+        </header>
+        <main>
+            <input type="button" id="open-start-dialog-btn" value="Let's Go" />
+
+            <!-- todo => Add btn toggle for computer/player opponent -->
+            <dialog id="start-dialog">
+                <input type="text" name="player-1" id="input-player-1" placeholder="Enter player 1 name" />
+                <input type="text" name="player-2" id="input-player-2" placeholder="Enter player 2 name" />
+                <input type="button" id="start-dialog-close-dialog-btn" value="Close" />
+                <input
+                    type="button"
+                    id="start-dialog-start-game-btn"
+                    data-game-started="false"
+                    value="Start Game" />
+            </dialog>
+        </main>
+    </body>
 </html>

@@ -1,39 +1,58 @@
-import Player from './JS-files/player';
-
 import './CSS-files/global.css';
 import './CSS-files/board.css';
-import { setUpInterface, gameLoop } from './JS-files/gameLoop';
+// import { setUpInterface, gameLoop } from './JS-files/gameLoop';
+// import CreateGameBoard from './JS-files/gameboardFactory';
+// import { create$Board } from './JS-files/interfaceController';
+
+import { setUpInterface } from './JS-files/gameLoop';
 import CreateGameBoard from './JS-files/gameboardFactory';
 import { create$Board } from './JS-files/interfaceController';
-// import CreateShip from './JS-files/shipsFactory';
 
-const human = Player('human');
+const openStartDialogBtn = document.querySelector('#open-start-dialog-btn'),
+    closeStartDialogBtn = document.querySelector('#start-dialog-close-dialog-btn'),
+    startDialog = document.querySelector('#start-dialog'),
+    startDialogStartGameBtn = document.querySelector('#start-dialog-start-game-btn');
 
-const computer = Player('computer');
+openStartDialogBtn.addEventListener('click', () => {
+    if (startDialogStartGameBtn.dataset.gameStarted == 'true') {
+        handleRestartGame();
+    } else {
+        handleOpenStartDialogBtn();
+    }
+});
+closeStartDialogBtn.addEventListener('click', () => {
+    handleCloseStartDialogBtn();
+});
 
-const playerGameBoard = CreateGameBoard();
-const $playerBoard = create$Board(playerGameBoard.board);
+startDialogStartGameBtn.addEventListener('click', () => {
+    handleStartDialogStartGameBtn();
+});
 
-const computerGameBoard = CreateGameBoard();
-const $computerBoard = create$Board(computerGameBoard.board);
+const handleOpenStartDialogBtn = () => {
+    if (!startDialog.open) {
+        startDialog.showModal();
+    }
+};
+const handleCloseStartDialogBtn = () => {
+    startDialog.close();
+};
 
-setUpInterface(playerGameBoard, computerGameBoard, $playerBoard, $computerBoard);
+const handleStartDialogStartGameBtn = () => {
+    const inputPlayer1 = document.querySelector('#input-player-1').value;
+    const inputPlayer2 = document.querySelector('#input-player-2').value;
 
-gameLoop(human, computer, playerGameBoard, computerGameBoard, $playerBoard, $computerBoard);
+    const gameBoardPlayer1 = CreateGameBoard(inputPlayer2);
+    const gameBoardPlayer2 = CreateGameBoard(inputPlayer1);
 
-// const ship1 = CreateShip(2);
-// console.log(ship1.length);
+    const $boardPlayer1 = create$Board(gameBoardPlayer1.board);
+    const $boardPlayer2 = create$Board(gameBoardPlayer2.board);
 
-// ship1.hit();
-// ship1.hit();
-// console.log(ship1.hitCount);
-// console.log(ship1.isSunk());
+    setUpInterface(gameBoardPlayer1, gameBoardPlayer2, $boardPlayer1, $boardPlayer2);
+    startDialog.close();
+    openStartDialogBtn.value = 'Restart';
+    startDialogStartGameBtn.dataset.gameStarted = 'true';
+};
 
-// playerGameBoard.placeShip([1, 1], [1, 5]);
-// console.log(playerGameBoard.isOccupied([1, 1]));
-
-// console.log(playerGameBoard.board[1 - 1][1 - 1]);
-
-// playerGameBoard.receiveAttack([1, 1]);
-
-// console.log(playerGameBoard.board[1 - 1][1 - 1]);
+const handleRestartGame = () => {
+    // todo => Implement restart function
+};

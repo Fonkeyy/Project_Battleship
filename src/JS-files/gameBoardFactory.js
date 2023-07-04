@@ -1,7 +1,9 @@
+import Player from './player';
 import CreateShip from './shipsFactory';
 
-export default function CreateGameBoard() {
+export default function CreateGameBoard(opponent) {
     const gameBoard = {};
+    gameBoard.opponent = new Player(opponent);
 
     gameBoard.createBoard = () => {
         let board = [];
@@ -39,7 +41,6 @@ export default function CreateGameBoard() {
     gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
         const length = gameBoard.shipLength([x1, y1], [x2, y2]);
         const ship = CreateShip(length);
-        // console.log(ship);
 
         if (y1 == y2) {
             gameBoard.board[y1 - 1][x1 - 1] = 1;
@@ -68,6 +69,8 @@ export default function CreateGameBoard() {
             });
             ship.hit();
             gameBoard.board[y - 1][x - 1] = 2;
+            gameBoard.opponent.hitList.push([x, y]);
+            // console.log(gameBoard.opponent.hitList);
 
             if (ship.isSunk()) {
                 gameBoard.sunkList.push(ship);

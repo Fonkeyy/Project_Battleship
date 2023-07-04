@@ -2,7 +2,7 @@ export default function Player(name) {
     const player = {};
     player.name = name;
     player.moves = [];
-    player.hitMoves = [];
+    player.hitList = [];
 
     player.attack = ([x, y], boardAttacked) => {
         boardAttacked.receiveAttack([x, y]);
@@ -17,126 +17,92 @@ export default function Player(name) {
 
     player.nextMove = (lastMove) => {
         let [lastY, lastX] = lastMove;
-        let y;
-        let x;
+        let nextY;
+        let nextX;
 
-        const randomNumber = (number) => {
-            return Math.ceil(Math.random() * number);
+        const getRandomInteger = (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         };
 
-        const random4 = () => {
-            switch (randomNumber(4)) {
-                case 1:
-                    if (lastX + 1 <= 10) {
-                        y = lastY;
-                        x = lastX + 1;
+        const isValidMove = (y, x) => {
+            return y >= 1 && y <= 10 && x >= 1 && x <= 10;
+        };
 
-                        return [y, x];
-                    } else {
-                        return player.nextMove(lastMove);
-                    }
+        const getRandomDirection = () => {
+            const randomNumber = getRandomInteger(1, 4);
+            switch (randomNumber) {
+                case 1:
+                    nextY = lastY;
+                    nextX = lastX + 1;
+                    break;
 
                 case 2:
-                    if (lastX - 1 >= 1) {
-                        y = lastY;
-                        x = lastX - 1;
-
-                        return [y, x];
-                    } else {
-                        return player.nextMove(lastMove);
-                    }
+                    nextY = lastY;
+                    nextX = lastX - 1;
+                    break;
 
                 case 3:
-                    if (lastY + 1 <= 10) {
-                        y = lastY + 1;
-                        x = lastX;
-
-                        return [y, x];
-                    } else {
-                        return player.nextMove(lastMove);
-                    }
+                    nextY = lastY + 1;
+                    nextX = lastX;
+                    break;
 
                 case 4:
-                    if (lastY - 1 >= 1) {
-                        y = lastY - 1;
-                        x = lastX;
-
-                        return [y, x];
-                    } else {
-                        return player.nextMove(lastMove);
-                    }
+                    nextY = lastY - 1;
+                    nextX = lastX;
+                    break;
             }
         };
 
-        if (player.moves.length <= 1) {
-            random4();
+        if (!player.hitList.length) {
+            console.log('length: 0');
+            getRandomDirection();
         }
 
-        if (player.moves.length > 2) {
-            let [befLastY, befLastX] = player.moves[player.moves.length - 2];
+        console.log({ player });
+        console.log(player.hitList);
+
+        if (player.hitList.length) {
+            console.log('length');
+
+            const [befLastY, befLastX] = player.hitList[player.hitList.length - 2];
+
+            console.log({ befLastY, befLastX });
 
             if (lastX === befLastX) {
                 console.log('sameLastY');
-                let randomNumber2 = randomNumber(2);
+                const randomNumber = getRandomInteger(1, 2);
 
-                if (randomNumber2 === 1) {
-                    if (lastY + 1 <= 10) {
-                        y = lastY + 1;
-                        x = lastX;
-
-                        return [y, x];
-                    } else {
-                        return player.nextMove(lastMove);
-                    }
-                }
-                if (randomNumber2 === 2) {
-                    if (lastY - 1 >= 1) {
-                        y = lastY - 1;
-                        x = lastX;
-
-                        return [y, x];
-                    } else {
-                        return player.nextMove(lastMove);
-                    }
+                if (randomNumber === 1) {
+                    nextY = lastY + 1;
+                    nextX = lastX;
+                } else {
+                    nextY = lastY - 1;
+                    nextX = lastX;
                 }
             }
 
             if (lastY === befLastY) {
                 console.log('sameLastX');
 
-                let randomNumber2 = randomNumber(2);
+                const randomNumber = getRandomInteger(1, 2);
 
-                if (randomNumber2 === 1) {
-                    if (lastX + 1 <= 10) {
-                        y = lastY;
-                        x = lastX + 1;
-
-                        return [y, x];
-                    } else {
-                        return player.nextMove(lastMove);
-                    }
-                }
-                if (randomNumber2 === 2) {
-                    if (lastX - 1 >= 1) {
-                        y = lastY;
-                        x = lastX - 1;
-
-                        return [y, x];
-                    } else {
-                        return player.nextMove(lastMove);
-                    }
+                if (randomNumber === 1) {
+                    nextY = lastY;
+                    nextX = lastX + 1;
+                } else {
+                    nextY = lastY;
+                    nextX = lastX - 1;
                 }
             }
-            random4();
+
+            getRandomDirection();
         }
-
-        // todo => infinite loop // need to check if the next move has already been played
-        console.log([x, y]);
-        let coordMatch = player.moves.some((move) => move[0] === x && move[1] === y);
-        console.log(!coordMatch);
-
-        if (!coordMatch) {
-            return [x, y];
+        if (isValidMove(nextY, nextX)) {
+            console.log('isValidMove!');
+            return [nextY, nextX];
+        } else {
+            console.log('return player.nextMove(lastMove)');
+            return player.nextMove(lastMove);
         }
     };
 
@@ -175,10 +141,8 @@ export default function Player(name) {
             y = coord[1];
             coordMatch = player.moves.some((move) => move[0] === x && move[1] === y);
         }
-        console.log(coord);
         opponentBoard.receiveAttack(coord);
         player.moves.push(coord);
-        // player.hitMoves.push(coord);
 
         return coord;
     };

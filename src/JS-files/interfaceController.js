@@ -95,3 +95,5 @@ export function updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard)
         }
     });
 }
+
+// todo => Implement drag and drop for ships
