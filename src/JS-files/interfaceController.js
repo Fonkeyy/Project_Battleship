@@ -1,7 +1,8 @@
 import { dragEnter, dragOver, drop } from './dragAndDrop';
 
-export function create$Board(board) {
-    const $board = document.createElement('div'),
+export function create$Board(gameBoard) {
+    const board = gameBoard.board,
+        $board = document.createElement('div'),
         grid = document.createElement('div'),
         columnLabels = document.createElement('div'),
         rowLabels = document.createElement('div');
@@ -43,6 +44,7 @@ export function create$Board(board) {
             grid.appendChild(cell);
         });
     });
+    grid.dataset.boardId = gameBoard.id;
     $board.appendChild(grid);
     return $board;
 }

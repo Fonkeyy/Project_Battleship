@@ -5,7 +5,7 @@ import './CSS-files/board.css';
 // import { create$Board } from './JS-files/interfaceController';
 
 import { setUpInterface } from './JS-files/gameLoop';
-import CreateGameBoard from './JS-files/gameboardFactory';
+import { CreateGameBoard } from './JS-files/gameboardFactory';
 import { create$Board } from './JS-files/interfaceController';
 import { create$Ship } from './JS-files/dragAndDrop';
 
@@ -45,11 +45,11 @@ const handleStartDialogStartGameBtn = () => {
     const player1Name = document.querySelector('#player1-name');
     const player2Name = document.querySelector('#player2-name');
 
-    const gameBoardPlayer1 = CreateGameBoard(inputPlayer2);
-    const gameBoardPlayer2 = CreateGameBoard(inputPlayer1);
+    const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, inputPlayer2);
+    const gameBoardPlayer2 = CreateGameBoard(inputPlayer2, inputPlayer1);
 
-    const $boardPlayer1 = create$Board(gameBoardPlayer1.board);
-    const $boardPlayer2 = create$Board(gameBoardPlayer2.board);
+    const $boardPlayer1 = create$Board(gameBoardPlayer1);
+    const $boardPlayer2 = create$Board(gameBoardPlayer2);
 
     player1Name.textContent = `Player 1 : ${inputPlayer1}`;
     player2Name.textContent = `Player 2 : ${inputPlayer2}`;

@@ -1,5 +1,7 @@
 // todo=> finish the drag and drop thing
 
+import { gameBoardList } from './gameboardFactory';
+
 export function create$Ship(event) {
     // * Create ships Object, reference ships names and lengths
     const ships = {
@@ -11,7 +13,7 @@ export function create$Ship(event) {
     };
 
     // * Get ship container name and length from the event.target
-    const ship = ships.filter((ship) => ship.key === event.target.id),
+    const ship = ships.key === event.target.id,
         shipName = ship.key,
         shipLength = ship.value,
         shipContainer = document.querySelector(`#${event.target.id}`);
@@ -41,32 +43,39 @@ export function create$Ship(event) {
 
 function dragStart(event) {
     const ship = event.target;
-    const shipCells = ship.querySelectorAll('.shipCell');
+    const shipCells = ship.querySelectorAll('.shipCell'); // ! dont return anything
+    console.log(shipCells);
 
-    // Stocker les informations sur le bateau
-
+    // * Store ship data to transfer
     event.dataTransfer.setData('text/plain', event.target.id);
     event.dataTransfer.setData('shipCells', JSON.stringify(Array.from(shipCells).map((cell) => cell.id)));
     event.dataTransfer.setData('orientation', event.target.orientation);
 }
 
 export function dragOver(event) {
-    event.preventDefault(); // Empêcher le comportement par défaut
+    event.preventDefault();
 }
 
 export function dragEnter(event) {
-    event.preventDefault(); // Empêcher le comportement par défaut
+    event.preventDefault();
 }
 
 export function drop(event) {
     event.preventDefault();
 
-    const $board = document.parentElement(event.target);
-    console.log({ $board });
+    // * Get the grid parent element of cells which have the drop event listener
+    const $grid = event.target.parentNode;
+    // * Get the corresponding gameBoard id from dataset
+    const boardId = $grid.dataset.boardId;
+    // * Filter through gameBoardList to get the gameBoard with the good id
+    const gameBoard = gameBoardList.filter((board) => (board.id = boardId));
 
     // Récupérer les informations du bateau
     const shipId = event.dataTransfer.getData('text/plain'),
-        shipCells = JSON.parse(event.dataTransfer.getData('shipCells'));
+        shipCells = JSON.parse(event.dataTransfer.getData('shipCells')); // ! dont return anything
+
+    console.log(shipId);
+    console.log(shipCells);
     //  shipOrientation = event.dataTransfer.getData('orientation'),
     // targetCaseId = event.target.id,
     // targetCaseRow = targetCaseId.row,
@@ -78,7 +87,7 @@ export function drop(event) {
     // todo => see how to get id of last cell (possible with sending length)
     const lastCell = shipCells.filter((cell) => cell.id == `${shipId}${1}`);
 
-    $board.placeShip([firstCell.row, firstCell.column], [lastCell.row, lastCell.column]);
+    gameBoard.placeShip([firstCell.row, firstCell.column], [lastCell.row, lastCell.column]);
 }
 
 function dragEnd(event) {
