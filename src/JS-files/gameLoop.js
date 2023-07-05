@@ -1,5 +1,7 @@
 import { updateGrid } from './interfaceController';
 
+// todo => Add commentary
+
 export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
     boardPlayer1.placeShip([1, 1], [1, 5]);
     boardPlayer1.placeShip([3, 4], [5, 4]);

@@ -5,7 +5,7 @@ import CreateShip from './shipsFactory';
 export const gameBoardList = [];
 
 export function CreateGameBoard(player, opponent) {
-    // * Initialize gameBoard Object and add it ID and opponent props
+    // * Initialize gameBoard Object and add it ID + opponent props
     const gameBoard = {};
     gameBoard.id = player;
     gameBoard.opponent = new Player(opponent);
@@ -20,7 +20,7 @@ export function CreateGameBoard(player, opponent) {
         return board;
     };
 
-    // * Function matrix to keep track of player miss shot
+    // * Function matrix to keep track of player missed shots
     gameBoard.createMatrix = () => {
         let matrix = [];
 
@@ -82,16 +82,20 @@ export function CreateGameBoard(player, opponent) {
     };
 
     // todo => finish adding commentary
+
     gameBoard.receiveAttack = ([x, y]) => {
+        // * Check if a ship is present on coords
         if (gameBoard.board[y - 1][x - 1] === 1) {
+            // * Find corresponding ship in shipList
             const ship = gameBoard.shipsList.find((ship) => {
                 return ship.coord.some(([coordX, coordY]) => coordX === x - 1 && coordY === y - 1);
             });
+            // * Hit the ship, change matrix value to 'hit cell' and add coords to opponent hitList
             ship.hit();
             gameBoard.board[y - 1][x - 1] = 2;
             gameBoard.opponent.hitList.push([x, y]);
-            // console.log(gameBoard.opponent.hitList);
 
+            // * If ship is sunk add it to the sunkList and change matrix value to 'sunk cell'
             if (ship.isSunk()) {
                 gameBoard.sunkList.push(ship);
 
@@ -100,6 +104,7 @@ export function CreateGameBoard(player, opponent) {
                     gameBoard.board[x][y] = 3;
                 });
             }
+            // * If no ship present on coords, change matrix value to 'miss cell'
         } else {
             if (!gameBoard.matrix[y - 1][x - 1] && !gameBoard.board[y - 1][x - 1] >= 1) {
                 gameBoard.matrix[y - 1][x - 1] = true;
@@ -111,6 +116,7 @@ export function CreateGameBoard(player, opponent) {
         return gameBoard.shipsList.length === gameBoard.sunkList.length ? true : false;
     };
 
+    // * Push gameBoard to gameBoardList and return it
     gameBoardList.push(gameBoard);
     return gameBoard;
 }
