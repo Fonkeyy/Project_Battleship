@@ -5,11 +5,11 @@ export default function CreateShip(length) {
     ship.coord = [];
     ship.hitCount = 0;
 
-    ship.hit = function () {
+    ship.hit = () => {
         ship.hitCount++;
     };
 
-    ship.isSunk = function () {
+    ship.isSunk = () => {
         return ship.hitCount === ship.length ? true : false;
     };
 

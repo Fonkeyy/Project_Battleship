@@ -10,14 +10,16 @@ export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $board
     boardPlayer2.placeShip([2, 4], [6, 4]);
 
     const main = document.querySelector('main'),
-        $boardContainer = document.createElement('div');
-    main.appendChild($boardContainer);
+        $boardsContainer = document.createElement('div');
+    $boardsContainer.id = 'boards-container';
+    main.appendChild($boardsContainer);
 
-    $boardContainer.append($boardPlayer2, $boardPlayer1);
+    $boardsContainer.append($boardPlayer2, $boardPlayer1);
 
     updateGrid(boardPlayer1.board, boardPlayer2.board, boardPlayer1.matrix, $boardPlayer1, $boardPlayer2);
 }
 
+// todo => finish implementing gameLoop and computer logic
 // export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
 //     const player1 = boardPlayer2.opponent;
 //     const player2 = boardPlayer1.opponent;

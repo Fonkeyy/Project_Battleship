@@ -1,3 +1,5 @@
+import { dragEnter, dragOver, drop } from './dragAndDrop';
+
 export function create$Board(board) {
     const $board = document.createElement('div'),
         grid = document.createElement('div'),
@@ -31,8 +33,12 @@ export function create$Board(board) {
             cell.classList.add('cell');
             cell.dataset.row = indexRow;
             cell.dataset.column = indexColumn;
+            cell.id = `${indexColumn}${indexRow}`;
 
             cell.addEventListener('click', clickCellHandler);
+            cell.addEventListener('dragenter', dragEnter);
+            cell.addEventListener('dragover', dragOver);
+            cell.addEventListener('drop', drop);
 
             grid.appendChild(cell);
         });
