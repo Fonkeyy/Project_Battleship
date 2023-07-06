@@ -1,5 +1,16 @@
+.ship-cells {
+    display: flex;
+    width: min-content;
+    gap: 1px;
+}
+
 .ship-cell {
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
     background: lightcoral;
+    border: 1px solid black;
+}
+
+.dragging-ship {
+    border: 2px dashed blue;
 }

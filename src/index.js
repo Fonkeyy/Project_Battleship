@@ -8,7 +8,7 @@ import './CSS-files/ships.css';
 import { setUpInterface } from './JS-files/gameLoop';
 import { CreateGameBoard } from './JS-files/gameboardFactory';
 import { create$Board } from './JS-files/interfaceController';
-import { create$Ship } from './JS-files/dragAndDrop1';
+import { create$Ship } from './JS-files/dragAndDrop';
 
 // * Select DOM btns and store it in variables
 const openStartDialogBtn = document.querySelector('#open-start-dialog-btn'),
@@ -67,6 +67,7 @@ const handleStartDialogStartGameBtn = () => {
     startDialog.close();
     openStartDialogBtn.value = 'Restart';
     startDialogStartGameBtn.dataset.gameStarted = 'true';
+    create$Ship();
 };
 
 const handleRestartGame = () => {
@@ -82,5 +83,5 @@ const handleRestartGame = () => {
 };
 
 // * Add drag n drop mousedown event listeners on ship items
-const shipItems = document.querySelectorAll('.ship-item');
-shipItems.forEach((item) => item.addEventListener('mousedown', (e) => create$Ship(e)));
+// const shipItems = document.querySelectorAll('.ship-item');
+// shipItems.forEach((item) => item.addEventListener('mousedown', (e) => create$Ship(e)));

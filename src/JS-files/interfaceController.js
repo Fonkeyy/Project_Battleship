@@ -1,4 +1,4 @@
-import { dragEnter, dragOver, drop } from './dragAndDrop';
+import { dragEnter, dragLeave, dragOver, drop } from './dragAndDrop';
 
 // todo => Check if functions are not broken because of small changes in parameters
 
@@ -11,6 +11,7 @@ export function create$Board(gameBoard) {
         $grid = document.createElement('div'),
         columnLabels = document.createElement('div'),
         rowLabels = document.createElement('div');
+
     // * Add classes to DOM elements
     $board.classList.add('board');
     $grid.classList.add('grid');
@@ -24,7 +25,6 @@ export function create$Board(gameBoard) {
         columnLabelCell.textContent = String.fromCharCode(65 + columnIndex);
         columnLabels.appendChild(columnLabelCell);
     }
-
     // * Create row labels with number as value
     for (let rowIndex = 0; rowIndex < board[0].length; rowIndex++) {
         const rowLabelCell = document.createElement('div');
@@ -32,11 +32,10 @@ export function create$Board(gameBoard) {
         rowLabelCell.textContent = rowIndex + 1;
         rowLabels.appendChild(rowLabelCell);
     }
-
     // * Append column and row labels to $board
     $board.append(rowLabels, columnLabels);
 
-    // * For each cell in gameBoard matrix, create 1 cell in the dom, add it class, dataset row index/ column index + ID
+    // * For each cell in gameBoard matrix, create 1 cell in the DOM, add it class, dataset row index/ column index + ID
     board.forEach((row, indexRow) => {
         row.forEach((cells, indexColumn) => {
             const cell = document.createElement('button');
@@ -48,6 +47,7 @@ export function create$Board(gameBoard) {
             // * Add event listener for click + drag n drop
             cell.addEventListener('click', clickCellHandler);
             cell.addEventListener('dragenter', dragEnter);
+            cell.addEventListener('dragleave', dragLeave);
             cell.addEventListener('dragover', dragOver);
             // cell.addEventListener('drop', childDrop);
             cell.addEventListener('drop', drop);

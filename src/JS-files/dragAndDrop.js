@@ -1,55 +1,93 @@
 // todo=> finish the drag and drop thing
-
+import '../CSS-files/ships.css';
 import { gameBoardList } from './gameboardFactory';
 
-export function create$Ship(event) {
-    // * Create ships Object, reference ships names and lengths
-    const ships = {
-        carrier: 5,
-        battleship: 4,
-        destroyer: 3,
-        submarine: 3,
-        patrolBoat: 2,
-    };
+export function create$Ship() {
+    // * Create ship Objects => names + length
+    const ships = [
+        { name: 'carrier', length: 5 },
+        { name: 'battleship', length: 4 },
+        { name: 'destroyer', length: 3 },
+        { name: 'submarine', length: 3 },
+        { name: 'patrolBoat', length: 2 },
+    ];
 
-    // * Get ship container name and length from the event.target
-    let shipName;
-    let shipLength;
+    // * Store ships list container reference in a variable
+    const shipsListContainer = document.querySelector('#ships-list-container');
 
-    for (let key in ships) {
-        if (key === event.target.id) {
-            shipName = key;
-            shipLength = ships[key];
-            break;
+    // * Create 1 container for each ship object
+    for (let ship of ships) {
+        const shipContainer = document.createElement('div');
+        const shipLabel = document.createElement('div');
+        const shipCells = document.createElement('div');
+
+        for (let i = 0; i < ship.length; i++) {
+            const shipCell = document.createElement('div');
+            shipCell.id = `${ship.name}${i}`;
+            shipCell.classList.add('ship-cell');
+            shipCells.appendChild(shipCell);
         }
+        shipContainer.classList.add('ship-item');
+
+        shipLabel.textContent = ship.name;
+
+        shipCells.id = ship.name;
+        shipCells.dataset.length = ship.length;
+        shipCells.classList.add('ship-cells');
+
+        // * Set container to draggable and orientation to vertical
+        shipCells.draggable = true;
+        shipCells.dataset.orientation = 'horizontal';
+
+        // * Attach drag and drop event listeners on container
+        shipCells.addEventListener('dragstart', dragStart);
+        shipCells.addEventListener('dragend', dragEnd);
+
+        shipContainer.append(shipLabel, shipCells);
+        shipsListContainer.appendChild(shipContainer);
     }
-    const shipContainer = document.querySelector(`#${event.target.id}`);
-
-    // * Append 1 cell for each length unit, give it id based on name + i and add event listener on 1st and last cell
-    for (let i = 0; i < shipLength; i++) {
-        const shipCell = document.createElement('div');
-        shipCell.id = `${shipName}${i}`;
-        shipCell.classList = 'shipCell'; // ?
-
-        shipContainer.appendChild(shipCell);
-    }
-
-    // ! fix orientation data transfert
-    // * Set container to draggable and orientation to vertical
-    shipContainer.draggable = true;
-    shipContainer.setAttribute('orientation', 'vertical');
-
-    // * Attach drag and drop event listeners on container
-    shipContainer.addEventListener('dragstart', dragStart);
-    shipContainer.addEventListener('dragEnd', dragEnd);
 }
+
+// ? => Make sure to use the center of the element instead of where the click happened while dragging
+
+let isDragging = false; // *Flag to track dragging state
 
 function dragStart(event) {
-    // * Store ship data to transfer
-    event.dataTransfer.setData('text/plain', event.target.id);
-    event.dataTransfer.setData('length', event.target.childElementCount);
-    event.dataTransfer.setData('orientation', event.target.orientation);
+    if (event.buttons === 1) {
+        // * Check if the left mouse button is clicked
+        isDragging = true;
+        // * Store ship data to transfer
+        event.dataTransfer.setData('text/plain', event.target.id);
+        event.dataTransfer.setData('length', event.target.dataset.length);
+        event.dataTransfer.setData('orientation', event.target.dataset.orientation);
+
+        // * Add styles while dragging
+        event.target.classList.add('dragging-ship');
+    }
 }
+
+// export function dragOver(event) {
+//     event.preventDefault();
+//     // * Activate function to switch orientation
+//     // window.addEventListener('contextmenu', (event) => {
+//     //     console.log(event.button);
+//     // });
+
+//     // Access the mouse button clicked
+//     const mouseButton = event.dataTransfer.getData('mouseButton');
+
+//     // Determine which mouse button is clicked
+//     if (mouseButton === 1) {
+//         console.log('Left mouse button clicked');
+//         // Handle left mouse button behavior
+//     } else if (mouseButton === 2) {
+//         console.log('Right mouse button clicked');
+//         // Switch the orientation when the right mouse button is clicked
+//         if (event.type === 'contextmenu') {
+//             switchOrientation(event);
+//         }
+//     }
+// }
 
 export function dragOver(event) {
     event.preventDefault();
@@ -57,10 +95,15 @@ export function dragOver(event) {
 
 export function dragEnter(event) {
     event.preventDefault();
+    event.target.classList.add('drag-over');
+}
+
+export function dragLeave(event) {
+    event.target.classList.remove('drag-over');
 }
 
 // todo => Get the actual coords, get the ship length and direction (change on right click or shortcut)
-// todo => calculate all the coords and place ship. Add css while dragging
+// todo => calculate all the coords and place ship.
 
 export function drop(event) {
     event.preventDefault();
@@ -89,12 +132,13 @@ export function drop(event) {
     console.log({ targetRow });
     console.log({ targetColumn });
 
-    const shipChildren = Array.from(ship.children);
-    console.log(shipChildren);
+    // // const shipChildren = Array.from(ship.children);
+    // // console.log(shipChildren);
 
     console.log({ $grid });
     console.log({ boardId });
     console.log({ gameBoard });
+    console.log({ shipId });
     console.log({ ship });
     console.log({ shipLength });
 
@@ -102,27 +146,47 @@ export function drop(event) {
 }
 
 function dragEnd(event) {
-    // * Clear transfer data
-    event.dataTransfer.clearData();
+    if (isDragging) {
+        isDragging = false;
+        // * Clear transfer data and CSS
+        event.dataTransfer.clearData();
+        event.target.classList.remove('dragging-ship');
+    }
 }
 
 // todo => Implement calculate coords function
 
-// todo => Implement switch orientation function
-// function switchOrientation(event) {
-//     const shipOrientation = event.dataTransfer.getData('orientation');
+// Event listeners for enter key
+document.addEventListener('keydown', function (event) {
+    console.log(event);
+    console.log(event.key);
+    if (event.key === 'Enter' && isDragging) {
+        // Prevent the default behavior
+        event.preventDefault();
+        // Switch the orientation
+        const ship = document.getElementById(event.dataTransfer.getData('text/plain'));
+        switchOrientation(ship);
+    }
+});
 
-//     if (shipOrientation === 'horizontale') {
-//         // Effectuer la rotation verticale
-//         orientationActuelle = 'verticale';
-//         // Appliquer les transformations CSS appropriées pour la rotation
-//         event.target.style.transform = 'rotate(90deg)';
-//     } else {
-//         // Effectuer la rotation horizontale
-//         orientationActuelle = 'horizontale';
-//         // Appliquer les transformations CSS appropriées pour la rotation
-//         event.target.style.transform = 'rotate(0deg)';
-//     }
+// ! 1st thing to do
+// todo => Finish Implementing switch orientation function
+function switchOrientation(event) {
+    // const shipOrientation = event.dataTransfer.getData('orientation');
+    const shipOrientation = event.dataset.orientation;
+    console.log('orientation');
 
-//     event.dataTransfer.setData('orientation', orientationActuelle);
-// }
+    if (shipOrientation === 'horizontal') {
+        // Effectuer la rotation verticale
+        event.target.orientation = 'vertical';
+        // Appliquer les transformations CSS appropriées pour la rotation
+        event.target.style.transform = 'rotate(90deg)';
+    } else {
+        // Effectuer la rotation horizontale
+        event.target.orientation = 'horizontal';
+        // Appliquer les transformations CSS appropriées pour la rotation
+        event.target.style.transform = 'rotate(0deg)';
+    }
+
+    event.dataTransfer.setData('orientation', event.target.orientation);
+}
