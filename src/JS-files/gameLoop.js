@@ -18,7 +18,7 @@ export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $board
 
     $boardsContainer.append($boardPlayer2, $boardPlayer1);
 
-    updateGrid(boardPlayer1.board, boardPlayer2.board, boardPlayer1.matrix, $boardPlayer1, $boardPlayer2);
+    updateGrid(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
 }
 
 // todo => finish implementing gameLoop and computer logic
@@ -80,7 +80,7 @@ export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $board
 //     const handlePlayerHasPlay = (event) => {
 //         const eventValue = event.detail;
 //         boardPlayer2.receiveAttack(eventValue);
-//         updateGrid(boardPlayer1.board, boardPlayer2.board, boardPlayer2.matrix, $boardPlayer1, $boardPlayer2);
+//         updateGrid(boardPlayer1, boardPlayer2,  $boardPlayer1, $boardPlayer2);
 //         if (boardPlayer2.checkWinner()) {
 //             // todo => add handleWin
 //             console.log('Player 1 wins!');

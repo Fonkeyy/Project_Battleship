@@ -32,8 +32,8 @@
     height: 400px;
 }
 
-.cell {
-    background: lightblue;
+.grid-cell {
+    /* background: lightblue; */
 }
 
 .occupied {

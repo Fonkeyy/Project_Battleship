@@ -4,11 +4,11 @@ import CreateShip from './shipsFactory';
 // * Initialize gameBoardList to keep track of different gameBoard
 export const gameBoardList = [];
 
-export function CreateGameBoard(player, opponent) {
+export function CreateGameBoard(playerName, opponentName) {
     // * Initialize gameBoard Object and add it ID + opponent props
     const gameBoard = {};
-    gameBoard.id = player;
-    gameBoard.opponent = new Player(opponent);
+    gameBoard.id = playerName;
+    gameBoard.opponentName = new Player(opponentName);
 
     // * Function matrix to keep track of player state game
     gameBoard.createBoard = () => {

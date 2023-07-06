@@ -1,5 +1,6 @@
 import './CSS-files/global.css';
 import './CSS-files/board.css';
+import './CSS-files/ships.css';
 // import { setUpInterface, gameLoop } from './JS-files/gameLoop';
 // import CreateGameBoard from './JS-files/gameboardFactory';
 // import { create$Board } from './JS-files/interfaceController';
@@ -7,7 +8,7 @@ import './CSS-files/board.css';
 import { setUpInterface } from './JS-files/gameLoop';
 import { CreateGameBoard } from './JS-files/gameboardFactory';
 import { create$Board } from './JS-files/interfaceController';
-import { create$Ship } from './JS-files/dragAndDrop';
+import { create$Ship } from './JS-files/dragAndDrop1';
 
 // * Select DOM btns and store it in variables
 const openStartDialogBtn = document.querySelector('#open-start-dialog-btn'),
@@ -44,8 +45,8 @@ const handleCloseStartDialogBtn = () => {
 
 const handleStartDialogStartGameBtn = () => {
     // * Store players name input and add it to the DOM
-    const inputPlayer1 = document.querySelector('#input-player-1').value;
-    const inputPlayer2 = document.querySelector('#input-player-2').value;
+    const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1';
+    const inputPlayer2 = document.querySelector('#input-player-2').value || 'Player 2';
 
     const player1Name = document.querySelector('#player1-name');
     const player2Name = document.querySelector('#player2-name');

@@ -8,12 +8,12 @@ export function create$Board(gameBoard) {
     const board = gameBoard.board,
         // * Create div elements to display matrix in the DOM
         $board = document.createElement('div'),
-        grid = document.createElement('div'),
+        $grid = document.createElement('div'),
         columnLabels = document.createElement('div'),
         rowLabels = document.createElement('div');
     // * Add classes to DOM elements
     $board.classList.add('board');
-    grid.classList.add('grid');
+    $grid.classList.add('grid');
     columnLabels.classList.add('column-label');
     rowLabels.classList.add('row-label');
 
@@ -40,7 +40,7 @@ export function create$Board(gameBoard) {
     board.forEach((row, indexRow) => {
         row.forEach((cells, indexColumn) => {
             const cell = document.createElement('button');
-            cell.classList.add('cell');
+            cell.classList.add('grid-cell');
             cell.dataset.row = indexRow;
             cell.dataset.column = indexColumn;
             cell.id = `${indexColumn}${indexRow}`;
@@ -49,16 +49,18 @@ export function create$Board(gameBoard) {
             cell.addEventListener('click', clickCellHandler);
             cell.addEventListener('dragenter', dragEnter);
             cell.addEventListener('dragover', dragOver);
+            // cell.addEventListener('drop', childDrop);
             cell.addEventListener('drop', drop);
 
-            // * Append cell to grid
-            grid.appendChild(cell);
+            // * Append cell to $grid
+            $grid.appendChild(cell);
         });
     });
-    // * Add gameBoard ID as dataset to grid
-    grid.dataset.boardId = gameBoard.id;
-    // * Append grid to $board and return $board
-    $board.appendChild(grid);
+    // * Add gameBoard ID as dataset to $grid
+    $grid.dataset.boardId = gameBoard.id;
+
+    // * Append $grid to $board and return $board
+    $board.appendChild($grid);
     return $board;
 }
 
@@ -80,11 +82,10 @@ export function clickCellHandler(e) {
 
 export function updateGrid(playerGameBoard, opponentGameBoard, $board, $opponentBoard) {
     // * Store gameBoards matrix to variables
-    const board = playerGameBoard.board,
-        playerMatrix = playerGameBoard.matrix,
+    const playerMatrix = playerGameBoard.matrix,
         opponentBoard = opponentGameBoard.board;
 
-    updateBoard(board, $board);
+    updateBoard(playerGameBoard, $board);
     updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard);
 }
 
