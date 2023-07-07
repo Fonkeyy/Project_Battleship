@@ -66,29 +66,6 @@ function dragStart(event) {
     }
 }
 
-// export function dragOver(event) {
-//     event.preventDefault();
-//     // * Activate function to switch orientation
-//     // window.addEventListener('contextmenu', (event) => {
-//     //     console.log(event.button);
-//     // });
-
-//     // Access the mouse button clicked
-//     const mouseButton = event.dataTransfer.getData('mouseButton');
-
-//     // Determine which mouse button is clicked
-//     if (mouseButton === 1) {
-//         console.log('Left mouse button clicked');
-//         // Handle left mouse button behavior
-//     } else if (mouseButton === 2) {
-//         console.log('Right mouse button clicked');
-//         // Switch the orientation when the right mouse button is clicked
-//         if (event.type === 'contextmenu') {
-//             switchOrientation(event);
-//         }
-//     }
-// }
-
 export function dragOver(event) {
     event.preventDefault();
 }
@@ -157,36 +134,25 @@ function dragEnd(event) {
 // todo => Implement calculate coords function
 
 // Event listeners for enter key
-document.addEventListener('keydown', function (event) {
-    console.log(event);
-    console.log(event.key);
-    if (event.key === 'Enter' && isDragging) {
-        // Prevent the default behavior
-        event.preventDefault();
-        // Switch the orientation
-        const ship = document.getElementById(event.dataTransfer.getData('text/plain'));
-        switchOrientation(ship);
-    }
-});
 
 // ! 1st thing to do
 // todo => Finish Implementing switch orientation function
-function switchOrientation(event) {
-    // const shipOrientation = event.dataTransfer.getData('orientation');
-    const shipOrientation = event.dataset.orientation;
-    console.log('orientation');
+// function switchOrientation(event) {
+//     // const shipOrientation = event.dataTransfer.getData('orientation');
+//     const shipOrientation = event.dataset.orientation;
+//     console.log('orientation');
 
-    if (shipOrientation === 'horizontal') {
-        // Effectuer la rotation verticale
-        event.target.orientation = 'vertical';
-        // Appliquer les transformations CSS appropriées pour la rotation
-        event.target.style.transform = 'rotate(90deg)';
-    } else {
-        // Effectuer la rotation horizontale
-        event.target.orientation = 'horizontal';
-        // Appliquer les transformations CSS appropriées pour la rotation
-        event.target.style.transform = 'rotate(0deg)';
-    }
+//     if (shipOrientation === 'horizontal') {
+//         // Effectuer la rotation verticale
+//         event.target.orientation = 'vertical';
+//         // Appliquer les transformations CSS appropriées pour la rotation
+//         event.target.style.transform = 'rotate(90deg)';
+//     } else {
+//         // Effectuer la rotation horizontale
+//         event.target.orientation = 'horizontal';
+//         // Appliquer les transformations CSS appropriées pour la rotation
+//         event.target.style.transform = 'rotate(0deg)';
+//     }
 
-    event.dataTransfer.setData('orientation', event.target.orientation);
-}
+//     event.dataTransfer.setData('orientation', event.target.orientation);
+// }

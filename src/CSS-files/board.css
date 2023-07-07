@@ -1,5 +1,11 @@
+#boards-container {
+    grid-row: 1 / 2;
+    margin: 2rem 0;
+    display: grid;
+    gap: 1rem;
+}
+
 .board {
-    width: min-content;
     display: grid;
     grid-template-columns: min-content auto;
 }
@@ -7,15 +13,19 @@
 .column-label {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 2px;
-    width: 400px;
+    gap: 1px;
+    width: 35vh;
     grid-column: 2 /3;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .row-label {
     display: grid;
     grid-template-columns: 1fr;
     grid-row: 2 / 3;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .label-cell {
@@ -27,13 +37,15 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    gap: 2px;
-    width: 400px;
-    height: 400px;
+    gap: 1px;
+    width: 35vh;
+    height: 35vh;
+    border: 1px solid var(--start-btn-color);
 }
 
 .grid-cell {
-    /* background: lightblue; */
+    background: transparent;
+    border: 1px solid black;
 }
 
 .occupied {

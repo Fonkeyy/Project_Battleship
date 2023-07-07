@@ -1,6 +1,41 @@
 import { dragEnter, dragLeave, dragOver, drop } from './dragAndDrop';
 
 // todo => Check if functions are not broken because of small changes in parameters
+// todo => Add event listener on play vs computer btn
+
+export const homeAnimation = () => {
+    const startContainer = document.querySelector('#start-container');
+    const h1 = document.querySelector('h1');
+
+    h1.classList.add('translate-Y');
+    setTimeout(() => {
+        h1.style.display = 'none';
+    }, 1000);
+
+    startContainer.classList.add('translate-Y');
+    setTimeout(() => {
+        startContainer.style.display = 'none';
+    }, 1000);
+};
+
+export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
+    boardPlayer1.placeShip([1, 1], [1, 5]);
+    boardPlayer1.placeShip([3, 4], [5, 4]);
+    boardPlayer1.placeShip([10, 9], [10, 10]);
+
+    boardPlayer2.placeShip([1, 1], [1, 1]);
+    boardPlayer2.placeShip([8, 6], [8, 10]);
+    boardPlayer2.placeShip([2, 4], [6, 4]);
+
+    const main = document.querySelector('main'),
+        $boardsContainer = document.createElement('div');
+    $boardsContainer.id = 'boards-container';
+    main.appendChild($boardsContainer);
+
+    $boardsContainer.append($boardPlayer2, $boardPlayer1);
+
+    updateGrid(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+}
 
 // * Create DOM gameBoard from gameBoard object
 export function create$Board(gameBoard) {
@@ -12,9 +47,10 @@ export function create$Board(gameBoard) {
         columnLabels = document.createElement('div'),
         rowLabels = document.createElement('div');
 
-    // * Add classes to DOM elements
+    // * Add ID + classes to DOM elements
     $board.classList.add('board');
     $grid.classList.add('grid');
+    $grid.id = gameBoard.id;
     columnLabels.classList.add('column-label');
     rowLabels.classList.add('row-label');
 

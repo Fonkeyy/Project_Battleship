@@ -15,6 +15,14 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
+    stats: {
+        children: true,
+    },
+    resolve: {
+        fallback: {
+            path: false,
+        },
+    },
 
     module: {
         rules: [
