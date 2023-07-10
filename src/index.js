@@ -8,12 +8,12 @@ import './CSS-files/sidebar.css';
 import { setUpInterface } from './JS-files/gameLoop';
 import { CreateGameBoard } from './JS-files/gameboardFactory';
 import { create$Board, homeAnimation } from './JS-files/interfaceController';
-import { create$Ship } from './JS-files/dragAndDrop';
+import { create$Ship } from './JS-files/dragAndDrop2';
 
-// * Select DOM btns and store it in variables
+// * Select DOM btn and store it in variable
 const StartGameBtn = document.querySelector('#start-game-btn');
 
-// * Add event listener with handlers function for each btns
+// * Add event listener with handlers function.
 StartGameBtn.addEventListener('click', () => {
     handleStartGameBtn();
 });
@@ -41,7 +41,6 @@ const handleStartGameBtn = () => {
         const $boardPlayer2 = create$Board(gameBoardPlayer2);
 
         // * Set up interface, close dialog, change start btn value and its dataset.gameStarted to true
-
         homeAnimation();
         setUpInterface(gameBoardPlayer1, gameBoardPlayer2, $boardPlayer1, $boardPlayer2);
         StartGameBtn.value = 'Restart';

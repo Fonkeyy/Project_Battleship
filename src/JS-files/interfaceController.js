@@ -1,7 +1,7 @@
-import { dragEnter, dragLeave, dragOver, drop } from './dragAndDrop';
-
 // todo => Check if functions are not broken because of small changes in parameters
 // todo => Add event listener on play vs computer btn
+
+import { dragDrop, dragEnter, dragLeave, dragOver } from './dragAndDrop2';
 
 export const homeAnimation = () => {
     const startContainer = document.querySelector('#start-container');
@@ -17,25 +17,6 @@ export const homeAnimation = () => {
         startContainer.style.display = 'none';
     }, 1000);
 };
-
-export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
-    boardPlayer1.placeShip([1, 1], [1, 5]);
-    boardPlayer1.placeShip([3, 4], [5, 4]);
-    boardPlayer1.placeShip([10, 9], [10, 10]);
-
-    boardPlayer2.placeShip([1, 1], [1, 1]);
-    boardPlayer2.placeShip([8, 6], [8, 10]);
-    boardPlayer2.placeShip([2, 4], [6, 4]);
-
-    const main = document.querySelector('main'),
-        $boardsContainer = document.createElement('div');
-    $boardsContainer.id = 'boards-container';
-    main.appendChild($boardsContainer);
-
-    $boardsContainer.append($boardPlayer2, $boardPlayer1);
-
-    updateGrid(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
-}
 
 // * Create DOM gameBoard from gameBoard object
 export function create$Board(gameBoard) {
@@ -76,17 +57,15 @@ export function create$Board(gameBoard) {
         row.forEach((cells, indexColumn) => {
             const cell = document.createElement('button');
             cell.classList.add('grid-cell');
-            cell.dataset.row = indexRow;
-            cell.dataset.column = indexColumn;
+            cell.dataset.x = indexColumn;
+            cell.dataset.y = indexRow;
             cell.id = `${indexColumn}${indexRow}`;
 
-            // * Add event listener for click + drag n drop
-            cell.addEventListener('click', clickCellHandler);
+            // * Add drag n Drop events listener
+            cell.addEventListener('dragover', dragOver);
             cell.addEventListener('dragenter', dragEnter);
             cell.addEventListener('dragleave', dragLeave);
-            cell.addEventListener('dragover', dragOver);
-            // cell.addEventListener('drop', childDrop);
-            cell.addEventListener('drop', drop);
+            cell.addEventListener('drop', dragDrop);
 
             // * Append cell to $grid
             $grid.appendChild(cell);
@@ -116,7 +95,7 @@ export function clickCellHandler(e) {
     e.target.removeEventListener('click', clickCellHandler);
 }
 
-export function updateGrid(playerGameBoard, opponentGameBoard, $board, $opponentBoard) {
+export function updateGrids(playerGameBoard, opponentGameBoard, $board, $opponentBoard) {
     // * Store gameBoards matrix to variables
     const playerMatrix = playerGameBoard.matrix,
         opponentBoard = opponentGameBoard.board;
@@ -128,12 +107,11 @@ export function updateGrid(playerGameBoard, opponentGameBoard, $board, $opponent
 export function updateBoard(playerGameBoard, $board) {
     const board = playerGameBoard.board;
     // * Select all cells from the $board
-    const $cells = $board.querySelectorAll('.cell');
-
+    const $cells = $board.querySelectorAll('.grid-cell');
     //* For each cell, check the value of the gameBoard matrix and add it the corresponding class, except 'miss matrix"
     $cells.forEach((cell) => {
-        const rowIndex = parseInt(cell.dataset.row, 10);
-        const columnIndex = parseInt(cell.dataset.column, 10);
+        const rowIndex = parseInt(cell.dataset.y, 10);
+        const columnIndex = parseInt(cell.dataset.x, 10);
 
         if (board[rowIndex][columnIndex] === 1) {
             cell.classList.add('occupied');

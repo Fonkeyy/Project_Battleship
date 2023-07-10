@@ -50,6 +50,9 @@ export function CreateGameBoard(playerName, opponentName) {
     // * Initialize sunkList to keep track of different sunk ships
     gameBoard.sunkList = [];
 
+    // todo =>  See if the orientation check is needed (already done in drag)
+    // todo => Add verification for edges of grid (if < 10..)
+
     // * Function to place ship on board
     gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
         // * Get ship length
@@ -60,28 +63,56 @@ export function CreateGameBoard(playerName, opponentName) {
         // * check if the ship is placed vertically or horizontally depending if same X or Y
         if (y1 == y2) {
             // * cell = 1 when ship is placed
-            gameBoard.board[y1 - 1][x1 - 1] = 1;
+            gameBoard.board[y1][x1] = 1;
             for (let i = 0; i < length; i++) {
-                gameBoard.board[y1 - 1][x1 - 1 + i] = 1;
+                gameBoard.board[y1][x1 + i] = 1;
                 // * Add coords to ship object
-                ship.coord.push([x1 - 1 + i, y1 - 1]);
+                ship.coord.push([x1 + i, y1]);
             }
         } else {
-            gameBoard.board[y1 - 1][x1 - 1] = 1;
+            gameBoard.board[y1][x1] = 1;
             for (let i = 0; i < length; i++) {
-                gameBoard.board[y1 - 1 + i][x1 - 1] = 1;
-                ship.coord.push([x1 - 1, y1 - 1 + i]);
+                gameBoard.board[y1 + i][x1] = 1;
+                ship.coord.push([x1, y1 + i]);
             }
         }
         // * add ship object to shipList
         gameBoard.shipsList.push(ship);
+
+        return ship;
     };
+    // // * Function to place ship on board
+    // gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
+    //     // * Get ship length
+    //     const length = gameBoard.shipLength([x1, y1], [x2, y2]);
+    //     console.log({ length });
+    //     // * Create ship
+    //     const ship = CreateShip(length);
+    //     console.log({ ship });
+
+    //     // * check if the ship is placed vertically or horizontally depending if same X or Y
+    //     if (y1 == y2) {
+    //         // * cell = 1 when ship is placed
+    //         gameBoard.board[y1][x1] = 1;
+    //         for (let i = 0; i < length; i++) {
+    //             gameBoard.board[y1][x1 + i] = 1;
+    //             // * Add coords to ship object
+    //             ship.coord.push([x1 + i, y1]);
+    //         }
+    //     } else {
+    //         gameBoard.board[y1][x1] = 1;
+    //         for (let i = 0; i < length; i++) {
+    //             gameBoard.board[y1 + i][x1] = 1;
+    //             ship.coord.push([x1, y1 + i]);
+    //         }
+    //     }
+    //     // * add ship object to shipList
+    //     gameBoard.shipsList.push(ship);
+    // };
 
     gameBoard.isOccupied = ([x1, y1]) => {
         if (gameBoard.board[y1 - 1][x1 - 1] >= 1) return true;
     };
-
-    // todo => finish adding commentary
 
     gameBoard.receiveAttack = ([x, y]) => {
         // * Check if a ship is present on coords
@@ -114,6 +145,11 @@ export function CreateGameBoard(playerName, opponentName) {
 
     gameBoard.checkWinner = () => {
         return gameBoard.shipsList.length === gameBoard.sunkList.length ? true : false;
+    };
+
+    gameBoard.reset = () => {
+        gameBoard.board = gameBoard.createBoard();
+        gameBoard.matrix = gameBoard.createMatrix();
     };
 
     // * Push gameBoard to gameBoardList and return it

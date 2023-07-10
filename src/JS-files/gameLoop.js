@@ -1,16 +1,10 @@
-import { updateGrid } from './interfaceController';
+import { updateGrids } from './interfaceController';
 
 // todo => Add commentary
 
+// todo => finish implementing gameLoop and computer logic
+
 export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
-    boardPlayer1.placeShip([1, 1], [1, 5]);
-    boardPlayer1.placeShip([3, 4], [5, 4]);
-    boardPlayer1.placeShip([10, 9], [10, 10]);
-
-    boardPlayer2.placeShip([1, 1], [1, 1]);
-    boardPlayer2.placeShip([8, 6], [8, 10]);
-    boardPlayer2.placeShip([2, 4], [6, 4]);
-
     const main = document.querySelector('main'),
         $boardsContainer = document.createElement('div');
     $boardsContainer.id = 'boards-container';
@@ -18,10 +12,8 @@ export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $board
 
     $boardsContainer.append($boardPlayer2, $boardPlayer1);
 
-    updateGrid(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+    updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
 }
-
-// todo => finish implementing gameLoop and computer logic
 // export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
 //     const player1 = boardPlayer2.opponent;
 //     const player2 = boardPlayer1.opponent;
@@ -80,7 +72,7 @@ export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $board
 //     const handlePlayerHasPlay = (event) => {
 //         const eventValue = event.detail;
 //         boardPlayer2.receiveAttack(eventValue);
-//         updateGrid(boardPlayer1, boardPlayer2,  $boardPlayer1, $boardPlayer2);
+//         updateGrids(boardPlayer1, boardPlayer2,  $boardPlayer1, $boardPlayer2);
 //         if (boardPlayer2.checkWinner()) {
 //             // todo => add handleWin
 //             console.log('Player 1 wins!');
