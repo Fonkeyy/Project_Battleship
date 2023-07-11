@@ -1,4 +1,3 @@
-// todo => Check if functions are not broken because of small changes in parameters
 // todo => Add event listener on play vs computer btn
 
 import {
@@ -11,19 +10,17 @@ import {
     dragStart,
 } from './dragAndDrop2';
 
+// todo => Improve animation
 export const homeAnimation = () => {
     const startContainer = document.querySelector('#start-container');
     const h1 = document.querySelector('h1');
-
-    h1.classList.add('translate-Y');
     setTimeout(() => {
         h1.style.display = 'none';
-    }, 1000);
-
+    }, 0);
     startContainer.classList.add('translate-Y');
     setTimeout(() => {
         startContainer.style.display = 'none';
-    }, 1000);
+    }, 0);
 };
 
 // * Create DOM gameBoard from gameBoard object
@@ -91,9 +88,9 @@ export function displayShipsList() {
     // * Create ship Objects => names + length
     const ships = [
         { name: 'patrolBoat', length: 2 },
-        { name: 'battleship', length: 4 },
         { name: 'destroyer', length: 3 },
         { name: 'submarine', length: 3 },
+        { name: 'battleship', length: 4 },
         { name: 'carrier', length: 5 },
     ];
     // * Create and append ships-list-container

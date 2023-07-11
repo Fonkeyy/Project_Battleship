@@ -1,10 +1,10 @@
-// todo=> finish the drag and drop thing
 import { gameBoardList } from './gameboardFactory';
 import { updateBoard } from './interfaceController';
 
 // ? => Make sure to use the center of the element instead of where the click happened while dragging
 
 let isDragging = false; // *Flag to track dragging state
+
 export function changeOrientation(event) {
     if (event.target.dataset.orientation === 'horizontal') {
         event.target.dataset.orientation = 'vertical';
@@ -16,15 +16,15 @@ export function changeOrientation(event) {
 }
 
 export function dragStart(event) {
+    // * Get dragged ship and remove SVG from it
     const target = event.target;
     target.classList.remove('ship-svg');
-    console.log(target);
 
+    // * Add it 1 cell per length unit
     for (let i = 0; i < target.dataset.length; i++) {
         const shipCell = document.createElement('div');
         shipCell.classList.add('ship-cell');
         target.appendChild(shipCell);
-
         target.classList.add('ship-cells');
     }
     if (event.buttons === 1) {
@@ -41,6 +41,7 @@ export function dragStart(event) {
 
     // todo => See how to change orientation while dragging vertical ship
     const height = target.offsetHeight;
+    // console.log(height)
 
     if (target.dataset.orientation === 'horizontal') {
         target.classList.remove('rotate90deg');
@@ -62,6 +63,7 @@ export function dragEnter(event) {
 }
 
 export function dragLeave(event) {
+    event.preventDefault();
     event.target.classList.remove('drag-over');
 }
 

@@ -79,8 +79,14 @@
 }
 
 /* * Drag and drop */
+/* todo => Improve dragging styles */
 .drag-over {
     border: 3px solid blue;
+}
+
+.dragging-ship {
+    border: 2px dashed blue;
+    /* transform: rotate(90deg); */
 }
 
 /* * SHIPS LIST */
@@ -114,14 +120,11 @@
     border: 1px solid black;
 }
 
-.dragging-ship {
-    border: 2px dashed blue;
-}
-
 @media screen and (min-width: 768px) {
     #main-content {
         grid-template-columns: auto auto;
         column-gap: 2rem;
+        /* todo => Fix why grid moves while dragging (width issue) */
     }
 
     /* *BOARDS */
@@ -147,7 +150,7 @@
     #ships-list-container {
         display: flex;
         flex-direction: column;
-        width: min-content;
+        max-width: min-content;
     }
 
     .ship-svg {
@@ -155,7 +158,7 @@
     }
 
     .ship-cell {
-        width: 3.5vh;
-        height: 3.5vh;
+        width: 3.3vh;
+        height: 3.3vh;
     }
 }
