@@ -1,13 +1,12 @@
 import './CSS-files/global.css';
 import './CSS-files/home.css';
-import './CSS-files/board.css';
-import './CSS-files/ships.css';
+import './CSS-files/main-content.css';
 // import { renderInterface, gameLoop } from './JS-files/gameLoop';
 
-import { renderInterface } from './JS-files/interfaceController';
+import { displayShipsList, renderInterface } from './JS-files/interfaceController';
 import { CreateGameBoard } from './JS-files/gameboardFactory';
-import { create$Board, homeAnimation } from './JS-files/interfaceController';
-import { renderShips } from './JS-files/dragAndDrop2';
+import { renderBoard, homeAnimation } from './JS-files/interfaceController';
+// import { renderShips } from './JS-files/dragAndDrop2';
 
 // * Select DOM btn and store it in variable
 const StartGameBtn = document.querySelector('#start-game-btn');
@@ -29,13 +28,13 @@ const handleStartGameBtn = () => {
         const gameBoardPlayer2 = CreateGameBoard(inputPlayer2, inputPlayer1);
 
         // * Create $Boards with GameBoard objects as parameters
-        const $boardPlayer1 = create$Board(gameBoardPlayer1);
-        const $boardPlayer2 = create$Board(gameBoardPlayer2);
+        const $boardPlayer1 = renderBoard(gameBoardPlayer1);
+        const $boardPlayer2 = renderBoard(gameBoardPlayer2);
 
         // * Set up interface, close dialog, change start btn value and its dataset.gameStarted to true
         homeAnimation();
         renderInterface(gameBoardPlayer1, gameBoardPlayer2, $boardPlayer1, $boardPlayer2);
-        renderShips();
+        displayShipsList();
         StartGameBtn.value = 'Restart';
         StartGameBtn.dataset.gameStarted = 'true';
     }

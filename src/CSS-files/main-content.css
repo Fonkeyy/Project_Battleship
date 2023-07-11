@@ -1,9 +1,16 @@
+#main-content {
+    display: grid;
+    place-content: center;
+    place-items: center;
+}
+
+/* * BOARDS */
 #boards-container {
     display: grid;
     grid-row: 1 / 2;
     margin: 1rem 0;
     display: grid;
-    gap: 1rem;
+    gap: 0.5rem;
 }
 
 .player-name {
@@ -76,7 +83,48 @@
     border: 3px solid blue;
 }
 
+/* * SHIPS LIST */
+#ships-list-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: min-content;
+    width: 30vh;
+}
+
+.ship-svg {
+    margin: auto;
+    background: center no-repeat url(../assets/svg/warship.svg);
+    height: 40px;
+}
+
+.ship-item-svg {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.ship-cells {
+    display: flex;
+    gap: 1px;
+}
+
+.ship-cell {
+    width: 3vh;
+    height: 3vh;
+    background: lightcoral;
+    border: 1px solid black;
+}
+
+.dragging-ship {
+    border: 2px dashed blue;
+}
+
 @media screen and (min-width: 768px) {
+    #main-content {
+        grid-template-columns: auto auto;
+        column-gap: 2rem;
+    }
+
+    /* *BOARDS */
     #boards-container {
         grid-template-columns: min-content auto;
     }
@@ -93,5 +141,21 @@
     .player-name {
         writing-mode: vertical-lr;
         transform: rotate(180deg);
+    }
+
+    /* *SHIPS LIST */
+    #ships-list-container {
+        display: flex;
+        flex-direction: column;
+        width: min-content;
+    }
+
+    .ship-svg {
+        height: 60px;
+    }
+
+    .ship-cell {
+        width: 3.5vh;
+        height: 3.5vh;
     }
 }

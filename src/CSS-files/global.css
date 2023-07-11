@@ -53,12 +53,13 @@ main {
     min-height: 100vh;
     max-height: 100vh;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
     place-content: center;
     place-items: center;
 }
 
+.rotate90deg {
+    transform: rotate(90deg);
+}
 /*.translate-Y {
     transform: translateY(-50vh) !important;
     transition: transform 1s ease-in;

@@ -1,7 +1,15 @@
 // todo => Check if functions are not broken because of small changes in parameters
 // todo => Add event listener on play vs computer btn
 
-import { dragDrop, dragEnter, dragLeave, dragOver } from './dragAndDrop2';
+import {
+    changeOrientation,
+    dragDrop,
+    dragEnd,
+    dragEnter,
+    dragLeave,
+    dragOver,
+    dragStart,
+} from './dragAndDrop2';
 
 export const homeAnimation = () => {
     const startContainer = document.querySelector('#start-container');
@@ -19,7 +27,7 @@ export const homeAnimation = () => {
 };
 
 // * Create DOM gameBoard from gameBoard object
-export function create$Board(gameBoard) {
+export function renderBoard(gameBoard) {
     // * Create variable to store gameBoard object 'player' matrix
     const board = gameBoard.board,
         // * Create div elements to display matrix in the DOM
@@ -79,9 +87,59 @@ export function create$Board(gameBoard) {
     return $board;
 }
 
+export function displayShipsList() {
+    // * Create ship Objects => names + length
+    const ships = [
+        { name: 'patrolBoat', length: 2 },
+        { name: 'battleship', length: 4 },
+        { name: 'destroyer', length: 3 },
+        { name: 'submarine', length: 3 },
+        { name: 'carrier', length: 5 },
+    ];
+    // * Create and append ships-list-container
+    const mainContent = document.querySelector('#main-content');
+
+    const shipsListContainer = document.createElement('div');
+    shipsListContainer.id = 'ships-list-container';
+    mainContent.appendChild(shipsListContainer);
+
+    for (let ship of ships) {
+        const shipContainer = document.createElement('div');
+        const shipLabel = document.createElement('div');
+        const shipSvg = document.createElement('div');
+
+        shipContainer.classList.add('ship-item-svg');
+
+        shipSvg.id = 'ship-svg';
+        shipSvg.classList.add('ship-svg');
+
+        shipLabel.textContent = ship.name;
+
+        shipSvg.id = ship.name;
+        shipSvg.dataset.length = ship.length;
+
+        // * Set container to draggable and orientation to vertical
+        shipSvg.draggable = true;
+        shipSvg.dataset.orientation = 'horizontal';
+
+        // * Attach drag and drop event listeners on container
+        shipSvg.addEventListener('dragstart', dragStart);
+        shipSvg.addEventListener('dragend', dragEnd);
+        shipSvg.addEventListener('dblclick', changeOrientation);
+
+        shipContainer.append(shipSvg, shipLabel);
+        shipsListContainer.appendChild(shipContainer);
+    }
+}
+
 export function renderInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
     // * Select main
     const main = document.querySelector('main');
+
+    // * Create main content container
+    const mainContent = document.createElement('div');
+    mainContent.id = 'main-content';
+    main.appendChild(mainContent);
 
     // * Add it $boardContainer
     const $boardsContainer = document.createElement('div');
@@ -100,7 +158,7 @@ export function renderInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boar
     player1Name.textContent = inputPlayer1;
     player2Name.textContent = inputPlayer2;
 
-    main.appendChild($boardsContainer);
+    mainContent.appendChild($boardsContainer);
 
     $boardsContainer.append(player2Name, $boardPlayer2, player1Name, $boardPlayer1);
 
