@@ -205,6 +205,9 @@ export function updateBoard(playerGameBoard, $board) {
         if (board[rowIndex][columnIndex] === 3) {
             cell.classList.add('sunk');
         }
+        if (board[rowIndex][columnIndex] === false) {
+            cell.classList.remove('occupied', 'hit', 'sunk');
+        }
     });
 }
 

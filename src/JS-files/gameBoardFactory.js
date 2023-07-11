@@ -50,68 +50,57 @@ export function CreateGameBoard(playerName, opponentName) {
     // * Initialize sunkList to keep track of different sunk ships
     gameBoard.sunkList = [];
 
-    // todo =>  See if the orientation check is needed (already done in drag)
-    // todo => Add verification for edges of grid (if < 10..)
-
     // * Function to place ship on board
     gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
-        // * Get ship length
-        const length = gameBoard.shipLength([x1, y1], [x2, y2]);
-        // * Create ship
-        const ship = CreateShip(length);
+        if (x2 <= 9 && x2 >= 0 && y2 <= 9 && y2 >= 0) {
+            // * Get ship length
+            const length = gameBoard.shipLength([x1, y1], [x2, y2]);
 
-        // * check if the ship is placed vertically or horizontally depending if same X or Y
-        if (y1 == y2) {
-            // * cell = 1 when ship is placed
-            gameBoard.board[y1][x1] = 1;
-            for (let i = 0; i < length; i++) {
-                gameBoard.board[y1][x1 + i] = 1;
-                // * Add coords to ship object
-                ship.coord.push([x1 + i, y1]);
+            // * Create ship
+            const ship = CreateShip(length);
+
+            // * Check if the ship is placed vertically or horizontally depending if same X or Y
+            if (y1 === y2) {
+                for (let i = 0; i < length; i++) {
+                    // * If cell is free
+                    if (!gameBoard.isOccupied([x1 + i, y1])) {
+                        // * Define it as occupied
+                        gameBoard.board[y1][x1 + i] = 1;
+                        // * Add coords to ship object
+                        ship.coord.push([x1 + i, y1]);
+                    } else {
+                        alert('Cell is already occupied');
+                        return;
+                    }
+                }
             }
+            if (x1 === x2) {
+                for (let i = 0; i < length; i++) {
+                    if (!gameBoard.isOccupied([x1, y1 + i])) {
+                        gameBoard.board[y1 + i][x1] = 1;
+                        ship.coord.push([x1, y1 + i]);
+                    } else {
+                        alert('Cell is already occupied');
+                        return;
+                    }
+                }
+            }
+
+            // * add ship object to shipList
+            gameBoard.shipsList.push(ship);
+
+            console.log(gameBoard.board);
+            return ship;
         } else {
-            gameBoard.board[y1][x1] = 1;
-            for (let i = 0; i < length; i++) {
-                gameBoard.board[y1 + i][x1] = 1;
-                ship.coord.push([x1, y1 + i]);
-            }
+            alert('Ship must be placed within the grid');
         }
-        // * add ship object to shipList
-        gameBoard.shipsList.push(ship);
-
-        return ship;
     };
-    // // * Function to place ship on board
-    // gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
-    //     // * Get ship length
-    //     const length = gameBoard.shipLength([x1, y1], [x2, y2]);
-    //     console.log({ length });
-    //     // * Create ship
-    //     const ship = CreateShip(length);
-    //     console.log({ ship });
 
-    //     // * check if the ship is placed vertically or horizontally depending if same X or Y
-    //     if (y1 == y2) {
-    //         // * cell = 1 when ship is placed
-    //         gameBoard.board[y1][x1] = 1;
-    //         for (let i = 0; i < length; i++) {
-    //             gameBoard.board[y1][x1 + i] = 1;
-    //             // * Add coords to ship object
-    //             ship.coord.push([x1 + i, y1]);
-    //         }
-    //     } else {
-    //         gameBoard.board[y1][x1] = 1;
-    //         for (let i = 0; i < length; i++) {
-    //             gameBoard.board[y1 + i][x1] = 1;
-    //             ship.coord.push([x1, y1 + i]);
-    //         }
-    //     }
-    //     // * add ship object to shipList
-    //     gameBoard.shipsList.push(ship);
-    // };
-
+    // ! Fix is occupied + alerts
     gameBoard.isOccupied = ([x1, y1]) => {
-        if (gameBoard.board[y1 - 1][x1 - 1] >= 1) return true;
+        if (gameBoard.board[y1][x1] >= 1) return true;
+
+        return false;
     };
 
     gameBoard.receiveAttack = ([x, y]) => {

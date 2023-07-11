@@ -1,7 +1,7 @@
 import './CSS-files/global.css';
 import './CSS-files/home.css';
 import './CSS-files/main-content.css';
-// import { renderInterface, gameLoop } from './JS-files/gameLoop';
+// import { gameLoop } from './JS-files/gameLoop';
 
 import { displayShipsList, renderInterface } from './JS-files/interfaceController';
 import { CreateGameBoard } from './JS-files/gameboardFactory';

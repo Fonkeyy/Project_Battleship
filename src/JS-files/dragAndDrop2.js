@@ -3,8 +3,6 @@ import { updateBoard } from './interfaceController';
 
 // ? => Make sure to use the center of the element instead of where the click happened while dragging
 
-let isDragging = false; // *Flag to track dragging state
-
 export function changeOrientation(event) {
     if (event.target.dataset.orientation === 'horizontal') {
         event.target.dataset.orientation = 'vertical';
@@ -27,17 +25,14 @@ export function dragStart(event) {
         target.appendChild(shipCell);
         target.classList.add('ship-cells');
     }
-    if (event.buttons === 1) {
-        // * Check if the left mouse button is clicked
-        isDragging = true;
-        // * Store ship data to transfer
-        event.dataTransfer.setData('text/plain', event.target.id);
-        event.dataTransfer.setData('length', event.target.dataset.length);
-        event.dataTransfer.setData('orientation', event.target.dataset.orientation);
 
-        // * Add styles while dragging
-        event.target.classList.add('dragging-ship');
-    }
+    // * Store ship data to transfer
+    event.dataTransfer.setData('text/plain', event.target.id);
+    event.dataTransfer.setData('length', event.target.dataset.length);
+    event.dataTransfer.setData('orientation', event.target.dataset.orientation);
+
+    // * Add styles while dragging
+    event.target.classList.add('dragging-ship');
 
     // todo => See how to change orientation while dragging vertical ship
     const height = target.offsetHeight;
@@ -82,7 +77,7 @@ export function dragDrop(event) {
     const droppedShip = document.getElementById(droppedShipId);
     const droppedShipLength = event.dataTransfer.getData('length');
 
-    const shipOrientation = event.dataTransfer.getData('orientation');
+    const droppedShipOrientation = event.dataTransfer.getData('orientation');
 
     // * Get target element + row and column number
     // const targetCell = event.target;
@@ -90,29 +85,38 @@ export function dragDrop(event) {
     const targetY = Number(event.target.dataset.y);
 
     // * Get/adjust coords according to orientation
-    const lastCellX = Number(targetX) + (shipOrientation === 'vertical' ? 0 : Number(droppedShipLength - 1));
+    const lastCellX =
+        Number(targetX) + (droppedShipOrientation === 'vertical' ? 0 : Number(droppedShipLength - 1));
     const lastCellY =
-        Number(targetY) + (shipOrientation === 'horizontal' ? 0 : Number(droppedShipLength - 1));
+        Number(targetY) + (droppedShipOrientation === 'horizontal' ? 0 : Number(droppedShipLength - 1));
 
     const newShip = gameBoard.placeShip([targetX, targetY], [lastCellX, lastCellY]);
 
     if (newShip) {
+        console.log('board updated');
         updateBoard(gameBoard, $grid.parentNode);
         droppedShip.parentElement.remove();
+    }
+
+    // todo => Initialize gameloop
+    const shipsList = document.querySelector('#ships-list-container');
+    // const player1Board = gameBoardList[0];
+    // const player2Board = gameBoardList[1];
+    // console.log(player1Board);
+    // console.log(player2Board);
+    if (!shipsList.hasChildNodes) {
+        // gameloop();
     }
 }
 
 export function dragEnd(event) {
-    if (isDragging) {
-        isDragging = false;
-        // * Clear transfer data and CSS
-        event.dataTransfer.clearData();
-        event.target.classList.remove('dragging-ship');
+    // * Clear transfer data and CSS
+    event.dataTransfer.clearData();
+    event.target.classList.remove('dragging-ship');
 
-        // * Get back to SVG style if not dropped
-        while (event.target.hasChildNodes()) {
-            event.target.firstChild.remove();
-        }
-        event.target.classList.add('ship-svg');
+    // * Get back to SVG style if not dropped
+    while (event.target.hasChildNodes()) {
+        event.target.firstChild.remove();
     }
+    event.target.classList.add('ship-svg');
 }
