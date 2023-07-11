@@ -1,5 +1,6 @@
 :root {
     --start-btn-color: #1e9bff;
+    --primary-text-color: rgba(0, 0, 0, 0.5);
 }
 
 *,
@@ -13,6 +14,7 @@
 html,
 body {
     max-height: 100vh;
+    overflow-y: hidden;
 }
 body {
     line-height: 1.5;
@@ -49,12 +51,12 @@ h6 {
 
 main {
     min-height: 100vh;
+    max-height: 100vh;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
     place-content: center;
     place-items: center;
-    gap: 2rem;
 }
 
 /*.translate-Y {

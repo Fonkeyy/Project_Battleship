@@ -3,18 +3,22 @@ import '../CSS-files/ships.css';
 import { gameBoardList } from './gameboardFactory';
 import { updateBoard } from './interfaceController';
 
-export function create$Ship() {
+export function renderShips() {
     // * Create ship Objects => names + length
     const ships = [
-        { name: 'carrier', length: 5 },
+        { name: 'patrolBoat', length: 2 },
         { name: 'battleship', length: 4 },
         { name: 'destroyer', length: 3 },
         { name: 'submarine', length: 3 },
-        { name: 'patrolBoat', length: 2 },
+        { name: 'carrier', length: 5 },
     ];
 
-    // * Store ships list container reference in a variable
-    const shipsListContainer = document.querySelector('#ships-list-container');
+    // * Create and append ships-list-container
+    const main = document.querySelector('main');
+
+    const shipsListContainer = document.createElement('div');
+    shipsListContainer.id = 'ships-list-container';
+    main.appendChild(shipsListContainer);
 
     // * Create 1 container for each ship object
     for (let ship of ships) {

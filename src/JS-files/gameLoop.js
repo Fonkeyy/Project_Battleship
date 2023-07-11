@@ -1,19 +1,9 @@
-import { updateGrids } from './interfaceController';
+// import { updateGrids } from './interfaceController';
 
 // todo => Add commentary
 
 // todo => finish implementing gameLoop and computer logic
 
-export function setUpInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
-    const main = document.querySelector('main'),
-        $boardsContainer = document.createElement('div');
-    $boardsContainer.id = 'boards-container';
-    main.appendChild($boardsContainer);
-
-    $boardsContainer.append($boardPlayer2, $boardPlayer1);
-
-    updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
-}
 // export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
 //     const player1 = boardPlayer2.opponent;
 //     const player2 = boardPlayer1.opponent;

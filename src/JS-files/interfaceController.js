@@ -79,6 +79,34 @@ export function create$Board(gameBoard) {
     return $board;
 }
 
+export function renderInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
+    // * Select main
+    const main = document.querySelector('main');
+
+    // * Add it $boardContainer
+    const $boardsContainer = document.createElement('div');
+    $boardsContainer.id = 'boards-container';
+
+    // * Store players name input and add it to $boardContainer
+    const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1',
+        inputPlayer2 = document.querySelector('#input-player-2').value || 'Player 2';
+
+    const player1Name = document.createElement('div'),
+        player2Name = document.createElement('div');
+
+    player1Name.classList.add('player-name');
+    player2Name.classList.add('player-name');
+
+    player1Name.textContent = inputPlayer1;
+    player2Name.textContent = inputPlayer2;
+
+    main.appendChild($boardsContainer);
+
+    $boardsContainer.append(player2Name, $boardPlayer2, player1Name, $boardPlayer1);
+
+    updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+}
+
 export function clickCellHandler(e) {
     // * Store row index and column index from cell
     const x = parseInt(e.target.dataset.row);

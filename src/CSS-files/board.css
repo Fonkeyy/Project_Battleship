@@ -1,8 +1,15 @@
 #boards-container {
+    display: grid;
     grid-row: 1 / 2;
-    margin: 2rem 0;
+    margin: 1rem 0;
     display: grid;
     gap: 1rem;
+}
+
+.player-name {
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-text-color);
 }
 
 .board {
@@ -14,10 +21,10 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     gap: 1px;
-    width: 35vh;
+    width: 30vh;
     grid-column: 2 /3;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--primary-text-color);
 }
 
 .row-label {
@@ -25,7 +32,7 @@
     grid-template-columns: 1fr;
     grid-row: 2 / 3;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--primary-text-color);
 }
 
 .label-cell {
@@ -38,14 +45,14 @@
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
     gap: 1px;
-    width: 35vh;
-    height: 35vh;
+    width: 30vh;
+    height: 30vh;
     border: 1px solid var(--start-btn-color);
 }
 
 .grid-cell {
     background: transparent;
-    border: 1px solid black;
+    border: 1px solid var(--primary-text-color);
 }
 
 .occupied {
@@ -67,4 +74,24 @@
 /* * Drag and drop */
 .drag-over {
     border: 3px solid blue;
+}
+
+@media screen and (min-width: 768px) {
+    #boards-container {
+        grid-template-columns: min-content auto;
+    }
+
+    .column-label {
+        width: 35vh;
+    }
+
+    .grid {
+        width: 35vh;
+        height: 35vh;
+    }
+
+    .player-name {
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+    }
 }
