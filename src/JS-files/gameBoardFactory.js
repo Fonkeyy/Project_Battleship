@@ -1,14 +1,16 @@
-import Player from './player';
+import Player, { Computer } from './player';
 import CreateShip from './shipsFactory';
 
 // * Initialize gameBoardList to keep track of different gameBoard
 export const gameBoardList = [];
 
 export function CreateGameBoard(playerName, opponentName) {
-    // * Initialize gameBoard Object and add it ID + opponent props
+    // * Initialize gameBoard Object and add it ID
     const gameBoard = {};
     gameBoard.id = playerName;
-    gameBoard.opponentName = new Player(opponentName);
+
+    // * If against computer create computer player else create human player
+    gameBoard.opponentName = opponentName === 'computer' ? new Computer() : new Player(opponentName);
 
     // * Function matrix to keep track of player state game
     gameBoard.createBoard = () => {

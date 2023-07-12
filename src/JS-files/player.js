@@ -1,21 +1,21 @@
-export default function Player(name) {
-    const player = {};
-    player.name = name;
-    player.moves = [];
-    player.hitList = [];
+export function Computer() {
+    const computer = {};
+    computer.name = 'computer';
+    computer.moves = [];
+    computer.hitList = [];
 
-    player.attack = ([x, y], boardAttacked) => {
+    computer.attack = ([x, y], boardAttacked) => {
         boardAttacked.receiveAttack([x, y]);
     };
 
-    player.randomMove = () => {
+    computer.randomMove = () => {
         const x = Math.ceil(Math.random() * 9);
         const y = Math.ceil(Math.random() * 9);
 
         return [x, y];
     };
 
-    player.nextMove = (lastMove) => {
+    computer.nextMove = (lastMove) => {
         let [lastY, lastX] = lastMove;
         let nextY;
         let nextX;
@@ -53,18 +53,18 @@ export default function Player(name) {
             }
         };
 
-        if (!player.hitList.length) {
+        if (!computer.hitList.length) {
             console.log('hitList.length: 0');
             getRandomDirection();
         }
 
-        console.log({ player });
-        console.log(player.hitList);
+        console.log({ computer });
+        console.log(computer.hitList);
 
-        if (player.hitList.length) {
+        if (computer.hitList.length) {
             console.log('HitList.length');
 
-            const [befLastY, befLastX] = player.hitList[player.hitList.length - 2];
+            const [befLastY, befLastX] = computer.hitList[computer.hitList.length - 2];
 
             console.log({ befLastY, befLastX });
 
@@ -101,50 +101,63 @@ export default function Player(name) {
             console.log('isValidMove!');
             return [nextY, nextX];
         } else {
-            console.log('return player.nextMove(lastMove)');
-            return player.nextMove(lastMove);
+            console.log('return computer.nextMove(lastMove)');
+            return computer.nextMove(lastMove);
         }
     };
 
-    player.randomAttack = (opponentBoard) => {
-        let coord = player.randomMove();
+    computer.randomAttack = (opponentBoard) => {
+        let coord = computer.randomMove();
         let x = coord[0];
         let y = coord[1];
 
-        let coordMatch = player.moves.some((move) => move[0] === x && move[1] === y);
+        let coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
 
         while (coordMatch) {
-            coord = player.randomMove();
+            coord = computer.randomMove();
             x = coord[0];
             y = coord[1];
-            coordMatch = player.moves.some((move) => move[0] === x && move[1] === y);
+            coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
         }
 
         opponentBoard.receiveAttack(coord);
-        player.moves.push(coord);
+        computer.moves.push(coord);
 
         console.log(`randomAttack: ${coord}`);
         return coord;
     };
 
-    player.nextAttack = (lastMove, opponentBoard) => {
-        let coord = player.nextMove(lastMove);
+    computer.nextAttack = (lastMove, opponentBoard) => {
+        let coord = computer.nextMove(lastMove);
         let x = coord[0];
         let y = coord[1];
 
-        let coordMatch = player.moves.some((move) => move[0] === x && move[1] === y);
+        let coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
 
         while (coordMatch) {
-            coord = player.nextMove(lastMove);
+            coord = computer.nextMove(lastMove);
             x = coord[0];
             y = coord[1];
-            coordMatch = player.moves.some((move) => move[0] === x && move[1] === y);
+            coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
         }
         opponentBoard.receiveAttack(coord);
-        player.moves.push(coord);
+        computer.moves.push(coord);
 
         console.log(`nextAttack${coord}`);
         return coord;
+    };
+
+    return computer;
+}
+
+export default function Player(name) {
+    const player = {};
+    player.name = name;
+    player.moves = [];
+    player.hitList = [];
+
+    player.attack = ([x, y], boardAttacked) => {
+        boardAttacked.receiveAttack([x, y]);
     };
 
     return player;

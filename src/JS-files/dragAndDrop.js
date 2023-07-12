@@ -1,4 +1,4 @@
-import { gameLoop } from './gameLoop';
+import { ComputerGameLoop } from './gameLoop';
 import { gameBoardList } from './gameboardFactory';
 import { updateBoard } from './interfaceController';
 
@@ -20,6 +20,7 @@ export function dragStart(event) {
     target.classList.remove('ship-svg');
 
     // * Add it 1 cell per length unit
+
     for (let i = 0; i < target.dataset.length; i++) {
         const shipCell = document.createElement('div');
         shipCell.classList.add('ship-cell');
@@ -94,9 +95,9 @@ export function dragDrop(event) {
     const newShip = gameBoard.placeShip([targetX, targetY], [lastCellX, lastCellY]);
 
     if (newShip) {
-        console.log('board updated');
         updateBoard(gameBoard, $grid.parentNode);
         droppedShip.parentElement.remove();
+        event.target.classList.remove('drag-over');
     }
 
     const shipsList = document.querySelector('#ships-list-container');
@@ -108,7 +109,8 @@ export function dragDrop(event) {
 
     if (!shipsList.hasChildNodes()) {
         alert('Game start, attack enemy!');
-        gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+
+        ComputerGameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
     }
 }
 

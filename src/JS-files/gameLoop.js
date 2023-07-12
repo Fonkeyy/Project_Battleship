@@ -2,10 +2,10 @@ import { updateGrids, updateOpponentBoard } from './interfaceController';
 
 // todo => Add commentary
 
-// todo => finish implementing gameLoop and computer logic
+// todo => finish implementing ComputerGameLoop and computer logic
 
-export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
-    const player1 = boardPlayer2.opponentName;
+export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $computer) {
+    const player1 = computer.opponentName;
     const player2 = boardPlayer1.opponentName;
 
     // * Set player1 as active player
@@ -22,8 +22,8 @@ export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer
     );
 
     function playTurn() {
-        if (boardPlayer1.checkWinner() || boardPlayer2.checkWinner()) {
-            $boardPlayer2.addEventListener(
+        if (boardPlayer1.checkWinner() || computer.checkWinner()) {
+            $computer.addEventListener(
                 'click',
                 (event) => {
                     alert('Winner');
@@ -36,14 +36,14 @@ export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer
             console.log('player1 active');
             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
         } else if (player2.active) {
-            console.log('player2 active');
+            console.log('computer active');
             setTimeout(() => {
-                computerLogic(boardPlayer2, boardPlayer1);
+                computerLogic(computer, boardPlayer1);
 
                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
 
                 if (boardPlayer1.checkWinner()) {
-                    // todo => add handleWin
+                    // todo => add handleWin => restart btn
                     alert('Player 2 wins');
 
                     console.log('Player 2 wins!');
@@ -56,26 +56,26 @@ export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer
         // * Set up a callback to continue the game loop for the next turn
         const clickCallback = () => {
             $boardPlayer1.removeEventListener('click', clickCallback);
-            $boardPlayer2.removeEventListener('click', clickCallback);
+            $computer.removeEventListener('click', clickCallback);
             setTimeout(playTurn, 0); // * Continue the game loop asynchronously
         };
 
         // * Set up event listener for the player's click
         $boardPlayer1.addEventListener('click', clickCallback);
-        $boardPlayer2.addEventListener('click', clickCallback);
+        $computer.addEventListener('click', clickCallback);
     }
 
     const handlePlayerHasPlay = (event) => {
         const eventValue = event.detail;
-        boardPlayer2.receiveAttack(eventValue);
-        updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
-        if (boardPlayer2.checkWinner()) {
-            // todo => add handleWin
+        computer.receiveAttack(eventValue);
+        updateGrids(boardPlayer1, computer, $boardPlayer1, $computer);
+        if (computer.checkWinner()) {
+            // todo => add handleWin => restart btn
             alert('Player 1 wins');
             console.log('Player 1 wins!');
         }
 
-        if (!boardPlayer2.checkWinner()) {
+        if (!computer.checkWinner()) {
             player1.active = false;
             player2.active = true;
         }
@@ -88,6 +88,7 @@ export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer
 // todo => find a way to know the last move which has hit then nextAttack from this one
 let computerLogic = (computerBoard, playerBoard) => {
     const computer = playerBoard.opponentName;
+    console.log(computer);
 
     if (computer.hitList.length) {
         const lastHitCoord = computer.hitList[computer.hitList.length - 1];
@@ -96,7 +97,7 @@ let computerLogic = (computerBoard, playerBoard) => {
         console.log(computer.hitList);
         console.log(lastHitCoord);
 
-        if (playerBoard.board[lastHitY][lastHitX - 1] === 3) {
+        if (playerBoard.board[lastHitY][lastHitX] === 3) {
             computer.randomAttack(playerBoard);
         } else {
             const possibleMoves = [];
@@ -190,3 +191,85 @@ let computerLogic = (computerBoard, playerBoard) => {
 //         }
 //     }
 // };
+
+//!
+// export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
+//     const player1 = boardPlayer2.opponentName;
+//     const player2 = boardPlayer1.opponentName;
+
+//     // * Set player1 as active player
+//     player1.active = true;
+//     player2.active = false;
+
+//     // * Disable events listener on children of $boardPlayer1
+//     $boardPlayer1.addEventListener(
+//         'click',
+//         (event) => {
+//             event.stopPropagation();
+//         },
+//         true
+//     );
+
+//     function playTurn() {
+//         if (boardPlayer1.checkWinner() || boardPlayer2.checkWinner()) {
+//             $boardPlayer2.addEventListener(
+//                 'click',
+//                 (event) => {
+//                     alert('Winner');
+//                     event.stopPropagation();
+//                 },
+//                 true
+//             );
+//         }
+//         if (player1.active) {
+//             console.log('player1 active');
+//             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
+//         } else if (player2.active) {
+//             console.log('player2 active');
+//             setTimeout(() => {
+//                 computerLogic(boardPlayer2, boardPlayer1);
+
+//                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
+
+//                 if (boardPlayer1.checkWinner()) {
+//                     // todo => add handleWin => restart btn
+//                     alert('Player 2 wins');
+
+//                     console.log('Player 2 wins!');
+//                 }
+//             }, 0);
+//             player1.active = true;
+//             player2.active = false;
+//         }
+
+//         // * Set up a callback to continue the game loop for the next turn
+//         const clickCallback = () => {
+//             $boardPlayer1.removeEventListener('click', clickCallback);
+//             $boardPlayer2.removeEventListener('click', clickCallback);
+//             setTimeout(playTurn, 0); // * Continue the game loop asynchronously
+//         };
+
+//         // * Set up event listener for the player's click
+//         $boardPlayer1.addEventListener('click', clickCallback);
+//         $boardPlayer2.addEventListener('click', clickCallback);
+//     }
+
+//     const handlePlayerHasPlay = (event) => {
+//         const eventValue = event.detail;
+//         boardPlayer2.receiveAttack(eventValue);
+//         updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+//         if (boardPlayer2.checkWinner()) {
+//             // todo => add handleWin => restart btn
+//             alert('Player 1 wins');
+//             console.log('Player 1 wins!');
+//         }
+
+//         if (!boardPlayer2.checkWinner()) {
+//             player1.active = false;
+//             player2.active = true;
+//         }
+//     };
+
+//     // * Start the game loop by calling playTurn() for the first turn
+//     playTurn();
+// }
