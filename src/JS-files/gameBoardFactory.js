@@ -100,16 +100,19 @@ export function CreateGameBoard(playerName, opponentName) {
     };
 
     gameBoard.receiveAttack = ([x, y]) => {
+        console.log(gameBoard.opponentName);
+        console.log(gameBoard.opponentName.hitList);
         // * Check if a ship is present on coords
         if (gameBoard.board[y][x] === 1) {
             // * Find corresponding ship in shipList
             const ship = gameBoard.shipsList.find((ship) => {
-                return ship.coord.some(([coordX, coordY]) => coordX === x - 1 && coordY === y - 1);
+                console.log(ship);
+                return ship.coord.some(([coordX, coordY]) => coordX === x && coordY === y);
             });
             // * Hit the ship, change matrix value to 'hit cell' and add coords to opponent hitList
             ship.hit();
             gameBoard.board[y][x] = 2;
-            gameBoard.opponent.hitList.push([x, y]);
+            gameBoard.opponentName.hitList.push([x, y]);
 
             // * If ship is sunk add it to the sunkList and change matrix value to 'sunk cell'
             if (ship.isSunk()) {

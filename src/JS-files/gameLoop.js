@@ -40,7 +40,7 @@ export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer
             setTimeout(() => {
                 computerLogic(boardPlayer2, boardPlayer1);
 
-                updateOpponentBoard(boardPlayer2.board, boardPlayer2.matrix, $boardPlayer2);
+                updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
 
                 if (boardPlayer1.checkWinner()) {
                     // todo => add handleWin
@@ -96,28 +96,28 @@ let computerLogic = (computerBoard, playerBoard) => {
         console.log(computer.hitList);
         console.log(lastHitCoord);
 
-        if (playerBoard.board[lastHitY - 1][lastHitX - 1] === 3) {
+        if (playerBoard.board[lastHitY][lastHitX - 1] === 3) {
             computer.randomAttack(playerBoard);
         } else {
             const possibleMoves = [];
 
             // Check if it's possible to attack above the last hit
-            if (lastHitY - 1 >= 1 && playerBoard.board[lastHitY - 2][lastHitX - 1] === false) {
+            if (lastHitY - 1 >= 0 && playerBoard.board[lastHitY - 2][lastHitX - 1] === false) {
                 possibleMoves.push([lastHitX, lastHitY - 1]);
             }
 
             // Check if it's possible to attack below the last hit
-            if (lastHitY + 1 <= 10 && playerBoard.board[lastHitY][lastHitX - 1] === false) {
+            if (lastHitY + 1 <= 9 && playerBoard.board[lastHitY][lastHitX - 1] === false) {
                 possibleMoves.push([lastHitX, lastHitY + 1]);
             }
 
             // Check if it's possible to attack to the left of the last hit
-            if (lastHitX - 1 >= 1 && playerBoard.board[lastHitY - 1][lastHitX - 2] === false) {
+            if (lastHitX - 1 >= 0 && playerBoard.board[lastHitY - 1][lastHitX - 2] === false) {
                 possibleMoves.push([lastHitX - 1, lastHitY]);
             }
 
             // Check if it's possible to attack to the right of the last hit
-            if (lastHitX + 1 <= 10 && playerBoard.board[lastHitY - 1][lastHitX] === false) {
+            if (lastHitX + 1 <= 9 && playerBoard.board[lastHitY - 1][lastHitX] === false) {
                 possibleMoves.push([lastHitX + 1, lastHitY]);
             }
 

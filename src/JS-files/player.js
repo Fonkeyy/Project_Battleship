@@ -9,8 +9,8 @@ export default function Player(name) {
     };
 
     player.randomMove = () => {
-        const x = Math.ceil(Math.random() * 10);
-        const y = Math.ceil(Math.random() * 10);
+        const x = Math.ceil(Math.random() * 9);
+        const y = Math.ceil(Math.random() * 9);
 
         return [x, y];
     };
@@ -123,7 +123,7 @@ export default function Player(name) {
         opponentBoard.receiveAttack(coord);
         player.moves.push(coord);
 
-        console.log(`randomAttack${coord}`);
+        console.log(`randomAttack: ${coord}`);
         return coord;
     };
 

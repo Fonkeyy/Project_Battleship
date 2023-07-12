@@ -197,8 +197,8 @@ export function clickCellHandler(e) {
     const x = parseInt(e.target.dataset.x);
     const y = parseInt(e.target.dataset.y);
 
-    // * Add 1 to x and y (0 index), format it and store it in a variable
-    const eventValue = [y, x];
+    // * Format and store it in a variable
+    const eventValue = [x, y];
 
     // * Dispatch formatted values through document so it can be listened and get from somewhere else
     const event = new CustomEvent('playerHasPlay', { detail: eventValue });
@@ -242,11 +242,11 @@ export function updateBoard(playerGameBoard, $board) {
 }
 
 export function updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoard) {
-    console.log({ opponentBoard });
-    console.log({ opponentMatrix });
-    console.log($opponentBoard);
+    // console.log({ opponentBoard });
+    // console.log({ opponentMatrix });
+    // console.log($opponentBoard);
     // * Select all cells from the $board
-    const $cells = $opponentBoard.querySelectorAll('.cell');
+    const $cells = $opponentBoard.querySelectorAll('.grid-cell');
 
     //* For each cell, check the value of the gameBoard matrix and add it the corresponding class, except 'occupied cells' from opponent board
     $cells.forEach((cell) => {
@@ -254,16 +254,12 @@ export function updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoar
         const columnIndex = parseInt(cell.dataset.x, 10);
 
         if (opponentBoard[rowIndex][columnIndex] === 2) {
-            console.log('hit');
             cell.classList.add('hit');
         }
         if (opponentBoard[rowIndex][columnIndex] === 3) {
-            console.log('sunk');
-
             cell.classList.add('sunk');
         }
         if (opponentMatrix[rowIndex][columnIndex]) {
-            console.log('miss');
             cell.classList.add('miss');
         }
     });
