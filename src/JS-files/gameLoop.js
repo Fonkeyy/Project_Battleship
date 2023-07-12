@@ -1,135 +1,140 @@
-// import { updateGrids } from './interfaceController';
+import { updateGrids, updateOpponentBoard } from './interfaceController';
 
 // todo => Add commentary
 
 // todo => finish implementing gameLoop and computer logic
 
-// export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
-//     const player1 = boardPlayer2.opponent;
-//     const player2 = boardPlayer1.opponent;
-//     // * Set player1 as active player
-//     player1.active = true;
-//     player2.active = false;
+export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
+    const player1 = boardPlayer2.opponentName;
+    const player2 = boardPlayer1.opponentName;
 
-//     // * Disable events listener on children of $boardPlayer1
-//     $boardPlayer1.addEventListener(
-//         'click',
-//         (event) => {
-//             event.stopPropagation();
-//         },
-//         true
-//     );
+    // * Set player1 as active player
+    player1.active = true;
+    player2.active = false;
 
-//     function playTurn() {
-//         if (boardPlayer1.checkWinner() || boardPlayer2.checkWinner()) {
-//             $boardPlayer2.addEventListener(
-//                 'click',
-//                 (event) => {
-//                     event.stopPropagation();
-//                 },
-//                 true
-//             );
-//         }
-//         if (player1.active) {
-//             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
-//         } else if (player2.active) {
-//             setTimeout(() => {
-//                 computerLogic(boardPlayer2, boardPlayer1);
+    // * Disable events listener on children of $boardPlayer1
+    $boardPlayer1.addEventListener(
+        'click',
+        (event) => {
+            event.stopPropagation();
+        },
+        true
+    );
 
-//                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
+    function playTurn() {
+        if (boardPlayer1.checkWinner() || boardPlayer2.checkWinner()) {
+            $boardPlayer2.addEventListener(
+                'click',
+                (event) => {
+                    alert('Winner');
+                    event.stopPropagation();
+                },
+                true
+            );
+        }
+        if (player1.active) {
+            console.log('player1 active');
+            document.addEventListener('playerHasPlay', handlePlayerHasPlay);
+        } else if (player2.active) {
+            console.log('player2 active');
+            setTimeout(() => {
+                computerLogic(boardPlayer2, boardPlayer1);
 
-//                 if (boardPlayer1.checkWinner()) {
-//                     // todo => add handleWin
-//                     console.log('Player 2 wins!');
-//                 }
-//             }, 0);
-//             player1.active = true;
-//             player2.active = false;
-//         }
+                updateOpponentBoard(boardPlayer2.board, boardPlayer2.matrix, $boardPlayer2);
 
-//         // * Set up a callback to continue the game loop for the next turn
-//         const clickCallback = () => {
-//             $boardPlayer1.removeEventListener('click', clickCallback);
-//             $boardPlayer2.removeEventListener('click', clickCallback);
-//             setTimeout(playTurn, 0); // * Continue the game loop asynchronously
-//         };
+                if (boardPlayer1.checkWinner()) {
+                    // todo => add handleWin
+                    alert('Player 2 wins');
 
-//         // * Set up event listener for the player's click
-//         $boardPlayer1.addEventListener('click', clickCallback);
-//         $boardPlayer2.addEventListener('click', clickCallback);
-//     }
+                    console.log('Player 2 wins!');
+                }
+            }, 0);
+            player1.active = true;
+            player2.active = false;
+        }
 
-//     const handlePlayerHasPlay = (event) => {
-//         const eventValue = event.detail;
-//         boardPlayer2.receiveAttack(eventValue);
-//         updateGrids(boardPlayer1, boardPlayer2,  $boardPlayer1, $boardPlayer2);
-//         if (boardPlayer2.checkWinner()) {
-//             // todo => add handleWin
-//             console.log('Player 1 wins!');
-//         }
+        // * Set up a callback to continue the game loop for the next turn
+        const clickCallback = () => {
+            $boardPlayer1.removeEventListener('click', clickCallback);
+            $boardPlayer2.removeEventListener('click', clickCallback);
+            setTimeout(playTurn, 0); // * Continue the game loop asynchronously
+        };
 
-//         if (!boardPlayer2.checkWinner()) {
-//             player1.active = false;
-//             player2.active = true;
-//         }
-//     };
+        // * Set up event listener for the player's click
+        $boardPlayer1.addEventListener('click', clickCallback);
+        $boardPlayer2.addEventListener('click', clickCallback);
+    }
 
-//     // * Start the game loop by calling playTurn() for the first turn
-//     playTurn();
-// }
+    const handlePlayerHasPlay = (event) => {
+        const eventValue = event.detail;
+        boardPlayer2.receiveAttack(eventValue);
+        updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+        if (boardPlayer2.checkWinner()) {
+            // todo => add handleWin
+            alert('Player 1 wins');
+            console.log('Player 1 wins!');
+        }
+
+        if (!boardPlayer2.checkWinner()) {
+            player1.active = false;
+            player2.active = true;
+        }
+    };
+
+    // * Start the game loop by calling playTurn() for the first turn
+    playTurn();
+}
 
 // todo => find a way to know the last move which has hit then nextAttack from this one
-// let computerLogic = (computerBoard, playerBoard) => {
-//     const computer = playerBoard.opponent;
+let computerLogic = (computerBoard, playerBoard) => {
+    const computer = playerBoard.opponentName;
 
-//     console.log(computer);
+    if (computer.hitList.length) {
+        const lastHitCoord = computer.hitList[computer.hitList.length - 1];
+        const lastHitX = lastHitCoord[0];
+        const lastHitY = lastHitCoord[1];
+        console.log(computer.hitList);
+        console.log(lastHitCoord);
 
-//     if (computer.hitList.length) {
-//         const lastHitCoord = computer.hitList[computer.hitList.length - 1];
-//         const lastHitX = lastHitCoord[0];
-//         const lastHitY = lastHitCoord[1];
-//         console.log(computer.hitList);
-//         console.log(lastHitCoord);
+        if (playerBoard.board[lastHitY - 1][lastHitX - 1] === 3) {
+            computer.randomAttack(playerBoard);
+        } else {
+            const possibleMoves = [];
 
-//         if (playerBoard.board[lastHitY - 1][lastHitX - 1] === 3) {
-//             computer.randomAttack(playerBoard);
-//         } else {
-//             const possibleMoves = [];
+            // Check if it's possible to attack above the last hit
+            if (lastHitY - 1 >= 1 && playerBoard.board[lastHitY - 2][lastHitX - 1] === false) {
+                possibleMoves.push([lastHitX, lastHitY - 1]);
+            }
 
-//             // Check if it's possible to attack above the last hit
-//             if (lastHitY - 1 >= 1 && playerBoard.board[lastHitY - 2][lastHitX - 1] === false) {
-//                 possibleMoves.push([lastHitX, lastHitY - 1]);
-//             }
+            // Check if it's possible to attack below the last hit
+            if (lastHitY + 1 <= 10 && playerBoard.board[lastHitY][lastHitX - 1] === false) {
+                possibleMoves.push([lastHitX, lastHitY + 1]);
+            }
 
-//             // Check if it's possible to attack below the last hit
-//             if (lastHitY + 1 <= 10 && playerBoard.board[lastHitY][lastHitX - 1] === false) {
-//                 possibleMoves.push([lastHitX, lastHitY + 1]);
-//             }
+            // Check if it's possible to attack to the left of the last hit
+            if (lastHitX - 1 >= 1 && playerBoard.board[lastHitY - 1][lastHitX - 2] === false) {
+                possibleMoves.push([lastHitX - 1, lastHitY]);
+            }
 
-//             // Check if it's possible to attack to the left of the last hit
-//             if (lastHitX - 1 >= 1 && playerBoard.board[lastHitY - 1][lastHitX - 2] === false) {
-//                 possibleMoves.push([lastHitX - 1, lastHitY]);
-//             }
+            // Check if it's possible to attack to the right of the last hit
+            if (lastHitX + 1 <= 10 && playerBoard.board[lastHitY - 1][lastHitX] === false) {
+                possibleMoves.push([lastHitX + 1, lastHitY]);
+            }
 
-//             // Check if it's possible to attack to the right of the last hit
-//             if (lastHitX + 1 <= 10 && playerBoard.board[lastHitY - 1][lastHitX] === false) {
-//                 possibleMoves.push([lastHitX + 1, lastHitY]);
-//             }
+            console.log(possibleMoves);
 
-//             console.log(possibleMoves);
-
-//             if (possibleMoves.length > 0) {
-//                 const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-//                 const [nextX, nextY] = possibleMoves[randomIndex];
-//                 computer.attack([nextX, nextY], playerBoard);
-//             } else {
-//                 computer.randomAttack(playerBoard);
-//             }
-//         }
-//     } else {
-//         computer.randomAttack(playerBoard);
-//     }
-// };
+            if (possibleMoves.length > 0) {
+                const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+                const [nextX, nextY] = possibleMoves[randomIndex];
+                computer.attack([nextX, nextY], playerBoard);
+            } else {
+                computer.randomAttack(playerBoard);
+            }
+        }
+    } else {
+        computer.randomAttack(playerBoard);
+    }
+};
 
 // let computerLogic = (computerBoard, playerBoard) => {
 //     const player = computerBoard.opponent;

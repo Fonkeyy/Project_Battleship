@@ -1,3 +1,4 @@
+import { gameLoop } from './gameLoop';
 import { gameBoardList } from './gameboardFactory';
 import { updateBoard } from './interfaceController';
 
@@ -98,14 +99,16 @@ export function dragDrop(event) {
         droppedShip.parentElement.remove();
     }
 
-    // todo => Initialize gameloop
     const shipsList = document.querySelector('#ships-list-container');
-    // const player1Board = gameBoardList[0];
-    // const player2Board = gameBoardList[1];
-    // console.log(player1Board);
-    // console.log(player2Board);
-    if (!shipsList.hasChildNodes) {
-        // gameloop();
+    const boardPlayer1 = gameBoardList[0];
+    const boardPlayer2 = gameBoardList[1];
+
+    const $boardPlayer1 = document.getElementById(boardPlayer1.id);
+    const $boardPlayer2 = document.getElementById(boardPlayer2.id);
+
+    if (!shipsList.hasChildNodes()) {
+        alert('Game start, attack enemy!');
+        gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
     }
 }
 

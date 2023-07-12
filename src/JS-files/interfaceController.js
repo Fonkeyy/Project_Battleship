@@ -1,4 +1,7 @@
 // todo => Add event listener on play vs computer btn
+import '../CSS-files/global.css';
+import '../CSS-files/home.css';
+import '../CSS-files/main-content.css';
 
 import {
     changeOrientation,
@@ -8,7 +11,7 @@ import {
     dragLeave,
     dragOver,
     dragStart,
-} from './dragAndDrop2';
+} from './dragAndDrop';
 
 // todo => Improve animation
 export const homeAnimation = () => {
@@ -66,11 +69,7 @@ export function renderBoard(gameBoard) {
             cell.dataset.y = indexRow;
             cell.id = `${indexColumn}${indexRow}`;
 
-            // * Add drag n Drop events listener
-            cell.addEventListener('dragover', dragOver);
-            cell.addEventListener('dragenter', dragEnter);
-            cell.addEventListener('dragleave', dragLeave);
-            cell.addEventListener('drop', dragDrop);
+            cell.addEventListener('click', clickCellHandler);
 
             // * Append cell to $grid
             $grid.appendChild(cell);
@@ -84,15 +83,46 @@ export function renderBoard(gameBoard) {
     return $board;
 }
 
+export function addDragAndDropEventsListener(gameBoard) {
+    const boardId = gameBoard.id;
+    const board = document.getElementById(boardId);
+
+    const cells = board.querySelectorAll('.grid-cell');
+
+    cells.forEach((cell) => {
+        // * Add drag n Drop events listener
+        cell.addEventListener('dragover', dragOver);
+        cell.addEventListener('dragenter', dragEnter);
+        cell.addEventListener('dragleave', dragLeave);
+        cell.addEventListener('drop', dragDrop);
+    });
+}
+
+export function removeDragAndDropEventsListener(gameBoard) {
+    const boardId = gameBoard.id;
+    const board = document.getElementById(boardId);
+
+    const cells = board.querySelectorAll('.grid-cell');
+
+    cells.forEach((cell) => {
+        // * Add drag n Drop events listener
+        cell.removeEventListener('dragover', dragOver);
+        cell.removeEventListener('dragenter', dragEnter);
+        cell.removeEventListener('dragleave', dragLeave);
+        cell.removeEventListener('drop', dragDrop);
+    });
+}
+
 export function displayShipsList() {
     // * Create ship Objects => names + length
-    const ships = [
-        { name: 'patrolBoat', length: 2 },
-        { name: 'destroyer', length: 3 },
-        { name: 'submarine', length: 3 },
-        { name: 'battleship', length: 4 },
-        { name: 'carrier', length: 5 },
-    ];
+    const ships = [{ name: 'carrier', length: 5 }];
+    // const ships = [
+    //     { name: 'patrolBoat', length: 2 },
+    //     { name: 'destroyer', length: 3 },
+    //     { name: 'submarine', length: 3 },
+    //     { name: 'battleship', length: 4 },
+    //     { name: 'carrier', length: 5 },
+    // ];
     // * Create and append ships-list-container
     const mainContent = document.querySelector('#main-content');
 
@@ -164,11 +194,11 @@ export function renderInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boar
 
 export function clickCellHandler(e) {
     // * Store row index and column index from cell
-    const x = parseInt(e.target.dataset.row);
-    const y = parseInt(e.target.dataset.column);
+    const x = parseInt(e.target.dataset.x);
+    const y = parseInt(e.target.dataset.y);
 
     // * Add 1 to x and y (0 index), format it and store it in a variable
-    const eventValue = [y + 1, x + 1];
+    const eventValue = [y, x];
 
     // * Dispatch formatted values through document so it can be listened and get from somewhere else
     const event = new CustomEvent('playerHasPlay', { detail: eventValue });
@@ -180,11 +210,11 @@ export function clickCellHandler(e) {
 
 export function updateGrids(playerGameBoard, opponentGameBoard, $board, $opponentBoard) {
     // * Store gameBoards matrix to variables
-    const playerMatrix = playerGameBoard.matrix,
+    const opponentMatrix = opponentGameBoard.matrix,
         opponentBoard = opponentGameBoard.board;
 
     updateBoard(playerGameBoard, $board);
-    updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard);
+    updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoard);
 }
 
 export function updateBoard(playerGameBoard, $board) {
@@ -211,22 +241,29 @@ export function updateBoard(playerGameBoard, $board) {
     });
 }
 
-export function updateOpponentBoard(opponentBoard, playerMatrix, $opponentBoard) {
+export function updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoard) {
+    console.log({ opponentBoard });
+    console.log({ opponentMatrix });
+    console.log($opponentBoard);
     // * Select all cells from the $board
     const $cells = $opponentBoard.querySelectorAll('.cell');
 
     //* For each cell, check the value of the gameBoard matrix and add it the corresponding class, except 'occupied cells' from opponent board
     $cells.forEach((cell) => {
-        const rowIndex = parseInt(cell.dataset.row, 10);
-        const columnIndex = parseInt(cell.dataset.column, 10);
+        const rowIndex = parseInt(cell.dataset.y, 10);
+        const columnIndex = parseInt(cell.dataset.x, 10);
 
         if (opponentBoard[rowIndex][columnIndex] === 2) {
+            console.log('hit');
             cell.classList.add('hit');
         }
         if (opponentBoard[rowIndex][columnIndex] === 3) {
+            console.log('sunk');
+
             cell.classList.add('sunk');
         }
-        if (playerMatrix[rowIndex][columnIndex]) {
+        if (opponentMatrix[rowIndex][columnIndex]) {
+            console.log('miss');
             cell.classList.add('miss');
         }
     });

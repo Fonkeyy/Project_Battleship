@@ -89,30 +89,26 @@ export function CreateGameBoard(playerName, opponentName) {
             // * add ship object to shipList
             gameBoard.shipsList.push(ship);
 
-            console.log(gameBoard.board);
             return ship;
         } else {
             alert('Ship must be placed within the grid');
         }
     };
 
-    // ! Fix is occupied + alerts
     gameBoard.isOccupied = ([x1, y1]) => {
-        if (gameBoard.board[y1][x1] >= 1) return true;
-
-        return false;
+        return gameBoard.board[y1][x1] >= 1 ? true : false;
     };
 
     gameBoard.receiveAttack = ([x, y]) => {
         // * Check if a ship is present on coords
-        if (gameBoard.board[y - 1][x - 1] === 1) {
+        if (gameBoard.board[y][x] === 1) {
             // * Find corresponding ship in shipList
             const ship = gameBoard.shipsList.find((ship) => {
                 return ship.coord.some(([coordX, coordY]) => coordX === x - 1 && coordY === y - 1);
             });
             // * Hit the ship, change matrix value to 'hit cell' and add coords to opponent hitList
             ship.hit();
-            gameBoard.board[y - 1][x - 1] = 2;
+            gameBoard.board[y][x] = 2;
             gameBoard.opponent.hitList.push([x, y]);
 
             // * If ship is sunk add it to the sunkList and change matrix value to 'sunk cell'
@@ -126,8 +122,8 @@ export function CreateGameBoard(playerName, opponentName) {
             }
             // * If no ship present on coords, change matrix value to 'miss cell'
         } else {
-            if (!gameBoard.matrix[y - 1][x - 1] && !gameBoard.board[y - 1][x - 1] >= 1) {
-                gameBoard.matrix[y - 1][x - 1] = true;
+            if (!gameBoard.matrix[y][x] && !gameBoard.board[y][x] >= 1) {
+                gameBoard.matrix[y][x] = true;
             }
         }
     };

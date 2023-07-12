@@ -54,7 +54,7 @@ export default function Player(name) {
         };
 
         if (!player.hitList.length) {
-            console.log('length: 0');
+            console.log('hitList.length: 0');
             getRandomDirection();
         }
 
@@ -62,7 +62,7 @@ export default function Player(name) {
         console.log(player.hitList);
 
         if (player.hitList.length) {
-            console.log('length');
+            console.log('HitList.length');
 
             const [befLastY, befLastX] = player.hitList[player.hitList.length - 2];
 
@@ -107,7 +107,6 @@ export default function Player(name) {
     };
 
     player.randomAttack = (opponentBoard) => {
-        console.log('randomAttack');
         let coord = player.randomMove();
         let x = coord[0];
         let y = coord[1];
@@ -124,11 +123,11 @@ export default function Player(name) {
         opponentBoard.receiveAttack(coord);
         player.moves.push(coord);
 
+        console.log(`randomAttack${coord}`);
         return coord;
     };
 
     player.nextAttack = (lastMove, opponentBoard) => {
-        console.log('nextAttack');
         let coord = player.nextMove(lastMove);
         let x = coord[0];
         let y = coord[1];
@@ -144,6 +143,7 @@ export default function Player(name) {
         opponentBoard.receiveAttack(coord);
         player.moves.push(coord);
 
+        console.log(`nextAttack${coord}`);
         return coord;
     };
 

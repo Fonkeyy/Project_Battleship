@@ -67,15 +67,15 @@
 }
 
 .hit {
-    background: lightcoral;
+    background: lightcoral !important;
 }
 
 .sunk {
-    background: lightgray;
+    background: lightgray !important;
 }
 
 .miss {
-    background: lightsalmon;
+    background: lightsalmon !important;
 }
 
 /* * Drag and drop */
