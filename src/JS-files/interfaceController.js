@@ -115,14 +115,13 @@ export function removeDragAndDropEventsListener(gameBoard) {
 
 export function displayShipsList() {
     // * Create ship Objects => names + length
-    const ships = [{ name: 'carrier', length: 5 }];
-    // const ships = [
-    //     { name: 'patrolBoat', length: 2 },
-    //     { name: 'destroyer', length: 3 },
-    //     { name: 'submarine', length: 3 },
-    //     { name: 'battleship', length: 4 },
-    //     { name: 'carrier', length: 5 },
-    // ];
+    const ships = [
+        { name: 'patrolBoat', length: 2 },
+        { name: 'destroyer', length: 3 },
+        { name: 'submarine', length: 3 },
+        { name: 'battleship', length: 4 },
+        { name: 'carrier', length: 5 },
+    ];
     // * Create and append ships-list-container
     const mainContent = document.querySelector('#main-content');
 

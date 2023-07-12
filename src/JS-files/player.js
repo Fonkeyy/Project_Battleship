@@ -15,96 +15,106 @@ export function Computer() {
         return [x, y];
     };
 
-    computer.nextMove = (lastMove) => {
-        let [lastY, lastX] = lastMove;
-        let nextY;
-        let nextX;
+    // // computer.isAlreadyPlayed = (move) => {
+    // //     console.log(computer.moves.some((playedMove) => move === playedMove));
+    // //     return computer.moves.some((playedMove) => move === playedMove) ? true : false;
+    // // };
 
-        const getRandomInteger = (min, max) => {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
+    // computer.nextMove = () => {
+    //     const lastMove = computer.moves[computer.moves.length - 1]
+    //     const [lastMoveX, lastMoveY] = lastMove;
 
-        const isValidMove = (y, x) => {
-            return y >= 1 && y <= 10 && x >= 1 && x <= 10;
-        };
+    //     const lastHit = computer.hitList[computer.hitList.length - 1]
+    //     const [lastHitX, lastHitY] = lastHit
 
-        const getRandomDirection = () => {
-            const randomNumber = getRandomInteger(1, 4);
-            switch (randomNumber) {
-                case 1:
-                    nextY = lastY;
-                    nextX = lastX + 1;
-                    break;
+    //     let nextY;
+    //     let nextX;
 
-                case 2:
-                    nextY = lastY;
-                    nextX = lastX - 1;
-                    break;
+    //     const getRandomInteger = (min, max) => {
+    //         return Math.floor(Math.random() * (max - min + 1)) + min;
+    //     };
 
-                case 3:
-                    nextY = lastY + 1;
-                    nextX = lastX;
-                    break;
+    //     const isValidMove = (y, x) => {
+    //         return y >= 1 && y <= 10 && x >= 1 && x <= 10;
+    //     };
 
-                case 4:
-                    nextY = lastY - 1;
-                    nextX = lastX;
-                    break;
-            }
-        };
+    //     const getRandomDirection = () => {
+    //         const randomNumber = getRandomInteger(1, 4);
+    //         switch (randomNumber) {
+    //             case 1:
+    //                 nextY = lastY;
+    //                 nextX = lastX + 1;
+    //                 break;
 
-        if (!computer.hitList.length) {
-            console.log('hitList.length: 0');
-            getRandomDirection();
-        }
+    //             case 2:
+    //                 nextY = lastY;
+    //                 nextX = lastX - 1;
+    //                 break;
 
-        console.log({ computer });
-        console.log(computer.hitList);
+    //             case 3:
+    //                 nextY = lastY + 1;
+    //                 nextX = lastX;
+    //                 break;
 
-        if (computer.hitList.length) {
-            console.log('HitList.length');
+    //             case 4:
+    //                 nextY = lastY - 1;
+    //                 nextX = lastX;
+    //                 break;
+    //         }
+    //     };
 
-            const [befLastY, befLastX] = computer.hitList[computer.hitList.length - 2];
+    //     if (!computer.hitList.length) {
+    //         console.log('hitList.length: 0');
+    //         getRandomDirection();
+    //     }
 
-            console.log({ befLastY, befLastX });
+    //     console.log({ computer });
+    //     console.log(computer.hitList);
 
-            if (lastX === befLastX) {
-                console.log('sameLastY');
-                const randomNumber = getRandomInteger(1, 2);
+    //     if (computer.hitList.length) {
+    //         console.log('HitList.length');
 
-                if (randomNumber === 1) {
-                    nextY = lastY + 1;
-                    nextX = lastX;
-                } else {
-                    nextY = lastY - 1;
-                    nextX = lastX;
-                }
-            }
+    //         const [befLastY, befLastX] = computer.hitList[computer.hitList.length - 2];
 
-            if (lastY === befLastY) {
-                console.log('sameLastX');
+    //         console.log({ befLastY, befLastX });
 
-                const randomNumber = getRandomInteger(1, 2);
+    //         if (lastX === befLastX) {
+    //             console.log('sameLastY');
+    //             const randomNumber = getRandomInteger(1, 2);
 
-                if (randomNumber === 1) {
-                    nextY = lastY;
-                    nextX = lastX + 1;
-                } else {
-                    nextY = lastY;
-                    nextX = lastX - 1;
-                }
-            }
+    //             if (randomNumber === 1) {
+    //                 nextY = lastY + 1;
+    //                 nextX = lastX;
+    //             } else {
+    //                 nextY = lastY - 1;
+    //                 nextX = lastX;
+    //             }
+    //         }
 
-            getRandomDirection();
-        }
-        if (isValidMove(nextY, nextX)) {
-            console.log('isValidMove!');
-            return [nextY, nextX];
-        } else {
-            console.log('return computer.nextMove(lastMove)');
-            return computer.nextMove(lastMove);
-        }
-    };
+    //         if (lastY === befLastY) {
+    //             console.log('sameLastX');
+
+    //             const randomNumber = getRandomInteger(1, 2);
+
+    //             if (randomNumber === 1) {
+    //                 nextY = lastY;
+    //                 nextX = lastX + 1;
+    //             } else {
+    //                 nextY = lastY;
+    //                 nextX = lastX - 1;
+    //             }
+    //         }
+
+    //         getRandomDirection();
+    //     }
+    //     if (isValidMove(nextY, nextX)) {
+    //         console.log('isValidMove!');
+    //         return [nextY, nextX];
+    //     } else {
+    //         console.log('return computer.nextMove()');
+    //         return computer.nextMove();
+    //     }
+    // };
 
     computer.randomAttack = (opponentBoard) => {
         let coord = computer.randomMove();
@@ -127,25 +137,25 @@ export function Computer() {
         return coord;
     };
 
-    computer.nextAttack = (lastMove, opponentBoard) => {
-        let coord = computer.nextMove(lastMove);
-        let x = coord[0];
-        let y = coord[1];
+    // computer.nextAttack = (lastMove, opponentBoard) => {
+    //     let coord = computer.nextMove(lastMove);
+    //     let x = coord[0];
+    //     let y = coord[1];
 
-        let coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
+    //     let coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
 
-        while (coordMatch) {
-            coord = computer.nextMove(lastMove);
-            x = coord[0];
-            y = coord[1];
-            coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
-        }
-        opponentBoard.receiveAttack(coord);
-        computer.moves.push(coord);
+    //     while (coordMatch) {
+    //         coord = computer.nextMove(lastMove);
+    //         x = coord[0];
+    //         y = coord[1];
+    //         coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
+    //     }
+    //     opponentBoard.receiveAttack(coord);
+    //     computer.moves.push(coord);
 
-        console.log(`nextAttack${coord}`);
-        return coord;
-    };
+    //     console.log(`nextAttack${coord}`);
+    //     return coord;
+    // };
 
     return computer;
 }

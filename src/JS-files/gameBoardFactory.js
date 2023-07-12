@@ -12,6 +12,11 @@ export function CreateGameBoard(playerName, opponentName) {
     // * If against computer create computer player else create human player
     gameBoard.opponentName = opponentName === 'computer' ? new Computer() : new Player(opponentName);
 
+    // * Initialize shipList to keep track of different ships
+    gameBoard.shipsList = [];
+    // * Initialize sunkList to keep track of different sunk ships
+    gameBoard.sunkList = [];
+
     // * Function matrix to keep track of player state game
     gameBoard.createBoard = () => {
         let board = [];
@@ -46,11 +51,6 @@ export function CreateGameBoard(playerName, opponentName) {
     // * Create matrices and store it in variables
     gameBoard.board = gameBoard.createBoard();
     gameBoard.matrix = gameBoard.createMatrix();
-
-    // * Initialize shipList to keep track of different ships
-    gameBoard.shipsList = [];
-    // * Initialize sunkList to keep track of different sunk ships
-    gameBoard.sunkList = [];
 
     // * Function to place ship on board
     gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
@@ -90,7 +90,6 @@ export function CreateGameBoard(playerName, opponentName) {
 
             // * add ship object to shipList
             gameBoard.shipsList.push(ship);
-
             return ship;
         } else {
             alert('Ship must be placed within the grid');
@@ -102,15 +101,13 @@ export function CreateGameBoard(playerName, opponentName) {
     };
 
     gameBoard.receiveAttack = ([x, y]) => {
-        console.log(gameBoard.opponentName);
-        console.log(gameBoard.opponentName.hitList);
         // * Check if a ship is present on coords
         if (gameBoard.board[y][x] === 1) {
             // * Find corresponding ship in shipList
             const ship = gameBoard.shipsList.find((ship) => {
-                console.log(ship);
                 return ship.coord.some(([coordX, coordY]) => coordX === x && coordY === y);
             });
+            console.log(ship);
             // * Hit the ship, change matrix value to 'hit cell' and add coords to opponent hitList
             ship.hit();
             gameBoard.board[y][x] = 2;
@@ -129,6 +126,7 @@ export function CreateGameBoard(playerName, opponentName) {
         } else {
             if (!gameBoard.matrix[y][x] && !gameBoard.board[y][x] >= 1) {
                 gameBoard.matrix[y][x] = true;
+                gameBoard.opponentName.moves.push([x, y]);
             }
         }
     };

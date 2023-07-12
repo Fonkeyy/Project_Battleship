@@ -91,43 +91,78 @@ let computerLogic = (computerBoard, playerBoard) => {
     console.log(computer);
 
     if (computer.hitList.length) {
-        const lastHitCoord = computer.hitList[computer.hitList.length - 1];
-        const lastHitX = lastHitCoord[0];
-        const lastHitY = lastHitCoord[1];
-        console.log(computer.hitList);
-        console.log(lastHitCoord);
+        // const lastMove = computer.moves[computer.moves.length - 1]
+        // const lastMoveX = lastMove[0];
+        // const  lastMoveY = lastMove[1];
+
+        const lastHit = computer.hitList[computer.hitList.length - 1];
+        const lastHitX = lastHit[0];
+        const lastHitY = lastHit[1];
 
         if (playerBoard.board[lastHitY][lastHitX] === 3) {
             computer.randomAttack(playerBoard);
         } else {
             const possibleMoves = [];
 
-            // Check if it's possible to attack above the last hit
-            if (lastHitY - 1 >= 0 && playerBoard.board[lastHitY - 2][lastHitX - 1] === false) {
-                possibleMoves.push([lastHitX, lastHitY - 1]);
+            if (possibleMoves.length === 0) {
+                // Check if it's possible to attack above the last hit
+                if (
+                    lastHitY - 1 >= 0 &&
+                    (playerBoard.board[lastHitY - 1][lastHitX] === false ||
+                        playerBoard.board[lastHitY - 1][lastHitX] === 1)
+                ) {
+                    // // if (computer.isAlreadyPlayed([lastHitX, lastHitY - 1])) {
+                    // //     return;
+                    // // }
+                    possibleMoves.push([lastHitX, lastHitY - 1]);
+                    // // console.log([lastHitX, lastHitY - 1]);
+                }
+
+                // Check if it's possible to attack below the last hit
+                if (
+                    lastHitY + 1 <= 9 &&
+                    (playerBoard.board[lastHitY + 1][lastHitX] === false ||
+                        playerBoard.board[lastHitY + 1][lastHitX] === 1)
+                ) {
+                    // // if (computer.isAlreadyPlayed([lastHitX, lastHitY + 1])) {
+                    // //     return;
+                    // // }
+                    possibleMoves.push([lastHitX, lastHitY + 1]);
+                    // // console.log([lastHitX, lastHitY + 1]);
+                }
+
+                // Check if it's possible to attack to the left of the last hit
+                if (
+                    lastHitX - 1 >= 0 &&
+                    (playerBoard.board[lastHitY][lastHitX - 1] === false ||
+                        playerBoard.board[lastHitY][lastHitX - 1] === 1)
+                ) {
+                    // // if (computer.isAlreadyPlayed([lastHitX - 1, lastHitY])) {
+                    // //     return;
+                    // // }
+                    possibleMoves.push([lastHitX - 1, lastHitY]);
+                    // // console.log([lastHitX - 1, lastHitY]);
+                }
+
+                // Check if it's possible to attack to the right of the last hit
+                if (
+                    lastHitX + 1 <= 9 &&
+                    (playerBoard.board[lastHitY][lastHitX + 1] === false ||
+                        playerBoard.board[lastHitY][lastHitX + 1] === 1)
+                ) {
+                    // // if (computer.isAlreadyPlayed([lastHitX + 1, lastHitY])) {
+                    // //     return;
+                    // // }
+                    possibleMoves.push([lastHitX + 1, lastHitY]);
+                    // // console.log([lastHitX + 1, lastHitY]);
+                }
             }
-
-            // Check if it's possible to attack below the last hit
-            if (lastHitY + 1 <= 9 && playerBoard.board[lastHitY][lastHitX - 1] === false) {
-                possibleMoves.push([lastHitX, lastHitY + 1]);
-            }
-
-            // Check if it's possible to attack to the left of the last hit
-            if (lastHitX - 1 >= 0 && playerBoard.board[lastHitY - 1][lastHitX - 2] === false) {
-                possibleMoves.push([lastHitX - 1, lastHitY]);
-            }
-
-            // Check if it's possible to attack to the right of the last hit
-            if (lastHitX + 1 <= 9 && playerBoard.board[lastHitY - 1][lastHitX] === false) {
-                possibleMoves.push([lastHitX + 1, lastHitY]);
-            }
-
-            console.log(possibleMoves);
-
             if (possibleMoves.length > 0) {
                 const randomIndex = Math.floor(Math.random() * possibleMoves.length);
                 const [nextX, nextY] = possibleMoves[randomIndex];
                 computer.attack([nextX, nextY], playerBoard);
+                possibleMoves.splice(randomIndex, 1);
+                console.log(possibleMoves);
             } else {
                 computer.randomAttack(playerBoard);
             }
