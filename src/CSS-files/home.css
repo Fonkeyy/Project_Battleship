@@ -1,8 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo+Black&family=Bagel+Fat+One&family=Luckiest+Guy&family=Passion+One&family=Patua+One&family=Paytone+One&family=Righteous&family=Rowdies&family=Russo+One&family=Ultra&display=swap&family=Kanit:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 /* todo => Fix animation h1 + start-container */
 
 h1 {
+    font-family: 'Russo One', sans-serif;
+    /* font-family: 'Alfa Slab One', cursive; */
+    /* font-family: 'Bagel Fat One', cursive; */
+    /* font-family: 'Luckiest Guy', cursive; */
+    /* font-family: 'Paytone One', sans-serif; */
+    /* font-family: 'Righteous', cursive; */
+    /* font-family: 'Rowdies', cursive; ! */
+    /* font-family: 'Ultra', serif; */
     text-align: center;
+    font-size: 2.5rem;
     transform: translateY(-10vh);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(27deg, #b80c09, #040f16, #0b4f6c, #040f16, #b80c09);
 }
 
 #start-container {
@@ -36,10 +53,13 @@ h1 {
 }
 
 .input-name {
-    font-family: inherit;
+    font-family: 'Kanit', sans-serif;
     width: 100%;
     border: 0;
     border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    border-image: linear-gradient(27deg, #b80c09, #040f16, #0b4f6c, #040f16, #b80c09);
+    border-image-slice: 1;
+
     outline: 0;
     font-size: 1rem;
     color: white;
@@ -53,8 +73,10 @@ h1 {
 }
 
 .input-name:placeholder-shown ~ .form-label {
+    /* font-family: 'Kanit', sans-serif; */
+    font-family: 'Orbitron', sans-serif;
     padding-left: 3px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: text;
     top: 0.9rem;
     color: white;
