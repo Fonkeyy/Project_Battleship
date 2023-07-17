@@ -2,9 +2,7 @@ import { ComputerGameLoop } from './gameLoop';
 import { gameBoardList } from './gameboardFactory';
 import { updateBoard } from './interfaceController';
 
-// ? => Make sure to use the center of the element instead of where the click happened while dragging
-
-export function changeOrientation(event) {
+const changeOrientation = (event) => {
     if (event.target.dataset.orientation === 'horizontal') {
         event.target.dataset.orientation = 'vertical';
         event.target.classList.add('rotate90deg');
@@ -12,9 +10,9 @@ export function changeOrientation(event) {
         event.target.dataset.orientation = 'horizontal';
         event.target.classList.remove('rotate90deg');
     }
-}
+};
 
-export function dragStart(event) {
+const dragStart = (event) => {
     // * Get dragged ship and remove SVG from it
     const target = event.target;
     target.classList.remove('ship-svg');
@@ -48,23 +46,23 @@ export function dragStart(event) {
 
         event.dataTransfer.setDragImage(target, 0, height / 2);
     }
-}
+};
 
-export function dragOver(event) {
+const dragOver = (event) => {
     event.preventDefault();
-}
+};
 
-export function dragEnter(event) {
+const dragEnter = (event) => {
     event.preventDefault();
     event.target.classList.add('drag-over');
-}
+};
 
-export function dragLeave(event) {
+const dragLeave = (event) => {
     event.preventDefault();
     event.target.classList.remove('drag-over');
-}
+};
 
-export function dragDrop(event) {
+const dragDrop = (event) => {
     event.preventDefault();
 
     // * Get the$grid parent element of cells which have the drop event listener
@@ -114,9 +112,9 @@ export function dragDrop(event) {
         }
         // gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
     }
-}
+};
 
-export function dragEnd(event) {
+const dragEnd = (event) => {
     // * Clear transfer data and CSS
     event.dataTransfer.clearData();
     event.target.classList.remove('dragging-ship');
@@ -126,4 +124,6 @@ export function dragEnd(event) {
         event.target.firstChild.remove();
     }
     event.target.classList.add('ship-svg');
-}
+};
+
+export { changeOrientation, dragStart, dragOver, dragEnter, dragLeave, dragDrop, dragEnd };

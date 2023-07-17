@@ -1,7 +1,3 @@
-import '../CSS-files/global.css';
-import '../CSS-files/home.css';
-import '../CSS-files/main-content.css';
-
 import {
     changeOrientation,
     dragDrop,
@@ -11,9 +7,10 @@ import {
     dragOver,
     dragStart,
 } from './dragAndDrop';
+import { shipsData } from './helpers';
 
 // todo => Improve animation
-export const homeAnimation = () => {
+const homeAnimation = () => {
     const startContainer = document.querySelector('#start-container');
     const h1 = document.querySelector('h1');
     setTimeout(() => {
@@ -26,7 +23,7 @@ export const homeAnimation = () => {
 };
 
 // * Create DOM gameBoard from gameBoard object
-export function renderBoard(gameBoard) {
+const renderBoard = (gameBoard) => {
     // * Create variable to store gameBoard object 'player' matrix
     const board = gameBoard.board,
         // * Create div elements to display matrix in the DOM
@@ -80,9 +77,9 @@ export function renderBoard(gameBoard) {
     // * Append $grid to $board and return $board
     $board.appendChild($grid);
     return $board;
-}
+};
 
-export function addDragAndDropEventsListener(gameBoard) {
+const addDragAndDropEventsListener = (gameBoard) => {
     const boardId = gameBoard.id;
     const board = document.getElementById(boardId);
 
@@ -95,9 +92,9 @@ export function addDragAndDropEventsListener(gameBoard) {
         cell.addEventListener('dragleave', dragLeave);
         cell.addEventListener('drop', dragDrop);
     });
-}
+};
 
-export function removeDragAndDropEventsListener(gameBoard) {
+const removeDragAndDropEventsListener = (gameBoard) => {
     const boardId = gameBoard.id;
     const board = document.getElementById(boardId);
 
@@ -110,17 +107,11 @@ export function removeDragAndDropEventsListener(gameBoard) {
         cell.removeEventListener('dragleave', dragLeave);
         cell.removeEventListener('drop', dragDrop);
     });
-}
+};
 
-export function displayShipsList() {
+const displayShipsList = () => {
     // * Create ship Objects => names + length
-    const ships = [
-        { name: 'patrolBoat', length: 2 },
-        { name: 'destroyer', length: 3 },
-        { name: 'submarine', length: 3 },
-        { name: 'battleship', length: 4 },
-        { name: 'carrier', length: 5 },
-    ];
+    const ships = shipsData;
     // * Create and append ships-list-container
     const mainContent = document.querySelector('#main-content');
 
@@ -155,9 +146,9 @@ export function displayShipsList() {
         shipContainer.append(shipSvg, shipLabel);
         shipsListContainer.appendChild(shipContainer);
     }
-}
+};
 
-export function renderInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
+const renderInterface = (boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) => {
     // * Select main
     const main = document.querySelector('main');
 
@@ -188,9 +179,9 @@ export function renderInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boar
     $boardsContainer.append(player2Name, $boardPlayer2, player1Name, $boardPlayer1);
 
     updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
-}
+};
 
-export function clickCellHandler(e) {
+const clickCellHandler = (e) => {
     // * Store row index and column index from cell
     const x = parseInt(e.target.dataset.x);
     const y = parseInt(e.target.dataset.y);
@@ -213,18 +204,18 @@ export function clickCellHandler(e) {
 
     // * Once the cell is clicked, remove click event listener from it
     e.target.removeEventListener('click', clickCellHandler);
-}
+};
 
-export function updateGrids(playerGameBoard, opponentGameBoard, $board, $opponentBoard) {
+const updateGrids = (playerGameBoard, opponentGameBoard, $board, $opponentBoard) => {
     // * Store gameBoards matrix to variables
     const opponentMatrix = opponentGameBoard.matrix,
         opponentBoard = opponentGameBoard.board;
 
     updateBoard(playerGameBoard, $board);
     updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoard);
-}
+};
 
-export function updateBoard(playerGameBoard, $board) {
+const updateBoard = (playerGameBoard, $board) => {
     const board = playerGameBoard.board;
     // * Select all cells from the $board
     const $cells = $board.querySelectorAll('.grid-cell');
@@ -246,9 +237,9 @@ export function updateBoard(playerGameBoard, $board) {
             cell.classList.remove('occupied', 'hit', 'sunk');
         }
     });
-}
+};
 
-export function updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoard) {
+const updateOpponentBoard = (opponentBoard, opponentMatrix, $opponentBoard) => {
     // console.log({ opponentBoard });
     // console.log({ opponentMatrix });
     // console.log($opponentBoard);
@@ -270,4 +261,17 @@ export function updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoar
             cell.classList.add('miss');
         }
     });
-}
+};
+
+export {
+    homeAnimation,
+    renderBoard,
+    addDragAndDropEventsListener,
+    removeDragAndDropEventsListener,
+    displayShipsList,
+    renderInterface,
+    clickCellHandler,
+    updateGrids,
+    updateBoard,
+    updateOpponentBoard,
+};

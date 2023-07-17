@@ -1,4 +1,4 @@
-export default function CreateShip(length) {
+export default function Ship(length) {
     const ship = {};
 
     ship.length = length;

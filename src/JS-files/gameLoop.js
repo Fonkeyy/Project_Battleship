@@ -1,92 +1,7 @@
 // // import { gameBoardList } from './gameboardFactory';
-import { shipsData, getRandomCoords, getRandomInteger } from './helpers';
 import { updateGrids, updateOpponentBoard } from './interfaceController';
 
 // todo => Add commentary
-
-function randomPlaceShip(ship, board) {
-    let [x1, y1] = getRandomCoords();
-    let randomInt = getRandomInteger(2);
-
-    let isOccupied;
-
-    if (randomInt === 1) {
-        if (x1 + ship.length <= 9) {
-            for (let i = 0; i < ship.length; i++) {
-                if (board.isOccupied([y1, x1 + i])) {
-                    isOccupied = true;
-                }
-            }
-            if (isOccupied) {
-                isOccupied = false;
-                randomPlaceShip(ship, board);
-            } else {
-                board.placeShip([x1, y1], [x1 + ship.length, y1]);
-            }
-        }
-    }
-    if (randomInt === 2) {
-        if (y1 + ship.length <= 9) {
-            for (let i = 0; i < ship.length; i++) {
-                if (board.isOccupied([y1 + i, x1])) {
-                    isOccupied = true;
-                }
-            }
-            if (isOccupied) {
-                isOccupied = false;
-                randomPlaceShip(ship, board);
-            } else {
-                board.placeShip([x1, y1], [x1, y1 + ship.length]);
-            }
-        }
-    }
-}
-
-export function randomPlaceShips(board) {
-    const ships = shipsData;
-
-    // todo => Finish implement randomPlaceSips
-    for (const ship of ships) {
-        console.log(ship);
-        randomPlaceShip(ship, board);
-    }
-    console.log(board);
-}
-// export function randomPlaceShips(board) {
-//     const ships = shipsData;
-
-//     // todo => Finish implement randomPlaceSips
-//     for (const ship of ships) {
-//         let [x1, y1] = getRandomCoords();
-//         let randomInt = getRandomInteger(2);
-
-//         if (randomInt === 1) {
-//             if (x1 + ship.length <= 9) {
-//                 for (let i = 0; i < ship.length; i++) {
-//                     if (board.isOccupied([y1, x1 + i])) {
-//                         [x1, y1] = getRandomCoords();
-//         randomInt = getRandomInteger(2);
-
-//                     }
-//                 }
-//                 board.placeShip([x1, y1], [x1 + ship.length, y1]);
-//                 ships.shift();
-//             }
-//         }
-//         if (randomInt === 2) {
-//             if (y1 + ship.length <= 9) {
-//                 for (let i = 0; i < ship.length; i++) {
-//                     if (board.isOccupied([y1 + i, x1])) {
-//                         randomPlaceShips();
-//                     }
-//                 }
-//                 board.placeShip([x1, y1], [x1, y1 + ship.length]);
-//                 ships.shift();
-//             }
-//         }
-//     }
-//     console.log(board);
-// }
 
 export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $computer) {
     const player1 = computer.opponentName;
@@ -148,8 +63,9 @@ export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $compute
     }
 
     const handlePlayerHasPlay = (event) => {
-        const eventValue = event.detail;
+        const eventValue = event.detail.eventValue;
         computer.receiveAttack(eventValue);
+        console.log(eventValue);
         updateGrids(boardPlayer1, computer, $boardPlayer1, $computer);
         if (computer.checkWinner()) {
             // todo => add handleWin => restart btn

@@ -1,4 +1,4 @@
-export function Computer() {
+function Computer() {
     const computer = {};
     computer.name = 'computer';
     computer.moves = [];
@@ -40,7 +40,7 @@ export function Computer() {
     return computer;
 }
 
-export default function Player(name) {
+function Player(name) {
     const player = {};
     player.name = name;
     player.moves = [];
@@ -52,3 +52,5 @@ export default function Player(name) {
 
     return player;
 }
+
+export { Computer, Player };

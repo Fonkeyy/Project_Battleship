@@ -10,7 +10,6 @@ import {
     addDragAndDropEventsListener,
 } from './JS-files/interfaceController';
 import { CreateGameBoard } from './JS-files/gameboardFactory';
-import { randomPlaceShips } from './JS-files/gameLoop';
 
 // * Select DOM btns and store it in variables
 const StartGameBtn = document.querySelector('#start-game-btn');
@@ -37,8 +36,6 @@ const handleStartGameBtn = () => {
         const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, inputPlayer2);
         const gameBoardPlayer2 = CreateGameBoard(inputPlayer2, inputPlayer1);
 
-        gameBoardPlayer2.placeShip([0, 0], [0, 3]);
-
         // * Create $Boards with GameBoard objects as parameters
         const $boardPlayer1 = renderBoard(gameBoardPlayer1);
         const $boardPlayer2 = renderBoard(gameBoardPlayer2);
@@ -64,8 +61,6 @@ const handleStartComputerBtn = () => {
         const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, inputPlayer2);
         const computerBoard = CreateGameBoard(inputPlayer2, inputPlayer1);
 
-        computerBoard.placeShip([0, 0], [0, 3]);
-
         // * Create $Boards with GameBoard objects as parameters
         const $boardPlayer1 = renderBoard(gameBoardPlayer1);
         const $boardComputer = renderBoard(computerBoard);
@@ -77,7 +72,8 @@ const handleStartComputerBtn = () => {
         addDragAndDropEventsListener(gameBoardPlayer1);
         StartGameBtn.value = 'Restart';
         StartGameBtn.dataset.gameStarted = 'true';
-        randomPlaceShips(computerBoard);
+        computerBoard.randomPlaceFleet();
+        console.log(computerBoard);
     }
 };
 const handleRestartGame = () => {

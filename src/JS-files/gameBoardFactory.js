@@ -1,10 +1,11 @@
-import Player, { Computer } from './player';
-import CreateShip from './shipsFactory';
+import { getRandomCoords, getRandomInteger, shipsData } from './helpers';
+import { Computer, Player } from './player';
+import Ship from './shipsFactory';
 
 // * Initialize gameBoardList to keep track of different gameBoard
-export const gameBoardList = [];
+const gameBoardList = [];
 
-export function CreateGameBoard(playerName, opponentName) {
+const CreateGameBoard = (playerName, opponentName) => {
     // * Initialize gameBoard Object and add it ID
     const gameBoard = {};
     gameBoard.id = playerName;
@@ -54,51 +55,55 @@ export function CreateGameBoard(playerName, opponentName) {
 
     // * Function to place ship on board
     gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
-        console.log([x1, y1], [x2, y2]);
         if (x2 <= 9 && x2 >= 0 && y2 <= 9 && y2 >= 0) {
             // * Get ship length
             const length = gameBoard.shipLength([x1, y1], [x2, y2]);
 
             // * Create ship
-            const ship = CreateShip(length);
+            const ship = new Ship(length);
+
+            let validPlacement = true;
 
             // * Check if the ship is placed vertically or horizontally depending if same X or Y
             if (y1 === y2) {
                 for (let i = 0; i < length; i++) {
-                    // * If cell is free
-                    if (!gameBoard.isOccupied([x1 + i, y1])) {
+                    // * If cell is occupied
+                    if (gameBoard.isOccupied([x1 + i, y1])) {
+                        validPlacement = false;
+                        break;
+                    } else {
                         // * Define it as occupied
                         gameBoard.board[y1][x1 + i] = 1;
                         // * Add coords to ship object
                         ship.coord.push([x1 + i, y1]);
-                    } else {
-                        alert('Cell is already occupied');
-                        return;
                     }
                 }
             }
             if (x1 === x2) {
                 for (let i = 0; i < length; i++) {
-                    if (!gameBoard.isOccupied([x1, y1 + i])) {
+                    if (gameBoard.isOccupied([x1, y1 + i])) {
+                        validPlacement = false;
+                        break;
+                    } else {
                         gameBoard.board[y1 + i][x1] = 1;
                         ship.coord.push([x1, y1 + i]);
-                    } else {
-                        alert('Cell is already occupied');
-                        return;
                     }
                 }
             }
-
-            // * add ship object to shipList
-            gameBoard.shipsList.push(ship);
-            return ship;
-        } else {
+            if (validPlacement) {
+                // * add ship object to shipList
+                gameBoard.shipsList.push(ship);
+                return ship;
+            } else if (gameBoard.id !== 'computer') {
+                alert('Cell is already occupied');
+            }
+        } else if (gameBoard.id !== 'computer') {
             alert('Ship must be placed within the grid');
         }
     };
 
     gameBoard.isOccupied = ([x1, y1]) => {
-        return gameBoard.board[y1][x1] >= 1 ? true : false;
+        return gameBoard.board[y1][x1] >= 1;
     };
 
     gameBoard.receiveAttack = ([x, y]) => {
@@ -108,7 +113,6 @@ export function CreateGameBoard(playerName, opponentName) {
             const ship = gameBoard.shipsList.find((ship) => {
                 return ship.coord.some(([coordX, coordY]) => coordX === x && coordY === y);
             });
-            console.log(ship);
             // * Hit the ship, change matrix value to 'hit cell' and add coords to opponent hitList
             ship.hit();
             gameBoard.board[y][x] = 2;
@@ -133,7 +137,7 @@ export function CreateGameBoard(playerName, opponentName) {
     };
 
     gameBoard.checkWinner = () => {
-        return gameBoard.shipsList.length === gameBoard.sunkList.length ? true : false;
+        return gameBoard.shipsList.length === gameBoard.sunkList.length;
     };
 
     gameBoard.reset = () => {
@@ -141,7 +145,37 @@ export function CreateGameBoard(playerName, opponentName) {
         gameBoard.matrix = gameBoard.createMatrix();
     };
 
+    gameBoard.randomPlaceShip = (ship) => {
+        // * Get random coords and random between 1 and 2, initialize placedShip flag
+        let [x1, y1] = getRandomCoords();
+        let randomInt = getRandomInteger(2);
+        let placedShip = false;
+
+        // * Place ship vertically or horizontally randomly
+        if (randomInt === 1) {
+            placedShip = gameBoard.placeShip([x1, y1], [x1 + ship.length - 1, y1]);
+        } else if (randomInt === 2) {
+            placedShip = gameBoard.placeShip([x1, y1], [x1, y1 + ship.length - 1]);
+        }
+        // * If placeShip is not valid rerun the function
+        if (!placedShip) {
+            gameBoard.randomPlaceShip(ship);
+        }
+    };
+
+    gameBoard.randomPlaceFleet = () => {
+        // * Get the data
+        const ships = shipsData;
+
+        // * For each ship in shipsData call randomPlaceShip function
+        for (const ship of ships) {
+            gameBoard.randomPlaceShip(ship);
+        }
+    };
+
     // * Push gameBoard to gameBoardList and return it
     gameBoardList.push(gameBoard);
     return gameBoard;
-}
+};
+
+export { gameBoardList, CreateGameBoard };

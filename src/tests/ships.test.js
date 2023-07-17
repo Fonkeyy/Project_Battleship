@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 
-import CreateShip from '../JS-files/shipsFactory';
+import Ship from '../JS-files/shipsFactory';
 
-const ship1 = CreateShip(2);
+const ship1 = Ship(2);
 
 describe('ships.js', () => {
     test('ship hit', () => {
