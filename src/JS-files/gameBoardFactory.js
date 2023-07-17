@@ -5,7 +5,7 @@ import Ship from './shipsFactory';
 // * Initialize gameBoardList to keep track of different gameBoard
 const gameBoardList = [];
 
-const CreateGameBoard = (playerName, opponentName) => {
+const GameBoard = (playerName, opponentName) => {
     // * Initialize gameBoard Object and add it ID
     const gameBoard = {};
     gameBoard.id = playerName;
@@ -60,7 +60,7 @@ const CreateGameBoard = (playerName, opponentName) => {
             const length = gameBoard.shipLength([x1, y1], [x2, y2]);
 
             // * Create ship
-            const ship = new Ship(length);
+            const ship = Ship(length);
 
             let validPlacement = true;
 
@@ -113,6 +113,8 @@ const CreateGameBoard = (playerName, opponentName) => {
             const ship = gameBoard.shipsList.find((ship) => {
                 return ship.coord.some(([coordX, coordY]) => coordX === x && coordY === y);
             });
+            console.log(gameBoard.shipsList);
+            console.log(ship);
             // * Hit the ship, change matrix value to 'hit cell' and add coords to opponent hitList
             ship.hit();
             gameBoard.board[y][x] = 2;
@@ -145,6 +147,7 @@ const CreateGameBoard = (playerName, opponentName) => {
         gameBoard.matrix = gameBoard.createMatrix();
     };
 
+    // todo =>
     gameBoard.randomPlaceShip = (ship) => {
         // * Get random coords and random between 1 and 2, initialize placedShip flag
         let [x1, y1] = getRandomCoords();
@@ -178,4 +181,4 @@ const CreateGameBoard = (playerName, opponentName) => {
     return gameBoard;
 };
 
-export { gameBoardList, CreateGameBoard };
+export { gameBoardList, GameBoard };

@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 
-import CreateGameBoard from '../JS-files/gameboardFactory';
+import GameBoard from '../JS-files/gameboardFactory';
 
-const gameBoard = CreateGameBoard();
+const gameBoard = GameBoard();
 
 describe('gameBoard.js', () => {
     test.only('board length', () => {

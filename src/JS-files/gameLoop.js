@@ -3,7 +3,7 @@ import { updateGrids, updateOpponentBoard } from './interfaceController';
 
 // todo => Add commentary
 
-export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $computer) {
+const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
     const player1 = computer.opponentName;
     const player2 = boardPlayer1.opponentName;
 
@@ -65,7 +65,6 @@ export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $compute
     const handlePlayerHasPlay = (event) => {
         const eventValue = event.detail.eventValue;
         computer.receiveAttack(eventValue);
-        console.log(eventValue);
         updateGrids(boardPlayer1, computer, $boardPlayer1, $computer);
         if (computer.checkWinner()) {
             // todo => add handleWin => restart btn
@@ -81,12 +80,12 @@ export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $compute
 
     // * Start the game loop by calling playTurn() for the first turn
     playTurn();
-}
+};
 
 // * Initialize list of possible moves.
 let possibleMoves = [];
 
-let computerLogic = (computerBoard, playerBoard) => {
+const computerLogic = (computerBoard, playerBoard) => {
     const computer = playerBoard.opponentName;
 
     if (computer.hitList.length) {
@@ -148,6 +147,8 @@ let computerLogic = (computerBoard, playerBoard) => {
         computer.randomAttack(playerBoard);
     }
 };
+
+export { ComputerGameLoop, computerLogic };
 
 // todo => Finish implement 2 players mode
 // // export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {

@@ -9,7 +9,7 @@ import {
     homeAnimation,
     addDragAndDropEventsListener,
 } from './JS-files/interfaceController';
-import { CreateGameBoard } from './JS-files/gameboardFactory';
+import { GameBoard } from './JS-files/gameboardFactory';
 
 // * Select DOM btns and store it in variables
 const StartGameBtn = document.querySelector('#start-game-btn');
@@ -33,8 +33,8 @@ const handleStartGameBtn = () => {
         const inputPlayer2 = document.querySelector('#input-player-2').value || 'Player 2';
 
         // * Create GameBoard objects with players name as parameters
-        const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, inputPlayer2);
-        const gameBoardPlayer2 = CreateGameBoard(inputPlayer2, inputPlayer1);
+        const gameBoardPlayer1 = GameBoard(inputPlayer1, inputPlayer2);
+        const gameBoardPlayer2 = GameBoard(inputPlayer2, inputPlayer1);
 
         // * Create $Boards with GameBoard objects as parameters
         const $boardPlayer1 = renderBoard(gameBoardPlayer1);
@@ -58,8 +58,8 @@ const handleStartComputerBtn = () => {
         const inputPlayer2 = 'computer';
 
         // * Create GameBoard objects with players name as parameters
-        const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, inputPlayer2);
-        const computerBoard = CreateGameBoard(inputPlayer2, inputPlayer1);
+        const gameBoardPlayer1 = GameBoard(inputPlayer1, inputPlayer2);
+        const computerBoard = GameBoard(inputPlayer2, inputPlayer1);
 
         // * Create $Boards with GameBoard objects as parameters
         const $boardPlayer1 = renderBoard(gameBoardPlayer1);
