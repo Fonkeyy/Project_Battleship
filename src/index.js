@@ -10,6 +10,7 @@ import {
     addDragAndDropEventsListener,
 } from './JS-files/interfaceController';
 import { CreateGameBoard } from './JS-files/gameboardFactory';
+import { randomPlaceShips } from './JS-files/gameLoop';
 
 // * Select DOM btns and store it in variables
 const StartGameBtn = document.querySelector('#start-game-btn');
@@ -17,50 +18,51 @@ const StartComputerBtn = document.querySelector('#start-computer-btn');
 
 // * Add events listener with handlers function.
 
-// // StartGameBtn.addEventListener('click', () => {
-// //     handleStartGameBtn();
-// // });
+StartGameBtn.addEventListener('click', () => {
+    handleStartGameBtn();
+});
 
 StartComputerBtn.addEventListener('click', () => {
     handleStartComputerBtn();
 });
 
-// // const handleStartGameBtn = () => {
-// //     if (StartGameBtn.dataset.gameStarted === 'true') {
-// //         handleRestartGame();
-// //     } else {
-// //         const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1';
-// //         const inputPlayer2 = document.querySelector('#input-player-2').value || 'Player 2';
+const handleStartGameBtn = () => {
+    if (StartGameBtn.dataset.gameStarted === 'true') {
+        handleRestartGame();
+    } else {
+        const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1';
+        const inputPlayer2 = document.querySelector('#input-player-2').value || 'Player 2';
 
-// //         // * Create GameBoard objects with players name as parameters
-// //         const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, inputPlayer2);
-// //         const gameBoardPlayer2 = CreateGameBoard(inputPlayer2, inputPlayer1);
+        // * Create GameBoard objects with players name as parameters
+        const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, inputPlayer2);
+        const gameBoardPlayer2 = CreateGameBoard(inputPlayer2, inputPlayer1);
 
-// //         gameBoardPlayer2.placeShip([0, 0], [0, 3]);
+        gameBoardPlayer2.placeShip([0, 0], [0, 3]);
 
-// //         // * Create $Boards with GameBoard objects as parameters
-// //         const $boardPlayer1 = renderBoard(gameBoardPlayer1);
-// //         const $boardPlayer2 = renderBoard(gameBoardPlayer2);
+        // * Create $Boards with GameBoard objects as parameters
+        const $boardPlayer1 = renderBoard(gameBoardPlayer1);
+        const $boardPlayer2 = renderBoard(gameBoardPlayer2);
 
-// //         // * Set up interface, close dialog, change start btn value and its dataset.gameStarted to true
-// //         homeAnimation();
-// //         renderInterface(gameBoardPlayer1, gameBoardPlayer2, $boardPlayer1, $boardPlayer2);
-// //         displayShipsList();
-// //         addDragAndDropEventsListener(gameBoardPlayer1);
-// //         StartGameBtn.value = 'Restart';
-// //         StartGameBtn.dataset.gameStarted = 'true';
-// //     }
-// // };
+        // * Set up interface, close dialog, change start btn value and its dataset.gameStarted to true
+        homeAnimation();
+        renderInterface(gameBoardPlayer1, gameBoardPlayer2, $boardPlayer1, $boardPlayer2);
+        displayShipsList();
+        addDragAndDropEventsListener(gameBoardPlayer1);
+        StartGameBtn.value = 'Restart';
+        StartGameBtn.dataset.gameStarted = 'true';
+    }
+};
 
 const handleStartComputerBtn = () => {
     if (StartGameBtn.dataset.gameStarted === 'true') {
         handleRestartGame();
     } else {
         const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1';
+        const inputPlayer2 = 'computer';
 
         // * Create GameBoard objects with players name as parameters
-        const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, 'computer');
-        const computerBoard = CreateGameBoard('computer', inputPlayer1);
+        const gameBoardPlayer1 = CreateGameBoard(inputPlayer1, inputPlayer2);
+        const computerBoard = CreateGameBoard(inputPlayer2, inputPlayer1);
 
         computerBoard.placeShip([0, 0], [0, 3]);
 
@@ -75,6 +77,7 @@ const handleStartComputerBtn = () => {
         addDragAndDropEventsListener(gameBoardPlayer1);
         StartGameBtn.value = 'Restart';
         StartGameBtn.dataset.gameStarted = 'true';
+        randomPlaceShips(computerBoard);
     }
 };
 const handleRestartGame = () => {

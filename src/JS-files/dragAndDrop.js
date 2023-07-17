@@ -82,7 +82,6 @@ export function dragDrop(event) {
     const droppedShipOrientation = event.dataTransfer.getData('orientation');
 
     // * Get target element + row and column number
-    // const targetCell = event.target;
     const targetX = Number(event.target.dataset.x);
     const targetY = Number(event.target.dataset.y);
 
@@ -110,7 +109,10 @@ export function dragDrop(event) {
     if (!shipsList.hasChildNodes()) {
         alert('Game start, attack enemy!');
 
-        ComputerGameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+        if (boardPlayer2.id === 'computer') {
+            ComputerGameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+        }
+        // gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
     }
 }
 

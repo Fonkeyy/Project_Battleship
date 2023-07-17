@@ -1,8 +1,92 @@
+// // import { gameBoardList } from './gameboardFactory';
+import { shipsData, getRandomCoords, getRandomInteger } from './helpers';
 import { updateGrids, updateOpponentBoard } from './interfaceController';
 
 // todo => Add commentary
 
-// todo => finish implementing ComputerGameLoop and computer logic
+function randomPlaceShip(ship, board) {
+    let [x1, y1] = getRandomCoords();
+    let randomInt = getRandomInteger(2);
+
+    let isOccupied;
+
+    if (randomInt === 1) {
+        if (x1 + ship.length <= 9) {
+            for (let i = 0; i < ship.length; i++) {
+                if (board.isOccupied([y1, x1 + i])) {
+                    isOccupied = true;
+                }
+            }
+            if (isOccupied) {
+                isOccupied = false;
+                randomPlaceShip(ship, board);
+            } else {
+                board.placeShip([x1, y1], [x1 + ship.length, y1]);
+            }
+        }
+    }
+    if (randomInt === 2) {
+        if (y1 + ship.length <= 9) {
+            for (let i = 0; i < ship.length; i++) {
+                if (board.isOccupied([y1 + i, x1])) {
+                    isOccupied = true;
+                }
+            }
+            if (isOccupied) {
+                isOccupied = false;
+                randomPlaceShip(ship, board);
+            } else {
+                board.placeShip([x1, y1], [x1, y1 + ship.length]);
+            }
+        }
+    }
+}
+
+export function randomPlaceShips(board) {
+    const ships = shipsData;
+
+    // todo => Finish implement randomPlaceSips
+    for (const ship of ships) {
+        console.log(ship);
+        randomPlaceShip(ship, board);
+    }
+    console.log(board);
+}
+// export function randomPlaceShips(board) {
+//     const ships = shipsData;
+
+//     // todo => Finish implement randomPlaceSips
+//     for (const ship of ships) {
+//         let [x1, y1] = getRandomCoords();
+//         let randomInt = getRandomInteger(2);
+
+//         if (randomInt === 1) {
+//             if (x1 + ship.length <= 9) {
+//                 for (let i = 0; i < ship.length; i++) {
+//                     if (board.isOccupied([y1, x1 + i])) {
+//                         [x1, y1] = getRandomCoords();
+//         randomInt = getRandomInteger(2);
+
+//                     }
+//                 }
+//                 board.placeShip([x1, y1], [x1 + ship.length, y1]);
+//                 ships.shift();
+//             }
+//         }
+//         if (randomInt === 2) {
+//             if (y1 + ship.length <= 9) {
+//                 for (let i = 0; i < ship.length; i++) {
+//                     if (board.isOccupied([y1 + i, x1])) {
+//                         randomPlaceShips();
+//                     }
+//                 }
+//                 board.placeShip([x1, y1], [x1, y1 + ship.length]);
+//                 ships.shift();
+//             }
+//         }
+//     }
+//     console.log(board);
+// }
 
 export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $computer) {
     const player1 = computer.opponentName;
@@ -99,7 +183,7 @@ let computerLogic = (computerBoard, playerBoard) => {
             computer.randomAttack(playerBoard);
         } else {
             if (possibleMoves.length === 0) {
-                // Check if it's possible to attack above the last hit
+                // * Check if it's possible to attack above the last hit
                 if (
                     lastHitY - 1 >= 0 &&
                     (playerBoard.board[lastHitY - 1][lastHitX] === false ||
@@ -108,7 +192,7 @@ let computerLogic = (computerBoard, playerBoard) => {
                     possibleMoves.push([lastHitX, lastHitY - 1]);
                 }
 
-                // Check if it's possible to attack below the last hit
+                // * Check if it's possible to attack below the last hit
                 if (
                     lastHitY + 1 <= 9 &&
                     (playerBoard.board[lastHitY + 1][lastHitX] === false ||
@@ -117,7 +201,7 @@ let computerLogic = (computerBoard, playerBoard) => {
                     possibleMoves.push([lastHitX, lastHitY + 1]);
                 }
 
-                // Check if it's possible to attack to the left of the last hit
+                // * Check if it's possible to attack to the left of the last hit
                 if (
                     lastHitX - 1 >= 0 &&
                     (playerBoard.board[lastHitY][lastHitX - 1] === false ||
@@ -126,7 +210,7 @@ let computerLogic = (computerBoard, playerBoard) => {
                     possibleMoves.push([lastHitX - 1, lastHitY]);
                 }
 
-                // Check if it's possible to attack to the right of the last hit
+                // * Check if it's possible to attack to the right of the last hit
                 if (
                     lastHitX + 1 <= 9 &&
                     (playerBoard.board[lastHitY][lastHitX + 1] === false ||
@@ -149,84 +233,108 @@ let computerLogic = (computerBoard, playerBoard) => {
     }
 };
 
-//!
-// export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
-//     const player1 = boardPlayer2.opponentName;
-//     const player2 = boardPlayer1.opponentName;
+// todo => Finish implement 2 players mode
+// // export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
+// //     const player1 = boardPlayer2.opponentName;
+// //     const player2 = boardPlayer1.opponentName;
 
-//     // * Set player1 as active player
-//     player1.active = true;
-//     player2.active = false;
+// //     // * Set player1 as active player
+// //     player1.active = true;
+// //     player2.active = false;
 
-//     // * Disable events listener on children of $boardPlayer1
-//     $boardPlayer1.addEventListener(
-//         'click',
-//         (event) => {
-//             event.stopPropagation();
-//         },
-//         true
-//     );
+// //     // * Disable events listener on children of $boardPlayer1
+// //     $boardPlayer1.addEventListener(
+// //         'click',
+// //         (event) => {
+// //             event.stopPropagation();
+// //         },
+// //         true
+// //     );
 
-//     function playTurn() {
-//         if (boardPlayer1.checkWinner() || boardPlayer2.checkWinner()) {
-//             $boardPlayer2.addEventListener(
-//                 'click',
-//                 (event) => {
-//                     alert('Winner');
-//                     event.stopPropagation();
-//                 },
-//                 true
-//             );
-//         }
-//         if (player1.active) {
-//             console.log('player1 active');
-//             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
-//         } else if (player2.active) {
-//             console.log('player2 active');
-//             setTimeout(() => {
-//                 computerLogic(boardPlayer2, boardPlayer1);
+// //     function playTurn() {
+// //         if (boardPlayer1.checkWinner() || boardPlayer2.checkWinner()) {
+// //             $boardPlayer2.addEventListener(
+// //                 'click',
+// //                 (event) => {
+// //                     alert('Winner');
+// //                     event.stopPropagation();
+// //                 },
+// //                 true
+// //             );
+// //         }
+// //         if (player1.active) {
+// //             console.log('player1 active');
+// //             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
+// //         } else if (player2.active) {
+// //             console.log('player2 active');
+// //             setTimeout(() => {
+// //                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
 
-//                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
+// //                 if (boardPlayer1.checkWinner()) {
+// //                     // todo => add handleWin => restart btn
+// //                     alert('Player 2 wins');
 
-//                 if (boardPlayer1.checkWinner()) {
-//                     // todo => add handleWin => restart btn
-//                     alert('Player 2 wins');
+// //                     console.log('Player 2 wins!');
+// //                 }
+// //             }, 0);
+// //             player1.active = true;
+// //             player2.active = false;
+// //         }
 
-//                     console.log('Player 2 wins!');
-//                 }
-//             }, 0);
-//             player1.active = true;
-//             player2.active = false;
-//         }
+// //         // * Set up a callback to continue the game loop for the next turn
+// //         const clickCallback = () => {
+// //             $boardPlayer1.removeEventListener('click', clickCallback);
+// //             $boardPlayer2.removeEventListener('click', clickCallback);
+// //             setTimeout(playTurn, 0); // * Continue the game loop asynchronously
+// //         };
 
-//         // * Set up a callback to continue the game loop for the next turn
-//         const clickCallback = () => {
-//             $boardPlayer1.removeEventListener('click', clickCallback);
-//             $boardPlayer2.removeEventListener('click', clickCallback);
-//             setTimeout(playTurn, 0); // * Continue the game loop asynchronously
-//         };
+// //         // * Set up event listener for the player's click
+// //         $boardPlayer1.addEventListener('click', clickCallback);
+// //         $boardPlayer2.addEventListener('click', clickCallback);
+// //     }
 
-//         // * Set up event listener for the player's click
-//         $boardPlayer1.addEventListener('click', clickCallback);
-//         $boardPlayer2.addEventListener('click', clickCallback);
-//     }
+// //     const handlePlayerHasPlay = (event) => {
+// //         const parentId = event.detail.parentId;
+// //         const eventValue = event.detail.eventValue;
 
-//     const handlePlayerHasPlay = (event) => {
-//         const eventValue = event.detail;
-//         boardPlayer2.receiveAttack(eventValue);
-//         updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
-//         if (boardPlayer2.checkWinner()) {
-//             // todo => add handleWin => restart btn
-//             alert('Player 1 wins');
-//             console.log('Player 1 wins!');
-//         }
+// //         const gameBoard = gameBoardList.filter((gameBoard) => gameBoard.id === parentId)[0];
 
-//         if (!boardPlayer2.checkWinner()) {
-//             player1.active = false;
-//             player2.active = true;
-//         }
-//     };
+// //         gameBoard.receiveAttack(eventValue);
 
-//     // * Start the game loop by calling playTurn() for the first turn
-//     playTurn();
-// }
+// //         if (gameBoard == boardPlayer2) {
+// //             updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+// //         }
+// //         if (gameBoard == boardPlayer1) {
+// //             updateGrids(boardPlayer2, boardPlayer1, $boardPlayer2, $boardPlayer1);
+// //         }
+
+// //         if (boardPlayer2.checkWinner()) {
+// //             // todo => add handleWin => restart btn
+// //             alert('Player 1 wins');
+// //             console.log('Player 1 wins!');
+// //         }
+
+// //         if (!boardPlayer2.checkWinner()) {
+// //             player1.active = false;
+// //             player2.active = true;
+// //         }
+// //     };
+// //     // // const handlePlayerHasPlay = (event) => {
+// //     // //     const eventValue = event.detail;
+// //     // //     boardPlayer2.receiveAttack(eventValue);
+// //     // //     updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+// //     // //     if (boardPlayer2.checkWinner()) {
+// //     // //         // todo => add handleWin => restart btn
+// //     // //         alert('Player 1 wins');
+// //     // //         console.log('Player 1 wins!');
+// //     // //     }
+
+// //     // //     if (!boardPlayer2.checkWinner()) {
+// //     // //         player1.active = false;
+// //     // //         player2.active = true;
+// //     // //     }
+// //     // // };
+
+// //     // * Start the game loop by calling playTurn() for the first turn
+// //     playTurn();
+// // }

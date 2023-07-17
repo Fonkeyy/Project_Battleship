@@ -1,4 +1,3 @@
-// todo => Add event listener on play vs computer btn
 import '../CSS-files/global.css';
 import '../CSS-files/home.css';
 import '../CSS-files/main-content.css';
@@ -173,7 +172,7 @@ export function renderInterface(boardPlayer1, boardPlayer2, $boardPlayer1, $boar
 
     // * Store players name input and add it to $boardContainer
     const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1',
-        inputPlayer2 = document.querySelector('#input-player-2').value || 'Player 2';
+        inputPlayer2 = document.querySelector('#input-player-2').value || boardPlayer2.id;
 
     const player1Name = document.createElement('div'),
         player2Name = document.createElement('div');
@@ -199,8 +198,17 @@ export function clickCellHandler(e) {
     // * Format and store it in a variable
     const eventValue = [x, y];
 
+    // * Store parentId
+    const parentId = e.target.parentElement.id;
+
+    // * Create and object to send data
+    const eventData = {
+        parentId: parentId,
+        eventValue: eventValue,
+    };
+
     // * Dispatch formatted values through document so it can be listened and get from somewhere else
-    const event = new CustomEvent('playerHasPlay', { detail: eventValue });
+    const event = new CustomEvent('playerHasPlay', { detail: eventData });
     document.dispatchEvent(event);
 
     // * Once the cell is clicked, remove click event listener from it

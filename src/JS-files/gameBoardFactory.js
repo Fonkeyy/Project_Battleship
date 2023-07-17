@@ -54,6 +54,7 @@ export function CreateGameBoard(playerName, opponentName) {
 
     // * Function to place ship on board
     gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
+        console.log([x1, y1], [x2, y2]);
         if (x2 <= 9 && x2 >= 0 && y2 <= 9 && y2 >= 0) {
             // * Get ship length
             const length = gameBoard.shipLength([x1, y1], [x2, y2]);
