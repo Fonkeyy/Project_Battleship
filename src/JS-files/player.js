@@ -5,6 +5,7 @@ export function Computer() {
     computer.hitList = [];
 
     computer.attack = ([x, y], boardAttacked) => {
+        console.log([x, y]);
         boardAttacked.receiveAttack([x, y]);
     };
 

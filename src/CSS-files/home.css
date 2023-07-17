@@ -65,7 +65,7 @@ h1 {
     color: white;
     padding-bottom: 14px;
     background: transparent;
-    transition: border-color 0.2s;
+    transition: border-image 1s;
 }
 
 .input-name::placeholder {

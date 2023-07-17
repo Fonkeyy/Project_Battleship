@@ -33,10 +33,8 @@ export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $compute
             );
         }
         if (player1.active) {
-            console.log('player1 active');
             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
         } else if (player2.active) {
-            console.log('computer active');
             setTimeout(() => {
                 computerLogic(computer, boardPlayer1);
 
@@ -85,25 +83,21 @@ export function ComputerGameLoop(boardPlayer1, computer, $boardPlayer1, $compute
     playTurn();
 }
 
-// todo => find a way to know the last move which has hit then nextAttack from this one
+// * Initialize list of possible moves.
+let possibleMoves = [];
+
 let computerLogic = (computerBoard, playerBoard) => {
     const computer = playerBoard.opponentName;
-    console.log(computer);
 
     if (computer.hitList.length) {
-        // const lastMove = computer.moves[computer.moves.length - 1]
-        // const lastMoveX = lastMove[0];
-        // const  lastMoveY = lastMove[1];
-
         const lastHit = computer.hitList[computer.hitList.length - 1];
         const lastHitX = lastHit[0];
         const lastHitY = lastHit[1];
 
         if (playerBoard.board[lastHitY][lastHitX] === 3) {
+            possibleMoves = [];
             computer.randomAttack(playerBoard);
         } else {
-            const possibleMoves = [];
-
             if (possibleMoves.length === 0) {
                 // Check if it's possible to attack above the last hit
                 if (
@@ -111,11 +105,7 @@ let computerLogic = (computerBoard, playerBoard) => {
                     (playerBoard.board[lastHitY - 1][lastHitX] === false ||
                         playerBoard.board[lastHitY - 1][lastHitX] === 1)
                 ) {
-                    // // if (computer.isAlreadyPlayed([lastHitX, lastHitY - 1])) {
-                    // //     return;
-                    // // }
                     possibleMoves.push([lastHitX, lastHitY - 1]);
-                    // // console.log([lastHitX, lastHitY - 1]);
                 }
 
                 // Check if it's possible to attack below the last hit
@@ -124,11 +114,7 @@ let computerLogic = (computerBoard, playerBoard) => {
                     (playerBoard.board[lastHitY + 1][lastHitX] === false ||
                         playerBoard.board[lastHitY + 1][lastHitX] === 1)
                 ) {
-                    // // if (computer.isAlreadyPlayed([lastHitX, lastHitY + 1])) {
-                    // //     return;
-                    // // }
                     possibleMoves.push([lastHitX, lastHitY + 1]);
-                    // // console.log([lastHitX, lastHitY + 1]);
                 }
 
                 // Check if it's possible to attack to the left of the last hit
@@ -137,11 +123,7 @@ let computerLogic = (computerBoard, playerBoard) => {
                     (playerBoard.board[lastHitY][lastHitX - 1] === false ||
                         playerBoard.board[lastHitY][lastHitX - 1] === 1)
                 ) {
-                    // // if (computer.isAlreadyPlayed([lastHitX - 1, lastHitY])) {
-                    // //     return;
-                    // // }
                     possibleMoves.push([lastHitX - 1, lastHitY]);
-                    // // console.log([lastHitX - 1, lastHitY]);
                 }
 
                 // Check if it's possible to attack to the right of the last hit
@@ -150,11 +132,7 @@ let computerLogic = (computerBoard, playerBoard) => {
                     (playerBoard.board[lastHitY][lastHitX + 1] === false ||
                         playerBoard.board[lastHitY][lastHitX + 1] === 1)
                 ) {
-                    // // if (computer.isAlreadyPlayed([lastHitX + 1, lastHitY])) {
-                    // //     return;
-                    // // }
                     possibleMoves.push([lastHitX + 1, lastHitY]);
-                    // // console.log([lastHitX + 1, lastHitY]);
                 }
             }
             if (possibleMoves.length > 0) {
@@ -162,7 +140,6 @@ let computerLogic = (computerBoard, playerBoard) => {
                 const [nextX, nextY] = possibleMoves[randomIndex];
                 computer.attack([nextX, nextY], playerBoard);
                 possibleMoves.splice(randomIndex, 1);
-                console.log(possibleMoves);
             } else {
                 computer.randomAttack(playerBoard);
             }
@@ -171,61 +148,6 @@ let computerLogic = (computerBoard, playerBoard) => {
         computer.randomAttack(playerBoard);
     }
 };
-
-// let computerLogic = (computerBoard, playerBoard) => {
-//     const player = computerBoard.opponent;
-//     const computer = playerBoard.opponent;
-
-//     console.log(computer);
-//     console.log(computer.hitList);
-
-//     if (player.hitList.length) {
-//         const lastHitCoord = player.hitList[player.hitList.length - 1];
-//         console.log({ lastHitCoord });
-
-//         const lastHitX = lastHitCoord[0];
-//         console.log({ lastHitX });
-
-//         const lastHitY = lastHitCoord[1];
-//         console.log({ lastHitY });
-
-//         if (playerBoard.board[lastHitX - 1][lastHitY - 1] === 3) {
-//             computer.randomAttack(playerBoard);
-//         } else {
-//             computer.nextAttack(lastHitCoord, playerBoard);
-//         }
-//     } else {
-//         computer.randomAttack(playerBoard);
-//     }
-// };
-
-// let computerLogic = (computer, playerBoard) => {
-//     if (computer.moves.length < 1) {
-//         computer.randomAttack(playerBoard);
-//     } else if (computer.moves.length > 0) {
-//         const lastMoves = computer.moves.slice(-5);
-//         console.log({ lastMoves });
-
-//         let foundTarget = false;
-//         console.log({ foundTarget });
-
-//         for (let i = lastMoves.length - 1; i >= 0; i--) {
-//             const element = lastMoves[i];
-//             const x = element[1];
-//             const y = element[0];
-
-//             if (playerBoard.board[x - 1][y - 1] == 2) {
-//                 foundTarget = true;
-//                 computer.nextAttack(element, playerBoard);
-//                 return;
-//             }
-//         }
-
-//         if (!foundTarget) {
-//             computer.randomAttack(playerBoard);
-//         }
-//     }
-// };
 
 //!
 // export function gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) {
