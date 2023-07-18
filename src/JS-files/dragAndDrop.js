@@ -31,18 +31,14 @@ const dragStart = (event) => {
     event.dataTransfer.setData('length', event.target.dataset.length);
     event.dataTransfer.setData('orientation', event.target.dataset.orientation);
 
-    // * Add styles while dragging
-    event.target.classList.add('dragging-ship');
-
-    // todo => See how to change orientation while dragging vertical ship
+    // * Get target height
     const height = target.offsetHeight;
 
     if (target.dataset.orientation === 'horizontal') {
-        target.classList.remove('rotate90deg');
-        event.dataTransfer.setDragImage(target, 0, height / 2);
+        target.classList.remove('vertical');
+        event.dataTransfer.setDragImage(target, 0, height / 2); // * Place the cursor in the height middle
     } else {
-        target.classList.add('rotate90deg');
-
+        target.classList.add('vertical');
         event.dataTransfer.setDragImage(target, 0, height / 2);
     }
 };
@@ -89,11 +85,13 @@ const dragDrop = (event) => {
         Number(targetY) + (droppedShipOrientation === 'horizontal' ? 0 : Number(droppedShipLength - 1));
 
     const newShip = gameBoard.placeShip([targetX, targetY], [lastCellX, lastCellY]);
+    const randomPlaceBtn = document.querySelector('#random-place-btn');
 
     if (newShip) {
         updateBoard(gameBoard, $grid.parentNode);
         droppedShip.parentElement.remove();
         event.target.classList.remove('drag-over');
+        if (randomPlaceBtn) randomPlaceBtn.remove();
     }
 
     const shipsList = document.querySelector('#ships-list-container');
@@ -109,7 +107,7 @@ const dragDrop = (event) => {
         if (boardPlayer2.id === 'computer') {
             ComputerGameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
         }
-        // gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+        // // gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
     }
 };
 

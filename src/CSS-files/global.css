@@ -1,6 +1,6 @@
 :root {
     --start-btn-color: #1e9bff;
-    --primary-text-color: rgba(0, 0, 0, 0.5);
+    --primary-text-color: #222f3d;
 }
 
 *,
@@ -56,12 +56,3 @@ main {
     place-content: center;
     place-items: center;
 }
-
-.rotate90deg {
-    transform: rotate(90deg);
-}
-/*.translate-Y {
-    transform: translateY(-50vh) !important;
-    transition: transform 1s ease-in;
-}*/
-/* transform: translateY(-500px) !important; */

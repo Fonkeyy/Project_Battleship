@@ -156,7 +156,6 @@ const GameBoard = (playerName, opponentName) => {
         gameBoard.matrix = gameBoard.createMatrix();
     };
 
-    // todo =>
     gameBoard.randomPlaceShip = (ship) => {
         // * Get random coords and random between 1 and 2, initialize placedShip flag
         let [x1, y1] = getRandomCoords();

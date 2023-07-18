@@ -151,7 +151,6 @@ const displayShipsList = () => {
 
     const randomPlaceBtn = document.createElement('button');
     randomPlaceBtn.id = 'random-place-btn';
-    randomPlaceBtn.textContent = 'Random placement';
 
     randomPlaceBtn.addEventListener('click', handleRandomPlaceBtn);
     shipsListContainer.appendChild(randomPlaceBtn);
@@ -191,11 +190,12 @@ const renderInterface = (boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer
     $boardsContainer.id = 'boards-container';
 
     // * Store players name input and add it to $boardContainer
-    const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1',
-        inputPlayer2 = document.querySelector('#input-player-2').value || boardPlayer2.id;
+    const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1';
+    // // inputPlayer2 = document.querySelector('#input-player-2').value || boardPlayer2.id;
+    const inputPlayer2 = boardPlayer2.id;
 
-    const player1Name = document.createElement('div'),
-        player2Name = document.createElement('div');
+    const player1Name = document.createElement('div');
+    const player2Name = document.createElement('div');
 
     player1Name.classList.add('player-name');
     player2Name.classList.add('player-name');

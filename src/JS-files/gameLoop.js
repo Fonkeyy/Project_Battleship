@@ -1,4 +1,5 @@
 import { handleRestartGame } from '../index';
+import { getRandomInteger } from './helpers';
 import { updateGrids, updateOpponentBoard } from './interfaceController';
 
 // todo => Add commentary
@@ -36,13 +37,12 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
         } else if (player2.active) {
             setTimeout(() => {
                 computerLogic(computer, boardPlayer1);
-
                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
 
                 if (boardPlayer1.checkWinner()) {
                     handlePlayerWin('Computer');
                 }
-            }, 0);
+            }, 300);
             player1.active = true;
             player2.active = false;
         }
@@ -82,7 +82,8 @@ const handlePlayerWin = (winnerName) => {
 
     const replayBtn = document.createElement('button');
     replayBtn.id = 'replay-btn';
-    replayBtn.value = 'Replay';
+    replayBtn.classList.add('start-btn');
+    replayBtn.textContent = 'Replay';
 
     replayBtn.addEventListener('click', handleRestartGame);
     const main = document.querySelector('#main-content');
@@ -142,12 +143,15 @@ const computerLogic = (computerBoard, playerBoard) => {
                     possibleMoves.push([lastHitX + 1, lastHitY]);
                 }
             }
+            // * If possible moves
             if (possibleMoves.length > 0) {
-                const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+                // const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+                // * Randomly choose one and attack opponent board with it
+                const randomIndex = getRandomInteger(possibleMoves.length - 1);
                 const [nextX, nextY] = possibleMoves[randomIndex];
                 computer.attack([nextX, nextY], playerBoard);
+                // * Remove used move from possible moves
                 possibleMoves.splice(randomIndex, 1);
-                console.table(possibleMoves);
             } else {
                 computer.randomAttack(playerBoard);
             }

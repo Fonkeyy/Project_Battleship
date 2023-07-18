@@ -16,6 +16,7 @@
     text-align: center;
     font-weight: bold;
     color: var(--primary-text-color);
+    text-transform: capitalize;
 }
 
 .board {
@@ -54,57 +55,74 @@
     width: 30vh;
     height: 30vh;
     border: 1px solid var(--start-btn-color);
+    border-image: linear-gradient(270deg, #222f3d, #dde6e8, #222f3d);
+    border-image-slice: 1;
 }
 
 .grid-cell {
     background: transparent;
     border: 1px solid var(--primary-text-color);
+    border-image: linear-gradient(
+        270deg,
+        var(--primary-text-color),
+        var(--start-btn-color),
+        var(--primary-text-color)
+    );
+
+    border-image-slice: 1;
 }
 
 .occupied {
-    background: lightgreen !important;
+    box-shadow: inset rgba(31, 188, 156, 1) 2px 2px 5px 1px, inset rgba(31, 188, 156, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .hit {
-    background: lightcoral !important;
+    box-shadow: inset rgba(242, 197, 17, 1) 2px 2px 5px 1px, inset rgba(242, 197, 17, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .sunk {
-    background: lightgray !important;
+    box-shadow: inset rgba(184, 12, 9, 1) 2px 2px 5px 1px, inset rgba(184, 12, 9, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .miss {
-    background: lightsalmon !important;
+    box-shadow: inset rgba(189, 195, 200, 1) 2px 2px 5px 1px, inset rgba(189, 195, 200, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 /* * Drag and drop */
-/* todo => Improve dragging styles */
 .drag-over {
-    border: 3px solid blue;
-}
-
-.dragging-ship {
-    border: 2px dashed blue;
-    /* transform: rotate(90deg); */
+    box-shadow: inset rgba(31, 188, 156, 1) 2px 2px 5px 1px, inset rgba(31, 188, 156, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 /* * SHIPS LIST */
 #ships-list-container {
     display: grid;
+    justify-items: center;
+    align-items: center;
     grid-template-columns: repeat(3, 1fr);
-    height: min-content;
-    width: 30vh;
 }
 
 .ship-svg {
     margin: auto;
     background: center no-repeat url(../assets/svg/warship.svg);
-    height: 40px;
+    min-height: 40px;
+    min-width: 60px;
+    cursor: pointer;
+}
+
+.ship-svg:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
 }
 
 .ship-item-svg {
     text-align: center;
     text-transform: capitalize;
+    min-width: 5rem;
 }
 
 .ship-cells {
@@ -115,15 +133,42 @@
 .ship-cell {
     width: 3vh;
     height: 3vh;
-    background: lightcoral;
+    box-shadow: inset rgba(31, 188, 156, 1) 2px 2px 5px 1px, inset rgba(31, 188, 156, 1) -2px -2px 5px 1px;
     border: 1px solid black;
+    transition: transform 0.3s ease;
+}
+
+.ship-cell.vertical {
+    transform: rotate(90deg);
+}
+
+#random-place-btn {
+    background-image: url('../assets/svg/dice.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.5s ease-in-out;
+    margin: 0.5rem;
+}
+
+#random-place-btn:hover {
+    transform: rotate(180deg) scale(1.1);
 }
 
 @media screen and (min-width: 768px) {
     #main-content {
         grid-template-columns: auto auto;
         column-gap: 2rem;
-        /* todo => Fix why grid moves while dragging (width issue) */
+    }
+
+    #random-place-btn {
+        width: 65px;
+        height: 65px;
     }
 
     /* *BOARDS */
@@ -149,11 +194,15 @@
     #ships-list-container {
         display: flex;
         flex-direction: column;
-        max-width: min-content;
+        min-width: 18vh;
+    }
+
+    .ship-item-svg {
+        min-height: 9vh;
     }
 
     .ship-svg {
-        height: 60px;
+        min-height: 60px;
     }
 
     .ship-cell {
