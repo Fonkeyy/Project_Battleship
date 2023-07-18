@@ -73,7 +73,6 @@ const handleStartComputerBtn = () => {
         StartGameBtn.value = 'Restart';
         StartGameBtn.dataset.gameStarted = 'true';
         computerBoard.randomPlaceFleet();
-        console.log(computerBoard);
     }
 };
 const handleRestartGame = () => {
@@ -98,3 +97,5 @@ const handleRestartGame = () => {
     StartGameBtn.value = 'Start';
     StartGameBtn.dataset.gameStarted = 'false';
 };
+
+export { handleRestartGame };

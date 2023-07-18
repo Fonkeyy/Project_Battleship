@@ -17,6 +17,8 @@ const GameBoard = (playerName, opponentName) => {
     gameBoard.shipsList = [];
     // * Initialize sunkList to keep track of different sunk ships
     gameBoard.sunkList = [];
+    // * Initialize flag about random placement
+    gameBoard.isRandomlyPlaced = false;
 
     // * Function matrix to keep track of player state game
     gameBoard.createBoard = () => {
@@ -60,18 +62,22 @@ const GameBoard = (playerName, opponentName) => {
             const length = gameBoard.shipLength([x1, y1], [x2, y2]);
 
             // * Create ship
-            const ship = Ship(length);
+            let ship = Ship(length);
 
-            let validPlacement = true;
+            let isValidPlacement = true;
 
             // * Check if the ship is placed vertically or horizontally depending if same X or Y
             if (y1 === y2) {
                 for (let i = 0; i < length; i++) {
                     // * If cell is occupied
                     if (gameBoard.isOccupied([x1 + i, y1])) {
-                        validPlacement = false;
+                        isValidPlacement = false;
+                        ship = null;
                         break;
-                    } else {
+                    }
+                }
+                if (isValidPlacement) {
+                    for (let i = 0; i < length; i++) {
                         // * Define it as occupied
                         gameBoard.board[y1][x1 + i] = 1;
                         // * Add coords to ship object
@@ -82,22 +88,27 @@ const GameBoard = (playerName, opponentName) => {
             if (x1 === x2) {
                 for (let i = 0; i < length; i++) {
                     if (gameBoard.isOccupied([x1, y1 + i])) {
-                        validPlacement = false;
+                        isValidPlacement = false;
+                        ship = null;
                         break;
-                    } else {
+                    }
+                }
+                if (isValidPlacement) {
+                    for (let i = 0; i < length; i++) {
                         gameBoard.board[y1 + i][x1] = 1;
                         ship.coord.push([x1, y1 + i]);
                     }
                 }
             }
-            if (validPlacement) {
+
+            if (isValidPlacement) {
                 // * add ship object to shipList
                 gameBoard.shipsList.push(ship);
                 return ship;
-            } else if (gameBoard.id !== 'computer') {
+            } else if (gameBoard.id !== 'computer' && !gameBoard.isRandomlyPlaced) {
                 alert('Cell is already occupied');
             }
-        } else if (gameBoard.id !== 'computer') {
+        } else if (gameBoard.id !== 'computer' && !gameBoard.isRandomlyPlaced) {
             alert('Ship must be placed within the grid');
         }
     };
@@ -113,8 +124,6 @@ const GameBoard = (playerName, opponentName) => {
             const ship = gameBoard.shipsList.find((ship) => {
                 return ship.coord.some(([coordX, coordY]) => coordX === x && coordY === y);
             });
-            console.log(gameBoard.shipsList);
-            console.log(ship);
             // * Hit the ship, change matrix value to 'hit cell' and add coords to opponent hitList
             ship.hit();
             gameBoard.board[y][x] = 2;
@@ -167,6 +176,7 @@ const GameBoard = (playerName, opponentName) => {
     };
 
     gameBoard.randomPlaceFleet = () => {
+        gameBoard.isRandomlyPlaced = true;
         // * Get the data
         const ships = shipsData;
 

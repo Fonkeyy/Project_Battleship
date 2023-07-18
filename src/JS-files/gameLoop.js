@@ -1,4 +1,4 @@
-// // import { gameBoardList } from './gameboardFactory';
+import { handleRestartGame } from '../index';
 import { updateGrids, updateOpponentBoard } from './interfaceController';
 
 // todo => Add commentary
@@ -40,10 +40,7 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
 
                 if (boardPlayer1.checkWinner()) {
-                    // todo => add handleWin => restart btn
-                    alert('Player 2 wins');
-
-                    console.log('Player 2 wins!');
+                    handlePlayerWin('Computer');
                 }
             }, 0);
             player1.active = true;
@@ -67,9 +64,7 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
         computer.receiveAttack(eventValue);
         updateGrids(boardPlayer1, computer, $boardPlayer1, $computer);
         if (computer.checkWinner()) {
-            // todo => add handleWin => restart btn
-            alert('Player 1 wins');
-            console.log('Player 1 wins!');
+            handlePlayerWin(boardPlayer1.id);
         }
 
         if (!computer.checkWinner()) {
@@ -80,6 +75,18 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
 
     // * Start the game loop by calling playTurn() for the first turn
     playTurn();
+};
+
+const handlePlayerWin = (winnerName) => {
+    alert(`${winnerName} has won!`);
+
+    const replayBtn = document.createElement('button');
+    replayBtn.id = 'replay-btn';
+    replayBtn.value = 'Replay';
+
+    replayBtn.addEventListener('click', handleRestartGame);
+    const main = document.querySelector('#main-content');
+    main.appendChild(replayBtn);
 };
 
 // * Initialize list of possible moves.
@@ -96,6 +103,7 @@ const computerLogic = (computerBoard, playerBoard) => {
         if (playerBoard.board[lastHitY][lastHitX] === 3) {
             possibleMoves = [];
             computer.randomAttack(playerBoard);
+            return;
         } else {
             if (possibleMoves.length === 0) {
                 // * Check if it's possible to attack above the last hit
@@ -139,6 +147,7 @@ const computerLogic = (computerBoard, playerBoard) => {
                 const [nextX, nextY] = possibleMoves[randomIndex];
                 computer.attack([nextX, nextY], playerBoard);
                 possibleMoves.splice(randomIndex, 1);
+                console.table(possibleMoves);
             } else {
                 computer.randomAttack(playerBoard);
             }

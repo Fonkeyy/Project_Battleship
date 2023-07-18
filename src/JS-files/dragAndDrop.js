@@ -36,7 +36,6 @@ const dragStart = (event) => {
 
     // todo => See how to change orientation while dragging vertical ship
     const height = target.offsetHeight;
-    // console.log(height)
 
     if (target.dataset.orientation === 'horizontal') {
         target.classList.remove('rotate90deg');

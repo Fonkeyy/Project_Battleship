@@ -7,6 +7,8 @@ import {
     dragOver,
     dragStart,
 } from './dragAndDrop';
+import { ComputerGameLoop } from './gameLoop';
+import { gameBoardList } from './gameboardFactory';
 import { shipsData } from './helpers';
 
 // todo => Improve animation
@@ -146,6 +148,33 @@ const displayShipsList = () => {
         shipContainer.append(shipSvg, shipLabel);
         shipsListContainer.appendChild(shipContainer);
     }
+
+    const randomPlaceBtn = document.createElement('button');
+    randomPlaceBtn.id = 'random-place-btn';
+    randomPlaceBtn.textContent = 'Random placement';
+
+    randomPlaceBtn.addEventListener('click', handleRandomPlaceBtn);
+    shipsListContainer.appendChild(randomPlaceBtn);
+};
+
+const handleRandomPlaceBtn = () => {
+    const boardPlayer1 = gameBoardList[0];
+    const boardPlayer2 = gameBoardList[1];
+
+    const $boardPlayer1 = document.getElementById(boardPlayer1.id);
+    const $boardPlayer2 = document.getElementById(boardPlayer2.id);
+
+    boardPlayer1.randomPlaceFleet();
+    updateBoard(boardPlayer1, $boardPlayer1);
+
+    const shipsListContainer = document.querySelector('#ships-list-container');
+    while (shipsListContainer.hasChildNodes()) {
+        shipsListContainer.removeChild(shipsListContainer.firstChild);
+    }
+
+    if (boardPlayer2.id === 'computer') {
+        ComputerGameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
+    }
 };
 
 const renderInterface = (boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2) => {
@@ -240,9 +269,6 @@ const updateBoard = (playerGameBoard, $board) => {
 };
 
 const updateOpponentBoard = (opponentBoard, opponentMatrix, $opponentBoard) => {
-    // console.log({ opponentBoard });
-    // console.log({ opponentMatrix });
-    // console.log($opponentBoard);
     // * Select all cells from the $board
     const $cells = $opponentBoard.querySelectorAll('.grid-cell');
 
