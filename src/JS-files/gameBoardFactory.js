@@ -22,7 +22,7 @@ const GameBoard = (playerName, opponentName) => {
 
     // * Function matrix to keep track of player state game
     gameBoard.createBoard = () => {
-        let board = [];
+        const board = [];
 
         for (let i = 0; i < 10; i++) {
             board[i] = new Array(10).fill(false);
@@ -32,88 +32,18 @@ const GameBoard = (playerName, opponentName) => {
 
     // * Function matrix to keep track of player missed shots
     gameBoard.createMatrix = () => {
-        let matrix = [];
+        const matrix = [];
 
         for (let i = 0; i < 10; i++) {
             matrix[i] = new Array(10).fill(false);
         }
         return matrix;
     };
-
-    // * Calculate shipLength from coordinates
-    gameBoard.shipLength = ([x1, y1], [x2, y2]) => {
-        let length = 0;
-        if (x1 == x2) {
-            length = y2 - y1 + 1;
-        } else {
-            length = x2 - x1 + 1;
-        }
-        return length;
-    };
-
     // * Create matrices and store it in variables
     gameBoard.board = gameBoard.createBoard();
     gameBoard.matrix = gameBoard.createMatrix();
 
-    // * Function to place ship on board
-    gameBoard.placeShip = ([x1, y1], [x2, y2]) => {
-        if (x2 <= 9 && x2 >= 0 && y2 <= 9 && y2 >= 0) {
-            // * Get ship length
-            const length = gameBoard.shipLength([x1, y1], [x2, y2]);
-
-            // * Create ship
-            let ship = Ship(length);
-
-            let isValidPlacement = true;
-
-            // * Check if the ship is placed vertically or horizontally depending if same X or Y
-            if (y1 === y2) {
-                for (let i = 0; i < length; i++) {
-                    // * If cell is occupied
-                    if (gameBoard.isOccupied([x1 + i, y1])) {
-                        isValidPlacement = false;
-                        ship = null;
-                        break;
-                    }
-                }
-                if (isValidPlacement) {
-                    for (let i = 0; i < length; i++) {
-                        // * Define it as occupied
-                        gameBoard.board[y1][x1 + i] = 1;
-                        // * Add coords to ship object
-                        ship.coord.push([x1 + i, y1]);
-                    }
-                }
-            }
-            if (x1 === x2) {
-                for (let i = 0; i < length; i++) {
-                    if (gameBoard.isOccupied([x1, y1 + i])) {
-                        isValidPlacement = false;
-                        ship = null;
-                        break;
-                    }
-                }
-                if (isValidPlacement) {
-                    for (let i = 0; i < length; i++) {
-                        gameBoard.board[y1 + i][x1] = 1;
-                        ship.coord.push([x1, y1 + i]);
-                    }
-                }
-            }
-
-            if (isValidPlacement) {
-                // * add ship object to shipList
-                gameBoard.shipsList.push(ship);
-                return ship;
-            } else if (gameBoard.id !== 'computer' && !gameBoard.isRandomlyPlaced) {
-                alert('Cell is already occupied');
-            }
-        } else if (gameBoard.id !== 'computer' && !gameBoard.isRandomlyPlaced) {
-            alert('Ship must be placed within the grid');
-        }
-    };
-
-    gameBoard.isOccupied = ([x1, y1]) => {
+    gameBoard.isCellOccupied = ([x1, y1]) => {
         return gameBoard.board[y1][x1] >= 1;
     };
 
@@ -164,9 +94,11 @@ const GameBoard = (playerName, opponentName) => {
 
         // * Place ship vertically or horizontally randomly
         if (randomInt === 1) {
-            placedShip = gameBoard.placeShip([x1, y1], [x1 + ship.length - 1, y1]);
+            let newShip = new Ship([x1, y1], [x1 + ship.length - 1, y1]);
+            placedShip = newShip.placeShip(gameBoard);
         } else if (randomInt === 2) {
-            placedShip = gameBoard.placeShip([x1, y1], [x1, y1 + ship.length - 1]);
+            let newShip = new Ship([x1, y1], [x1, y1 + ship.length - 1]);
+            placedShip = newShip.placeShip(gameBoard);
         }
         // * If placeShip is not valid rerun the function
         if (!placedShip) {
