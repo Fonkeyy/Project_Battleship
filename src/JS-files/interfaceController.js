@@ -11,7 +11,6 @@ import { ComputerGameLoop } from './gameLoop';
 import { gameBoardList } from './gameboardFactory';
 import { shipsData } from './helpers';
 
-// todo => Improve animation
 const homeAnimation = () => {
     const startContainer = document.querySelector('#start-container');
     const h1 = document.querySelector('h1');
