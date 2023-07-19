@@ -1,6 +1,8 @@
 :root {
-    --start-btn-color: #1e9bff;
+    --primary-color: #1e9bff;
+    --secondary-color: #0b67b3;
     --primary-text-color: #222f3d;
+    --secondary-text-color: #b36d00;
 }
 
 *,

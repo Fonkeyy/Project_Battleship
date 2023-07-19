@@ -9,7 +9,7 @@ import {
     homeAnimation,
     addDragAndDropEventsListener,
 } from './JS-files/interfaceController';
-import { GameBoard } from './JS-files/gameboardFactory';
+import { GameBoard, gameBoardList } from './JS-files/gameboardFactory';
 
 // * Select DOM btns and store it in variables
 // // const StartGameBtn = document.querySelector('#start-game-btn');
@@ -72,23 +72,13 @@ const handleStartComputerBtn = () => {
 };
 
 const handleRestartGame = () => {
-    // * Select DOM elements
-    const $boards = document.querySelectorAll('.board');
-    const $names = document.querySelectorAll('.name');
-    const $shipItems = document.querySelectorAll('.ship-item');
-
     // * Clear DOM
-    $boards.forEach((board) => {
-        board.remove();
-    });
-
-    $names.forEach((name) => {
-        name.remove();
-    });
-
-    $shipItems.forEach((ship) => {
-        ship.remove();
-    });
+    const mainContent = document.querySelector('#main-content');
+    mainContent.remove();
+    // * Clear matrices
+    gameBoardList.forEach((GameBoard) => GameBoard.reset());
+    // * Restart game
+    handleStartComputerBtn();
 };
 
 export { handleRestartGame };

@@ -18,7 +18,7 @@ const homeAnimation = () => {
     setTimeout(() => {
         h1.style.display = 'none';
     }, 0);
-    startContainer.classList.add('translate-Y');
+
     setTimeout(() => {
         startContainer.style.display = 'none';
     }, 0);
@@ -149,6 +149,7 @@ const displayShipsList = () => {
         shipsListContainer.appendChild(shipContainer);
     }
 
+    // * Create btn to randomly place ships
     const randomPlaceBtn = document.createElement('button');
     randomPlaceBtn.id = 'random-place-btn';
 
@@ -163,15 +164,19 @@ const handleRandomPlaceBtn = () => {
     const $boardPlayer1 = document.getElementById(boardPlayer1.id);
     const $boardPlayer2 = document.getElementById(boardPlayer2.id);
 
+    // * Randomly place ships + update board
     boardPlayer1.randomPlaceFleet();
     updateBoard(boardPlayer1, $boardPlayer1);
 
+    // * Remove ShipsList so the board is centered
     const shipsListContainer = document.querySelector('#ships-list-container');
-    while (shipsListContainer.hasChildNodes()) {
-        shipsListContainer.removeChild(shipsListContainer.firstChild);
-    }
+    shipsListContainer.remove();
 
+    // * Launch gameLoop
     if (boardPlayer2.id === 'computer') {
+        setTimeout(() => {
+            alert('Game start, attack enemy!');
+        }, 300);
         ComputerGameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
     }
 };
@@ -260,6 +265,7 @@ const updateBoard = (playerGameBoard, $board) => {
             cell.classList.add('hit');
         }
         if (board[rowIndex][columnIndex] === 3) {
+            cell.classList.remove('hit');
             cell.classList.add('sunk');
         }
         if (board[rowIndex][columnIndex] === false) {
@@ -281,7 +287,11 @@ const updateOpponentBoard = (opponentBoard, opponentMatrix, $opponentBoard) => {
             cell.classList.add('hit');
         }
         if (opponentBoard[rowIndex][columnIndex] === 3) {
-            cell.classList.add('sunk');
+            cell.classList.remove('hit');
+            // * Add delay so animation occurs on every sunk cells
+            setTimeout(() => {
+                cell.classList.add('sunk');
+            }, 10);
         }
         if (opponentMatrix[rowIndex][columnIndex]) {
             cell.classList.add('miss');

@@ -13,15 +13,25 @@
 }
 
 .player-name {
+    /* font-family: 'Bagel Fat One', cursive; */
+    /* font-family: 'Luckiest Guy', cursive; */
+    /* font-family: 'Paytone One', sans-serif; */
+    font-family: 'Rowdies', cursive;
+    letter-spacing: 0.1rem;
     text-align: center;
     font-weight: bold;
-    color: var(--primary-text-color);
+    /* color: var(--primary-text-color); */
+    color: var(--secondary-text-color);
+
     text-transform: capitalize;
 }
 
 .board {
     display: grid;
     grid-template-columns: min-content auto;
+    /* font-family: 'Luckiest Guy', cursive; */
+    font-family: 'Bagel Fat One', cursive;
+    color: var(--primary-text-color);
 }
 
 .column-label {
@@ -31,15 +41,15 @@
     width: 30vh;
     grid-column: 2 /3;
     font-weight: bold;
-    color: var(--primary-text-color);
+    /* color: var(--primary-text-color); */
 }
 
 .row-label {
     display: grid;
-    grid-template-columns: 1fr;
     grid-row: 2 / 3;
     font-weight: bold;
-    color: var(--primary-text-color);
+    padding-right: 3px;
+    /* color: var(--secondary-text-color); */
 }
 
 .label-cell {
@@ -54,7 +64,7 @@
     gap: 1px;
     width: 30vh;
     height: 30vh;
-    border: 1px solid var(--start-btn-color);
+    border: 1px solid var(--primary-color);
     border-image: linear-gradient(270deg, #222f3d, #dde6e8, #222f3d);
     border-image-slice: 1;
 }
@@ -65,7 +75,7 @@
     border-image: linear-gradient(
         270deg,
         var(--primary-text-color),
-        var(--start-btn-color),
+        var(--primary-color),
         var(--primary-text-color)
     );
 
@@ -80,16 +90,30 @@
 .hit {
     box-shadow: inset rgba(242, 197, 17, 1) 2px 2px 5px 1px, inset rgba(242, 197, 17, 1) -2px -2px 5px 1px;
     background: rgba(0, 0, 0, 0.5);
+    animation: cell-animation 0.2s ease-in-out;
 }
 
 .sunk {
     box-shadow: inset rgba(184, 12, 9, 1) 2px 2px 5px 1px, inset rgba(184, 12, 9, 1) -2px -2px 5px 1px;
     background: rgba(0, 0, 0, 0.5);
+    animation: cell-animation 0.3s ease-in-out;
 }
 
 .miss {
     box-shadow: inset rgba(189, 195, 200, 1) 2px 2px 5px 1px, inset rgba(189, 195, 200, 1) -2px -2px 5px 1px;
     background: rgba(0, 0, 0, 0.5);
+}
+
+@keyframes cell-animation {
+    0% {
+        scale: 1;
+    }
+    50% {
+        scale: 1.2;
+    }
+    100% {
+        scale: 1;
+    }
 }
 
 /* * Drag and drop */
@@ -122,7 +146,12 @@
 .ship-item-svg {
     text-align: center;
     text-transform: capitalize;
-    min-width: 5rem;
+    color: var(--primary-text-color);
+
+    /* font-family: 'Bagel Fat One', cursive; */
+    /* font-family: 'Luckiest Guy', cursive; */
+    /* font-family: 'Paytone One', sans-serif; */
+    font-family: 'Rowdies', cursive;
 }
 
 .ship-cells {

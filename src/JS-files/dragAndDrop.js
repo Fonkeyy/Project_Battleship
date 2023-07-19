@@ -100,8 +100,8 @@ const dragDrop = (event) => {
 
     const $boardPlayer1 = document.getElementById(boardPlayer1.id);
     const $boardPlayer2 = document.getElementById(boardPlayer2.id);
-
     if (!shipsList.hasChildNodes()) {
+        shipsList.remove();
         alert('Game start, attack enemy!');
 
         if (boardPlayer2.id === 'computer') {

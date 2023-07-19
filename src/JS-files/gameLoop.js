@@ -1,4 +1,5 @@
 import { handleRestartGame } from '../index';
+import { gameBoardList } from './gameboardFactory';
 import { getRandomInteger } from './helpers';
 import { updateGrids, updateOpponentBoard } from './interfaceController';
 
@@ -22,27 +23,19 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
     );
 
     function playTurn() {
-        if (boardPlayer1.checkWinner() || computer.checkWinner()) {
-            $computer.addEventListener(
-                'click',
-                (event) => {
-                    alert('Winner');
-                    event.stopPropagation();
-                },
-                true
-            );
-        }
         if (player1.active) {
+            // * Listen for event which appends on cell click
             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
         } else if (player2.active) {
+            // * Set time out to make moves more human
             setTimeout(() => {
                 computerLogic(computer, boardPlayer1);
                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
-
-                if (boardPlayer1.checkWinner()) {
-                    handlePlayerWin('Computer');
-                }
             }, 300);
+
+            if (boardPlayer1.checkWinner()) {
+                handlePlayerWin(player2);
+            }
             player1.active = true;
             player2.active = false;
         }
@@ -60,7 +53,9 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
     }
 
     const handlePlayerHasPlay = (event) => {
+        // * Get clicked cell coords from the custom event
         const eventValue = event.detail.eventValue;
+        // * Attack enemy board with it + update interface
         computer.receiveAttack(eventValue);
         updateGrids(boardPlayer1, computer, $boardPlayer1, $computer);
         if (computer.checkWinner()) {
@@ -78,16 +73,29 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
 };
 
 const handlePlayerWin = (winnerName) => {
-    alert(`${winnerName} has won!`);
+    const player2Id = gameBoardList[1].id;
+    const $player2 = document.getElementById(player2Id);
 
-    const replayBtn = document.createElement('button');
-    replayBtn.id = 'replay-btn';
-    replayBtn.classList.add('start-btn');
-    replayBtn.textContent = 'Replay';
+    $player2.addEventListener(
+        'click',
+        (event) => {
+            event.stopPropagation();
+        },
+        true
+    );
 
-    replayBtn.addEventListener('click', handleRestartGame);
-    const main = document.querySelector('#main-content');
-    main.appendChild(replayBtn);
+    setTimeout(() => {
+        alert(`${winnerName} has won!`);
+
+        const replayBtn = document.createElement('button');
+        replayBtn.id = 'replay-btn';
+        replayBtn.classList.add('start-btn');
+        replayBtn.textContent = 'Replay';
+
+        replayBtn.addEventListener('click', handleRestartGame);
+        const main = document.querySelector('#main-content');
+        main.appendChild(replayBtn);
+    }, 300);
 };
 
 // * Initialize list of possible moves.
