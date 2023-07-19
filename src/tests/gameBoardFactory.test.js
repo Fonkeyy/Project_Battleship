@@ -11,7 +11,7 @@ describe('gameBoard.js', () => {
 
     test.only('case is occupied', () => {
         gameBoard.placeShip([1, 1], [3, 1]);
-        expect(gameBoard.isOccupied([2, 1])).toBe(true);
+        expect(gameBoard.isCellOccupied([2, 1])).toBe(true);
     });
 
     test.only('receive attack', () => {

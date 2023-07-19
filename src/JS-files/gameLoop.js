@@ -1,9 +1,7 @@
-import { handleRestartGame } from '../index';
+import { handleRestartGame } from './interfaceController';
 import { gameBoardList } from './gameboardFactory';
 import { getRandomInteger } from './helpers';
 import { updateGrids, updateOpponentBoard } from './interfaceController';
-
-// todo => Add commentary
 
 const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
     const player1 = computer.opponentName;
@@ -13,7 +11,7 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
     player1.active = true;
     player2.active = false;
 
-    // * Disable events listener on children of $boardPlayer1
+    // * Disable events listener on $boardPlayer1
     $boardPlayer1.addEventListener(
         'click',
         (event) => {
@@ -27,7 +25,7 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
             // * Listen for event which appends on cell click
             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
         } else if (player2.active) {
-            // * Set time out to make moves more human
+            // * Set time out to make moves more human like
             setTimeout(() => {
                 computerLogic(computer, boardPlayer1);
                 updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
@@ -76,6 +74,7 @@ const handlePlayerWin = (winnerName) => {
     const player2Id = gameBoardList[1].id;
     const $player2 = document.getElementById(player2Id);
 
+    // * remove click listener on player2 board
     $player2.addEventListener(
         'click',
         (event) => {
@@ -84,6 +83,7 @@ const handlePlayerWin = (winnerName) => {
         true
     );
 
+    // * Set delay so animations can occur then alert winner and display replay btn
     setTimeout(() => {
         alert(`${winnerName} has won!`);
 
@@ -104,15 +104,18 @@ let possibleMoves = [];
 const computerLogic = (computerBoard, playerBoard) => {
     const computer = playerBoard.opponentName;
 
+    // * Get last hit coords if there is one
     if (computer.hitList.length) {
         const lastHit = computer.hitList[computer.hitList.length - 1];
         const lastHitX = lastHit[0];
         const lastHitY = lastHit[1];
 
+        // * Check if last hit has sunk the ship, if yes, empty possible moves list and random attack
         if (playerBoard.board[lastHitY][lastHitX] === 3) {
             possibleMoves = [];
             computer.randomAttack(playerBoard);
             return;
+            // * If no possible moves in the list, find new ones
         } else {
             if (possibleMoves.length === 0) {
                 // * Check if it's possible to attack above the last hit
@@ -151,9 +154,8 @@ const computerLogic = (computerBoard, playerBoard) => {
                     possibleMoves.push([lastHitX + 1, lastHitY]);
                 }
             }
-            // * If possible moves
+            // * If possible moves choose 1 randomly then attack player board with it
             if (possibleMoves.length > 0) {
-                // const randomIndex = Math.floor(Math.random() * possibleMoves.length);
                 // * Randomly choose one and attack opponent board with it
                 const randomIndex = getRandomInteger(possibleMoves.length - 1);
                 const [nextX, nextY] = possibleMoves[randomIndex];

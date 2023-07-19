@@ -3,12 +3,13 @@ import { gameBoardList } from './gameboardFactory';
 import { updateBoard } from './interfaceController';
 
 const changeOrientation = (event) => {
-    if (event.target.dataset.orientation === 'horizontal') {
-        event.target.dataset.orientation = 'vertical';
-        event.target.classList.add('rotate90deg');
+    const target = event.target;
+    if (target.dataset.orientation === 'horizontal') {
+        target.dataset.orientation = 'vertical';
+        target.classList.add('rotate90deg');
     } else {
-        event.target.dataset.orientation = 'horizontal';
-        event.target.classList.remove('rotate90deg');
+        target.dataset.orientation = 'horizontal';
+        target.classList.remove('rotate90deg');
     }
 };
 
@@ -65,13 +66,12 @@ const dragDrop = (event) => {
     // * Get the corresponding gameBoard id from dataset
     const boardId = $grid.dataset.boardId;
     // * Filter through gameBoardList to get the gameBoard with the corresponding id
-    const gameBoard = gameBoardList.filter((board) => board.id == boardId)[0];
+    const gameBoard = gameBoardList.find((board) => board.id === boardId);
 
     // * Get data from dragged ship
     const droppedShipId = event.dataTransfer.getData('text/plain');
     const droppedShip = document.getElementById(droppedShipId);
     const droppedShipLength = event.dataTransfer.getData('length');
-
     const droppedShipOrientation = event.dataTransfer.getData('orientation');
 
     // * Get target element + row and column number
@@ -116,10 +116,11 @@ const dragEnd = (event) => {
     event.dataTransfer.clearData();
     event.target.classList.remove('dragging-ship');
 
-    // * Get back to SVG style if not dropped
+    // * Remove dragging image
     while (event.target.hasChildNodes()) {
         event.target.firstChild.remove();
     }
+    // * Add svg instead of dragging image
     event.target.classList.add('ship-svg');
 };
 

@@ -8,7 +8,7 @@ import {
     dragStart,
 } from './dragAndDrop';
 import { ComputerGameLoop } from './gameLoop';
-import { gameBoardList } from './gameboardFactory';
+import { gameBoardList, GameBoard } from './gameboardFactory';
 import { shipsData } from './helpers';
 
 const homeAnimation = () => {
@@ -21,6 +21,62 @@ const homeAnimation = () => {
     setTimeout(() => {
         startContainer.style.display = 'none';
     }, 0);
+};
+
+// // const handleStartGameBtn = () => {
+// //     if (StartGameBtn.dataset.gameStarted === 'true') {
+// //         handleRestartGame();
+// //     } else {
+// //         const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1';
+// //         const inputPlayer2 = document.querySelector('#input-player-2').value || 'Player 2';
+
+// //         // * Create GameBoard objects with players name as parameters
+// //         const gameBoardPlayer1 = GameBoard(inputPlayer1, inputPlayer2);
+// //         const gameBoardPlayer2 = GameBoard(inputPlayer2, inputPlayer1);
+
+// //         // * Create $Boards with GameBoard objects as parameters
+// //         const $boardPlayer1 = renderBoard(gameBoardPlayer1);
+// //         const $boardPlayer2 = renderBoard(gameBoardPlayer2);
+
+// //         // * Set up interface, close dialog, change start btn value and its dataset.gameStarted to true
+// //         homeAnimation();
+// //         renderInterface(gameBoardPlayer1, gameBoardPlayer2, $boardPlayer1, $boardPlayer2);
+// //         displayShipsList();
+// //         addDragAndDropEventsListener(gameBoardPlayer1);
+// //         StartGameBtn.value = 'Restart';
+// //         StartGameBtn.dataset.gameStarted = 'true';
+// //     }
+// // };
+
+const handleStartComputerBtn = () => {
+    const inputPlayer1 = document.querySelector('#input-player-1').value || 'Player 1';
+    const inputPlayer2 = 'computer';
+
+    // * Create GameBoard objects with players name as parameters
+    const gameBoardPlayer1 = GameBoard(inputPlayer1, inputPlayer2);
+    const computerBoard = GameBoard(inputPlayer2, inputPlayer1);
+
+    // * Create $Boards with GameBoard objects as parameters
+    const $boardPlayer1 = renderBoard(gameBoardPlayer1);
+    const $boardComputer = renderBoard(computerBoard);
+
+    // * Set up interface, close dialog, change start btn value and its dataset.gameStarted to true
+    homeAnimation();
+    renderInterface(gameBoardPlayer1, computerBoard, $boardPlayer1, $boardComputer);
+    displayShipsList();
+    addDragAndDropEventsListener(gameBoardPlayer1);
+
+    computerBoard.randomPlaceFleet();
+};
+
+const handleRestartGame = () => {
+    // * Clear DOM
+    const mainContent = document.querySelector('#main-content');
+    mainContent.remove();
+    // * Clear matrices
+    gameBoardList.forEach((GameBoard) => GameBoard.reset());
+    // * Restart game
+    handleStartComputerBtn();
 };
 
 // * Create DOM gameBoard from gameBoard object
@@ -300,6 +356,8 @@ const updateOpponentBoard = (opponentBoard, opponentMatrix, $opponentBoard) => {
 
 export {
     homeAnimation,
+    handleStartComputerBtn,
+    handleRestartGame,
     renderBoard,
     addDragAndDropEventsListener,
     removeDragAndDropEventsListener,
