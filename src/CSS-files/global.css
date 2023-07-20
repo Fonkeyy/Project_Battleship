@@ -18,11 +18,14 @@ body {
     max-height: 100vh;
     overflow-y: hidden;
 }
+
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+
     background: center / cover no-repeat url(../assets/img/background.jpg);
 }
+
 img,
 picture,
 video,

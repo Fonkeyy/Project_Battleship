@@ -1,6 +1,7 @@
 import { ComputerGameLoop } from './gameLoop';
 import { gameBoardList } from './gameboardFactory';
 import { updateBoard } from './interfaceController';
+import Ship from './shipsFactory';
 
 const changeOrientation = (event) => {
     const target = event.target;
@@ -84,7 +85,8 @@ const dragDrop = (event) => {
     const lastCellY =
         Number(targetY) + (droppedShipOrientation === 'horizontal' ? 0 : Number(droppedShipLength - 1));
 
-    const newShip = gameBoard.placeShip([targetX, targetY], [lastCellX, lastCellY]);
+    const newShip = new Ship([targetX, targetY], [lastCellX, lastCellY]);
+    newShip.placeShip(gameBoard);
     const randomPlaceBtn = document.querySelector('#random-place-btn');
 
     if (newShip) {

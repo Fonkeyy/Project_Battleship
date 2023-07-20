@@ -3,10 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 
 /* ! => Fix animation h1 + input name 
-! => Choose fonts
-! => Fix the "enter player's name thing when text input + text too high
-! =>Add animation between 2 screens 
-! => Fix start-btn color */
+! => Choose fonts */
 
 h1 {
     font-family: 'Russo One', sans-serif;

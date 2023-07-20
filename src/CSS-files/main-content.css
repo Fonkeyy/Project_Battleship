@@ -61,7 +61,7 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    gap: 1px;
+    /* gap: 1px; */
     width: 30vh;
     height: 30vh;
     border: 1px solid var(--primary-color);
@@ -75,33 +75,32 @@
     border-image: linear-gradient(
         270deg,
         var(--primary-text-color),
-        var(--primary-color),
+        var(--secondary-color),
         var(--primary-text-color)
     );
-
     border-image-slice: 1;
 }
 
 .occupied {
-    box-shadow: inset rgba(31, 188, 156, 1) 2px 2px 5px 1px, inset rgba(31, 188, 156, 1) -2px -2px 5px 1px;
-    background: rgba(0, 0, 0, 0.5);
+    /* box-shadow: inset rgba(31, 188, 156, 1) 2px 2px 5px 1px, inset rgba(31, 188, 156, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5); */
 }
 
 .hit {
-    box-shadow: inset rgba(242, 197, 17, 1) 2px 2px 5px 1px, inset rgba(242, 197, 17, 1) -2px -2px 5px 1px;
-    background: rgba(0, 0, 0, 0.5);
+    /* box-shadow: inset rgba(242, 197, 17, 1) 2px 2px 5px 1px, inset rgba(242, 197, 17, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5); */
     animation: cell-animation 0.2s ease-in-out;
 }
 
 .sunk {
-    box-shadow: inset rgba(184, 12, 9, 1) 2px 2px 5px 1px, inset rgba(184, 12, 9, 1) -2px -2px 5px 1px;
-    background: rgba(0, 0, 0, 0.5);
+    /* box-shadow: inset rgba(184, 12, 9, 1) 2px 2px 5px 1px, inset rgba(184, 12, 9, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5); */
     animation: cell-animation 0.3s ease-in-out;
 }
 
 .miss {
-    box-shadow: inset rgba(189, 195, 200, 1) 2px 2px 5px 1px, inset rgba(189, 195, 200, 1) -2px -2px 5px 1px;
-    background: rgba(0, 0, 0, 0.5);
+    /* box-shadow: inset rgba(189, 195, 200, 1) 2px 2px 5px 1px, inset rgba(189, 195, 200, 1) -2px -2px 5px 1px;
+    background: rgba(0, 0, 0, 0.5); */
 }
 
 @keyframes cell-animation {
