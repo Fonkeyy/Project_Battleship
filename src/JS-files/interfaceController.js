@@ -118,9 +118,7 @@ const renderBoard = (gameBoard) => {
             cell.dataset.x = indexColumn;
             cell.dataset.y = indexRow;
             cell.id = `${indexColumn}${indexRow}`;
-
             cell.addEventListener('click', clickCellHandler);
-
             // * Append cell to $grid
             $grid.appendChild(cell);
         });
@@ -136,7 +134,6 @@ const renderBoard = (gameBoard) => {
 const addDragAndDropEventsListener = (gameBoard) => {
     const boardId = gameBoard.id;
     const board = document.getElementById(boardId);
-
     const cells = board.querySelectorAll('.grid-cell');
 
     cells.forEach((cell) => {
@@ -151,7 +148,6 @@ const addDragAndDropEventsListener = (gameBoard) => {
 const removeDragAndDropEventsListener = (gameBoard) => {
     const boardId = gameBoard.id;
     const board = document.getElementById(boardId);
-
     const cells = board.querySelectorAll('.grid-cell');
 
     cells.forEach((cell) => {
@@ -179,12 +175,9 @@ const displayShipsList = () => {
         const shipSvg = document.createElement('div');
 
         shipContainer.classList.add('ship-item');
-
+        shipLabel.textContent = ship.name;
         shipSvg.id = 'ship-svg';
         shipSvg.classList.add('ship-svg');
-
-        shipLabel.textContent = ship.name;
-
         shipSvg.id = ship.name;
         shipSvg.dataset.length = ship.length;
 
@@ -204,7 +197,6 @@ const displayShipsList = () => {
     // * Create btn to randomly place ships
     const randomPlaceBtn = document.createElement('button');
     randomPlaceBtn.id = 'random-place-btn';
-
     randomPlaceBtn.addEventListener('click', handleRandomPlaceBtn);
     shipsListContainer.appendChild(randomPlaceBtn);
 };
@@ -212,7 +204,6 @@ const displayShipsList = () => {
 const handleRandomPlaceBtn = () => {
     const boardPlayer1 = gameBoardList[0];
     const boardPlayer2 = gameBoardList[1];
-
     const $boardPlayer1 = document.getElementById(boardPlayer1.id);
     const $boardPlayer2 = document.getElementById(boardPlayer2.id);
 
@@ -261,7 +252,6 @@ const renderInterface = (boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer
     player2Name.textContent = inputPlayer2;
 
     mainContent.appendChild($boardsContainer);
-
     $boardsContainer.append(player2Name, $boardPlayer2, player1Name, $boardPlayer1);
 
     updateGrids(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);

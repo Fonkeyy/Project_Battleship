@@ -13,8 +13,12 @@ const getRandomCoords = () => {
     return [x1, y1];
 };
 
-const getRandomInteger = (number) => {
-    return Math.ceil(Math.random() * number);
-};
+// const getRandomInteger = (number) => {
+//     return Math.ceil(Math.random() * number);
+// };
+
+function getRandomInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export { shipsData, getRandomInteger, getRandomCoords };

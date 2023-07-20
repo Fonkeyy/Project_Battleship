@@ -6,6 +6,7 @@ function Computer() {
 
     computer.attack = ([x, y], boardAttacked) => {
         boardAttacked.receiveAttack([x, y]);
+        console.log('attack', [x, y]);
     };
 
     computer.randomMove = () => {
@@ -31,6 +32,8 @@ function Computer() {
 
         opponentBoard.receiveAttack(coord);
         computer.moves.push(coord);
+
+        console.log('random', coord);
 
         return coord;
     };

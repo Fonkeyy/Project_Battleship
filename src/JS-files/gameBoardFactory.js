@@ -89,7 +89,7 @@ const GameBoard = (playerName, opponentName) => {
     gameBoard.randomPlaceShip = (ship) => {
         // * Get random coords and random between 1 and 2, initialize placedShip flag
         let [x1, y1] = getRandomCoords();
-        let randomInt = getRandomInteger(2);
+        let randomInt = getRandomInteger(1, 2);
         let placedShip = false;
 
         // * Place ship vertically or horizontally randomly

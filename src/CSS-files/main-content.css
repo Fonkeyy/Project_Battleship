@@ -132,8 +132,8 @@
 }
 
 .miss {
-    /* box-shadow: inset rgba(189, 195, 200, 1) 2px 2px 5px 1px, inset rgba(189, 195, 200, 1) -2px -2px 5px 1px; */
-    box-shadow: inset #365f80 2px 2px 5px 1px, inset #365f80 -2px -2px 5px 1px;
+    box-shadow: inset rgba(189, 195, 200, 1) 2px 2px 5px 1px, inset rgba(189, 195, 200, 1) -2px -2px 5px 1px;
+    /* box-shadow: inset #365f80 2px 2px 5px 1px, inset #365f80 -2px -2px 5px 1px; */
     background: rgba(0, 0, 0, 0.5);
 
     /* background-color: #365f80; */

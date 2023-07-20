@@ -1,7 +1,6 @@
-import { handleRestartGame } from './interfaceController';
 import { gameBoardList } from './gameboardFactory';
 import { getRandomInteger } from './helpers';
-import { updateGrids, updateOpponentBoard } from './interfaceController';
+import { updateGrids, updateOpponentBoard, handleRestartGame } from './interfaceController';
 
 const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
     const player1 = computer.opponentName;
@@ -21,6 +20,8 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
     );
 
     function playTurn() {
+        // document.removeEventListener('playerHasPlay', handlePlayerHasPlay);
+
         if (player1.active) {
             // * Listen for event which appends on cell click
             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
@@ -32,7 +33,7 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
             }, 300);
 
             if (boardPlayer1.checkWinner()) {
-                handlePlayerWin(player2);
+                handlePlayerWin(player2.name);
             }
             player1.active = true;
             player2.active = false;
@@ -101,11 +102,101 @@ const handlePlayerWin = (winnerName) => {
 // * Initialize list of possible moves.
 let possibleMoves = [];
 
+// const computerLogic = (computerBoard, playerBoard) => {
+//     const computer = playerBoard.opponentName;
+
+//     if (computer.hitList.length) {
+//         // * Get last hit coords
+//         const lastHit = computer.hitList[computer.hitList.length - 1];
+//         const lastHitX = lastHit[0];
+//         const lastHitY = lastHit[1];
+//         // * Check if last hit has sunk the ship, if yes, empty possible moves list and recursively call computer logic
+//         if (playerBoard.board[lastHitY][lastHitX] === 3) {
+//             possibleMoves = [];
+//             computer.hitList.pop();
+//             computerLogic(computerBoard, playerBoard);
+//             return;
+//         } else {
+//             // * If no possible moves in the list, find new ones
+
+//             if (possibleMoves.length === 0) {
+//                 // * Check if it's possible to attack above the last hit
+//                 if (
+//                     lastHitY - 1 >= 0 &&
+//                     (playerBoard.board[lastHitY - 1][lastHitX] === false ||
+//                         playerBoard.board[lastHitY - 1][lastHitX] === 1 ||
+//                         playerBoard.matrix[lastHitY - 1][lastHitX] === false)
+//                 ) {
+//                     possibleMoves.push([lastHitX, lastHitY - 1]);
+//                 }
+
+//                 // * Check if it's possible to attack below the last hit
+//                 if (
+//                     lastHitY + 1 <= 9 &&
+//                     (playerBoard.board[lastHitY + 1][lastHitX] === false ||
+//                         playerBoard.board[lastHitY + 1][lastHitX] === 1 ||
+//                         playerBoard.matrix[lastHitY + 1][lastHitX] === false)
+//                 ) {
+//                     possibleMoves.push([lastHitX, lastHitY + 1]);
+//                 }
+
+//                 // * Check if it's possible to attack to the left of the last hit
+//                 if (
+//                     lastHitX - 1 >= 0 &&
+//                     (playerBoard.board[lastHitY][lastHitX - 1] === false ||
+//                         playerBoard.board[lastHitY][lastHitX - 1] === 1 ||
+//                         playerBoard.matrix[lastHitY][lastHitX - 1] === false)
+//                 ) {
+//                     possibleMoves.push([lastHitX - 1, lastHitY]);
+//                 }
+
+//                 // * Check if it's possible to attack to the right of the last hit
+//                 if (
+//                     lastHitX + 1 <= 9 &&
+//                     (playerBoard.board[lastHitY][lastHitX + 1] === false ||
+//                         playerBoard.board[lastHitY][lastHitX + 1] === 1 ||
+//                         playerBoard.matrix[lastHitY][lastHitX + 1] === false)
+//                 ) {
+//                     possibleMoves.push([lastHitX + 1, lastHitY]);
+//                 }
+//             }
+//             // * If possible moves choose 1 randomly then attack player board with it
+//             const chooseRandomMove = () => {
+//             if (possibleMoves.length > 0) {
+//                 // * Randomly choose one and attack opponent board with it
+//                 const randomIndex = getRandomInteger(0, possibleMoves.length - 1);
+//                 const [nextX, nextY] = possibleMoves[randomIndex];
+
+//                 if (playerBoard.board[nextY][nextX] === false && playerBoard.matrix[nextY][nextX] === false) {
+//                     computer.attack([nextX, nextY], playerBoard);
+//                     // * Remove used move from possible moves
+//                     possibleMoves.splice(randomIndex, 1);
+//                     if (!possibleMoves) {
+//                         computer.hitList.pop();
+//                     }
+//                 } else {
+//                     possibleMoves.splice(randomIndex, 1);
+//                     if (!possibleMoves) {
+//                         computer.hitList.pop();
+//                     }
+//                     chooseRandomMove()
+//                 } else {
+//                     computer.randomAttack(playerBoard);
+//                 }
+//             } else {
+//                 computer.randomAttack(playerBoard);
+//             }
+//                     }
+//                     chooseRandomMove()
+//                 }
+//     };
+//             }
 const computerLogic = (computerBoard, playerBoard) => {
     const computer = playerBoard.opponentName;
 
     // * Get last hit coords if there is one
     if (computer.hitList.length) {
+        console.log(computer.hitList);
         const lastHit = computer.hitList[computer.hitList.length - 1];
         const lastHitX = lastHit[0];
         const lastHitY = lastHit[1];
@@ -157,7 +248,8 @@ const computerLogic = (computerBoard, playerBoard) => {
             // * If possible moves choose 1 randomly then attack player board with it
             if (possibleMoves.length > 0) {
                 // * Randomly choose one and attack opponent board with it
-                const randomIndex = getRandomInteger(possibleMoves.length - 1);
+                const randomIndex = getRandomInteger(0, possibleMoves.length - 1);
+                console.table(possibleMoves);
                 const [nextX, nextY] = possibleMoves[randomIndex];
                 computer.attack([nextX, nextY], playerBoard);
                 // * Remove used move from possible moves
