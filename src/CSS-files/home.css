@@ -112,7 +112,8 @@ h1:hover {
 .input-name {
     /* ? new font */
     font-family: 'Orbitron', sans-serif;
-    color: white;
+    color: var(--secondary-text-color);
+
     letter-spacing: 0.5px;
     width: 100%;
     border: 0;
@@ -154,7 +155,7 @@ h1:hover {
     font-size: 0.9rem;
     cursor: text;
     top: -0.1rem;
-    color: white;
+    color: var(--secondary-text-color);
     text-shadow: 50px white;
 }
 

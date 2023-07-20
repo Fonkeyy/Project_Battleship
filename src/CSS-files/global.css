@@ -1,8 +1,25 @@
 :root {
+    /* * Colors */
     --primary-color: #1e9bff;
-    --secondary-color: #0b67b3;
-    --primary-text-color: #222f3d;
-    --secondary-text-color: #b36d00;
+    --secondary-color: #10c0e8;
+
+    /* --primary-color: #38a5ff; */
+    /* --secondary-color: #0b67b3; */
+    /* --primary-text-color: #ffa71f; */
+    --secondary-text-color: white;
+    --primary-text-color: white;
+    /* ! */
+
+    /* --secondary-color: #1e9bff; */
+
+    /* --secondary-color: #38a5ff; */
+    /* --tertiary-color: #12ffec; */
+
+    /* ! */
+    /* --secondary-text-color: #ff3f38; */
+
+    /* * Grid */
+    --grid-length: 32vh;
 }
 
 *,
@@ -19,11 +36,22 @@ body {
     overflow-y: hidden;
 }
 
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(../assets/img/background.jpg) center / cover no-repeat;
+    opacity: 0;
+    z-index: -1;
+}
+
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-
-    background: center / cover no-repeat url(../assets/img/background.jpg);
+    background-color: rgba(0, 0, 0, 1);
 }
 
 img,

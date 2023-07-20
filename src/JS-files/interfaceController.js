@@ -16,9 +16,6 @@ const homeAnimation = () => {
     const h1 = document.querySelector('h1');
     setTimeout(() => {
         h1.style.display = 'none';
-    }, 0);
-
-    setTimeout(() => {
         startContainer.style.display = 'none';
     }, 0);
 };
@@ -181,7 +178,7 @@ const displayShipsList = () => {
         const shipLabel = document.createElement('div');
         const shipSvg = document.createElement('div');
 
-        shipContainer.classList.add('ship-item-svg');
+        shipContainer.classList.add('ship-item');
 
         shipSvg.id = 'ship-svg';
         shipSvg.classList.add('ship-svg');
