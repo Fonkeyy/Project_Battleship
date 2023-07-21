@@ -93,88 +93,78 @@ const handlePlayerWin = (winnerName) => {
         replayBtn.id = 'replay-btn';
         replayBtn.classList.add('start-btn');
         replayBtn.textContent = 'Replay';
-
         replayBtn.addEventListener('click', handleRestartGame);
+
         const main = document.querySelector('#main-content');
         main.appendChild(replayBtn);
     }, 300);
 };
 
-// * Initialize list of possible moves.
-let availableMoves = [];
+const isValidMove = (x, y, playerBoard) => {
+    const validX = x >= 0 && x <= 9;
+    const validY = y >= 0 && y <= 9;
+    return (
+        validX &&
+        validY &&
+        !playerBoard.matrix[y][x] &&
+        (!playerBoard.board[y][x] || playerBoard.board[y][x] === 1)
+    );
+};
+
+const getAvailableMoves = (lastHitX, lastHitY, playerBoard) => {
+    const availableMoves = [];
+
+    // * Check if it's possible to attack above the last hit
+    if (isValidMove(lastHitX, lastHitY - 1, playerBoard)) {
+        availableMoves.push([lastHitX, lastHitY - 1]);
+    }
+    // * Check if it's possible to attack below the last hit
+    if (isValidMove(lastHitX, lastHitY + 1, playerBoard)) {
+        availableMoves.push([lastHitX, lastHitY + 1]);
+    }
+    // * Check if it's possible to attack to the left of the last hit
+    if (isValidMove(lastHitX - 1, lastHitY, playerBoard)) {
+        availableMoves.push([lastHitX - 1, lastHitY]);
+    }
+    // * Check if it's possible to attack to the right of the last hit
+    if (isValidMove(lastHitX + 1, lastHitY, playerBoard)) {
+        availableMoves.push([lastHitX + 1, lastHitY]);
+    }
+    return availableMoves;
+};
 
 const computerLogic = (computerBoard, playerBoard) => {
     const computer = playerBoard.opponentName;
 
+    // * If an attack already hit
     if (computer.hitList.length) {
         // * Get last hit coords
         const lastHit = computer.hitList[computer.hitList.length - 1];
         const lastHitX = lastHit[0];
         const lastHitY = lastHit[1];
-        // * Check if last hit has sunk the ship, if yes, empty possible moves list and recursively call computer logic
+        // * Check if last hit has sunk the ship, if yes, pop out lastHit and recursively call computer logic
         if (playerBoard.board[lastHitY][lastHitX] === 3) {
-            availableMoves = [];
             computer.hitList.pop();
             computerLogic(computerBoard, playerBoard);
-            return;
         } else {
-            // * If no possible moves in the list, find new ones
-            if (availableMoves.length === 0) {
-                // * Check if it's possible to attack above the last hit
-                if (
-                    lastHitY - 1 >= 0 &&
-                    playerBoard.matrix[lastHitY - 1][lastHitX] === false &&
-                    (playerBoard.board[lastHitY - 1][lastHitX] === false ||
-                        playerBoard.board[lastHitY - 1][lastHitX] === 1)
-                ) {
-                    availableMoves.push([lastHitX, lastHitY - 1]);
-                }
+            // * Get available moves from last hit coords
+            const availableMoves = getAvailableMoves(lastHitX, lastHitY, playerBoard);
 
-                // * Check if it's possible to attack below the last hit
-                if (
-                    lastHitY + 1 <= 9 &&
-                    playerBoard.matrix[lastHitY + 1][lastHitX] === false &&
-                    (playerBoard.board[lastHitY + 1][lastHitX] === false ||
-                        playerBoard.board[lastHitY + 1][lastHitX] === 1)
-                ) {
-                    availableMoves.push([lastHitX, lastHitY + 1]);
-                }
-
-                // * Check if it's possible to attack to the left of the last hit
-                if (
-                    lastHitX - 1 >= 0 &&
-                    playerBoard.matrix[lastHitY][lastHitX - 1] === false &&
-                    (playerBoard.board[lastHitY][lastHitX - 1] === false ||
-                        playerBoard.board[lastHitY][lastHitX - 1] === 1)
-                ) {
-                    availableMoves.push([lastHitX - 1, lastHitY]);
-                }
-
-                // * Check if it's possible to attack to the right of the last hit
-                if (
-                    lastHitX + 1 <= 9 &&
-                    playerBoard.matrix[lastHitY][lastHitX + 1] === false &&
-                    (playerBoard.board[lastHitY][lastHitX + 1] === false ||
-                        playerBoard.board[lastHitY][lastHitX + 1] === 1)
-                ) {
-                    availableMoves.push([lastHitX + 1, lastHitY]);
-                }
-            }
-            // * If possible moves choose 1 randomly then attack player board with it
-
-            if (availableMoves.length > 0) {
+            // * If there are available Moves
+            if (availableMoves.length) {
                 // * Randomly choose one and attack opponent board with it
                 const randomIndex = getRandomInteger(0, availableMoves.length - 1);
                 const [nextX, nextY] = availableMoves[randomIndex];
 
                 computer.attack([nextX, nextY], playerBoard);
-                availableMoves = [];
             } else {
+                // * Else pop out lastHit and recursively call computer logic
                 computer.hitList.pop();
                 computerLogic(computerBoard, playerBoard);
             }
         }
     } else {
+        // * If no attack already hit, random attack
         computer.randomAttack(playerBoard);
     }
 };
