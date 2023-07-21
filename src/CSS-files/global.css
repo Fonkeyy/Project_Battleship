@@ -36,22 +36,11 @@ body {
     overflow-y: hidden;
 }
 
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: url(../assets/img/background.jpg) center / cover no-repeat;
-    opacity: 0;
-    z-index: -1;
-}
-
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     background-color: rgba(0, 0, 0, 1);
+    /* ? light mode => background: url(../assets/img/background.jpg) center / cover no-repeat; */
 }
 
 img,
