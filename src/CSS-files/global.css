@@ -2,24 +2,11 @@
     /* * Colors */
     --primary-color: #1e9bff;
     --secondary-color: #10c0e8;
-
-    /* --primary-color: #38a5ff; */
-    /* --secondary-color: #0b67b3; */
-    /* --primary-text-color: #ffa71f; */
-    --secondary-text-color: white;
+    --tertiary-color: #38a5ff;
     --primary-text-color: white;
-    /* ! */
-
-    /* --secondary-color: #1e9bff; */
-
-    /* --secondary-color: #38a5ff; */
-    /* --tertiary-color: #12ffec; */
-
-    /* ! */
-    /* --secondary-text-color: #ff3f38; */
 
     /* * Grid */
-    --grid-length: 32vh;
+    --grid-length: 33vh;
 }
 
 *,
@@ -39,7 +26,7 @@ body {
 body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    background-color: rgba(0, 0, 0, 1);
+    background-color: rgba(5, 5, 5, 1);
     /* ? light mode => background: url(../assets/img/background.jpg) center / cover no-repeat; */
 }
 

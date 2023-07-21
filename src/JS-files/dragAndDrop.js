@@ -62,11 +62,9 @@ const dragLeave = (event) => {
 const dragDrop = (event) => {
     event.preventDefault();
 
-    // * Get the$grid parent element of cells which have the drop event listener
+    // * Get the$grid where the drop happened
     const $grid = event.target.parentNode;
-    // * Get the corresponding gameBoard id from dataset
     const boardId = $grid.dataset.boardId;
-    // * Filter through gameBoardList to get the gameBoard with the corresponding id
     const gameBoard = gameBoardList.find((board) => board.id === boardId);
 
     // * Get data from dragged ship
@@ -86,14 +84,16 @@ const dragDrop = (event) => {
         Number(targetY) + (droppedShipOrientation === 'horizontal' ? 0 : Number(droppedShipLength - 1));
 
     const newShip = new Ship([targetX, targetY], [lastCellX, lastCellY]);
-    newShip.placeShip(gameBoard);
+    const placedShip = newShip.placeShip(gameBoard);
     const randomPlaceBtn = document.querySelector('#random-place-btn');
 
-    if (newShip) {
+    if (placedShip) {
         updateBoard(gameBoard, $grid.parentNode);
         droppedShip.parentElement.remove();
         event.target.classList.remove('drag-over');
         if (randomPlaceBtn) randomPlaceBtn.remove();
+    } else {
+        return;
     }
 
     const shipsList = document.querySelector('#ships-list-container');

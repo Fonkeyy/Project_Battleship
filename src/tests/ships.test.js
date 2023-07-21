@@ -2,7 +2,7 @@
 
 import Ship from '../JS-files/shipsFactory';
 
-const ship1 = Ship(2);
+const ship1 = Ship([1, 1], [1, 2]);
 
 describe('ships.js', () => {
     test('ship hit', () => {

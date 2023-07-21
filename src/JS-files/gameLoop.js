@@ -34,7 +34,6 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
                 if (boardPlayer1.checkWinner()) {
                     handlePlayerWin(player2.name);
                 }
-
                 player1.active = true;
                 player2.active = false;
             }, 300);

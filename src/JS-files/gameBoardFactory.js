@@ -122,4 +122,5 @@ const GameBoard = (playerName, opponentName) => {
     return gameBoard;
 };
 
-export { gameBoardList, GameBoard };
+export { GameBoard };
+export { gameBoardList };

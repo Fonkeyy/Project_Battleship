@@ -20,9 +20,7 @@
     letter-spacing: 0.1rem;
     text-align: center;
     font-weight: bold;
-    /* color: var(--primary-text-color); */
     color: var(--primary-text-color);
-
     text-transform: capitalize;
 }
 
@@ -31,9 +29,7 @@
     grid-template-columns: min-content auto;
     /* font-family: 'Luckiest Guy', cursive; */
     font-family: 'Bagel Fat One', cursive;
-    color: var(--primary-color);
-    /* color: var(--tertiary-color); */
-    /* color: var(--primary-text-color); */
+    color: var(--tertiary-color);
 }
 
 .column-label {
@@ -73,74 +69,29 @@
 .grid-cell {
     background: transparent;
     border: 1px solid var(--primary-text-color);
-    /* border-image: linear-gradient(
-        270deg,
-        var(--primary-text-color),
-        var(--primary-text-color),
-        var(--primary-text-color),
-        var(--primary-text-color),
-        var(--primary-text-color)
-    ); */
-    /* border-image: linear-gradient(
-        270deg,
-        var(--primary-text-color),
-        var(--secondary-color),
-        var(--primary-text-color)
-    ); */
     border-image: linear-gradient(270deg, grey, var(--secondary-color), grey);
     border-image-slice: 1;
 }
 
 .occupied {
+    /* ?box-shadow: inset rgba(31, 188, 156, 1) 3px 3px 3px 2px, inset rgba(31, 188, 156, 1) -3px -3px 3px 2px; */
     box-shadow: inset rgba(31, 188, 156, 1) 2px 2px 5px 1px, inset rgba(31, 188, 156, 1) -2px -2px 5px 1px;
-    /* box-shadow: inset #52ff12 2px 2px 5px 1px, inset #52ff12 -2px -2px 5px 1px; */
-    background: rgba(0, 0, 0, 0.5);
-
-    /* background-color: #52ff12; */
-
-    /* background: radial-gradient(#52ff12, transparent); */
-
-    /* background: linear-gradient(100deg, transparent, #52ff12, transparent); */
 }
 
 .hit {
-    /* box-shadow: inset rgba(242, 197, 17, 1) 2px 2px 5px 1px, inset rgba(242, 197, 17, 1) -2px -2px 5px 1px; */
-    box-shadow: inset #ff702b 2px 2px 5px 1px, inset #ff702b -2px -2px 5px 1px;
-    background: rgba(0, 0, 0, 0.5);
+    box-shadow: inset #ff702b 3px 3px 3px 2px, inset #ff702b -3px -3px 3px 2px;
 
     animation: cell-animation 0.2s ease-in-out;
-
-    /* background-color: #ff702b; */
-
-    /* background: radial-gradient(#ff702b, transparent); */
-
-    /* background: linear-gradient(100deg, transparent, #ff702b, transparent); */
 }
 
 .sunk {
-    /* box-shadow: inset rgba(184, 12, 9, 1) 2px 2px 5px 1px, inset rgba(184, 12, 9, 1) -2px -2px 5px 1px; */
-    box-shadow: inset #ff3f38 2px 2px 5px 1px, inset #ff3f38 -2px -2px 5px 1px;
-    background: rgba(0, 0, 0, 0.5);
+    box-shadow: inset #ff3f38 3px 3px 3px 2px, inset #ff3f38 -3px -3px 3px 2px;
 
     animation: cell-animation 0.3s ease-in-out;
-
-    /* background-color: #ff3f38; */
-
-    /* background: radial-gradient(#ff3f38, transparent); */
-
-    /* background: linear-gradient(100deg, transparent, #ff0000, transparent); */
 }
 
 .miss {
-    box-shadow: inset rgba(189, 195, 200, 1) 2px 2px 5px 1px, inset rgba(189, 195, 200, 1) -2px -2px 5px 1px;
-    /* box-shadow: inset #365f80 2px 2px 5px 1px, inset #365f80 -2px -2px 5px 1px; */
-    background: rgba(0, 0, 0, 0.5);
-
-    /* background-color: #365f80; */
-
-    /* background: radial-gradient(#365f80, transparent); */
-
-    /* background: linear-gradient(100deg, transparent, #365f80, transparent); */
+    background: radial-gradient(transparent, transparent, #365f80, transparent, transparent);
 }
 
 @keyframes cell-animation {
@@ -176,19 +127,17 @@
     gap: 0.1rem;
     text-align: center;
     text-transform: capitalize;
-    /* color: var(--primary-color); */
     color: var(--primary-text-color);
 
     /* font-family: 'Bagel Fat One', cursive; */
     /* font-family: 'Luckiest Guy', cursive; */
     /* font-family: 'Paytone One', sans-serif; */
     font-family: 'Rowdies', cursive;
-    /* max-width: calc(var(--grid-length) / 3); */
-    max-width: 10vh;
+    max-width: calc(var(--grid-length) / 3.1);
 }
 
 .ship-item:hover {
-    color: var(--secondary-color);
+    color: var(--tertiary-color);
 }
 
 .ship-svg {
@@ -237,6 +186,10 @@
 
 #random-place-btn:hover {
     transform: rotate(180deg) scale(1.1);
+}
+
+#replay-btn {
+    background: transparent;
 }
 
 @media screen and (min-width: 768px) {
