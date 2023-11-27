@@ -7,19 +7,34 @@ export default function Ship([x1, y1], [x2, y2]) {
     ship.placeShip = (gameBoard) => {
         if (x2 <= 9 && x2 >= 0 && y2 <= 9 && y2 >= 0) {
             let isValidPlacement = true;
+            let isVertical = y1 === y2;
+
+            for (let i = 0; i < ship.length; i++) {
+                let coords = isVertical ? [x1 + i, y1] : [x1, y1 + i];
+                // let gameBoardCoords =  isVertical ? [y1][x1 + i] : [y1 + i][x1];
+
+                // * If cell is occupied
+                if (gameBoard.isCellOccupied(coords)) {
+                    isValidPlacement = false;
+                    ship = null;
+                    break;
+                } else {
+                    // * Define it as occupied
+                    gameBoard.board[coords[1]][coords[0]] = 1;
+                    // * Add coords to ship object
+                    ship.coord.push(coords);
+                }
+            }
 
             // * Check if the ship is placed vertically or horizontally depending if same X or Y
-            if (y1 === y2) {
+            if (isVertical) {
                 for (let i = 0; i < ship.length; i++) {
                     // * If cell is occupied
                     if (gameBoard.isCellOccupied([x1 + i, y1])) {
                         isValidPlacement = false;
                         ship = null;
                         break;
-                    }
-                }
-                if (isValidPlacement) {
-                    for (let i = 0; i < ship.length; i++) {
+                    } else {
                         // * Define it as occupied
                         gameBoard.board[y1][x1 + i] = 1;
                         // * Add coords to ship object
@@ -27,17 +42,14 @@ export default function Ship([x1, y1], [x2, y2]) {
                     }
                 }
             }
-            if (x1 === x2) {
+            if (!isVertical) {
                 for (let i = 0; i < ship.length; i++) {
-                    if (gameBoard.isCellOccupied([x1, y1 + i])) {
+                    if (gameBoard.isCellOccupied()) {
                         isValidPlacement = false;
                         ship = null;
                         break;
-                    }
-                }
-                if (isValidPlacement) {
-                    for (let i = 0; i < ship.length; i++) {
-                        gameBoard.board[y1 + i][x1] = 1;
+                    } else {
+                        gameBoard.board = 1;
                         ship.coord.push([x1, y1 + i]);
                     }
                 }
