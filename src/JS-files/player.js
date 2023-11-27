@@ -16,17 +16,19 @@ function Computer() {
     };
 
     computer.randomAttack = (opponentBoard) => {
-        let coord = computer.randomMove();
-        let x = coord[0];
-        let y = coord[1];
+        const findAvailableMove = () => {
+            const coord = computer.randomMove();
+            const x = coord[0];
+            const y = coord[1];
 
-        let coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
+            let isCoordAvailable = !computer.moves.some((move) => move[0] === x && move[1] === y);
+            return { coord, isCoordAvailable };
+        };
 
-        while (coordMatch) {
-            coord = computer.randomMove();
-            x = coord[0];
-            y = coord[1];
-            coordMatch = computer.moves.some((move) => move[0] === x && move[1] === y);
+        let { coord, isCoordAvailable } = findAvailableMove();
+
+        while (!isCoordAvailable) {
+            ({ coord, isCoordAvailable } = findAvailableMove());
         }
 
         opponentBoard.receiveAttack(coord);
