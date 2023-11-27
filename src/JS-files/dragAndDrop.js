@@ -88,9 +88,9 @@ const dragDrop = (event) => {
     const randomPlaceBtn = document.querySelector('#random-place-btn');
 
     if (placedShip) {
-        updateBoard(gameBoard, $grid.parentNode);
         droppedShip.parentElement.remove();
         event.target.classList.remove('drag-over');
+        updateBoard(gameBoard, $grid.parentNode);
         if (randomPlaceBtn) randomPlaceBtn.remove();
     } else {
         return;
