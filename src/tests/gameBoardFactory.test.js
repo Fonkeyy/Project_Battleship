@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 
-import { GameBoard } from '../JS-files/gameboardFactory';
+import { gameBoard } from '../JS-files/gameBoardFactory';
 import Ship from '../JS-files/shipsFactory';
 
-const gameBoard = GameBoard('player1', 'player2');
+const gameBoard = gameBoard('player1', 'player2');
 const ship = Ship([1, 1], [3, 1]);
 
 describe('gameBoardFactory.js', () => {

@@ -5,7 +5,7 @@ import Ship from './shipsFactory';
 // * Initialize gameBoardList to keep track of different gameBoard
 const gameBoardList = [];
 
-const GameBoard = (playerName, opponentName) => {
+const gameBoard = (playerName, opponentName) => {
     // * Initialize gameBoard Object and add it ID
     const gameBoard = {};
     gameBoard.id = playerName;
@@ -122,5 +122,5 @@ const GameBoard = (playerName, opponentName) => {
     return gameBoard;
 };
 
-export { GameBoard };
+export { gameBoard };
 export { gameBoardList };

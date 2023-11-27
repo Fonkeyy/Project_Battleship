@@ -1,4 +1,4 @@
-import { gameBoardList } from './gameboardFactory';
+import { gameBoardList } from './gameBoardFactory';
 import { getRandomInteger } from './helpers';
 import { updateGrids, updateOpponentBoard, handleRestartGame } from './interfaceController';
 

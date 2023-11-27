@@ -1,5 +1,5 @@
 import { ComputerGameLoop } from './gameLoop';
-import { gameBoardList } from './gameboardFactory';
+import { gameBoardList } from './gameBoardFactory';
 import { updateBoard } from './interfaceController';
 import Ship from './shipsFactory';
 
