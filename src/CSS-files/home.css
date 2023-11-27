@@ -165,6 +165,7 @@ h1:hover {
 
 /* * Change input border color when input:focus */
 .input-name:focus {
+    background: transparent;
     border-width: 3px;
     border-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
     border-image-slice: 1;
