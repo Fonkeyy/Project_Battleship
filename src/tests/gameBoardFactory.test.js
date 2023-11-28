@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-
 import { GameBoard } from '../JS-files/gameBoardFactory';
 import Ship from '../JS-files/shipsFactory';
 
@@ -41,7 +40,6 @@ describe('gameBoardFactory.js', () => {
 
     test('all ships sunk', () => {
         gameBoard.checkWinner();
-
         expect(gameBoard.checkWinner()).toBe(true);
     });
 });

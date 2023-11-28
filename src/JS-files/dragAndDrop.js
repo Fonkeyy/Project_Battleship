@@ -17,7 +17,12 @@ const changeOrientation = (event) => {
 const dragStart = (event) => {
     // * Get dragged ship and remove SVG from it
     const target = event.target;
-    target.classList.remove('ship-svg');
+
+    setTimeout(() => {
+        while (event.target.firstChild) {
+            event.target.firstChild.remove();
+        }
+    }, 10);
 
     // * Add it 1 cell per length unit
     for (let i = 0; i < target.dataset.length; i++) {
@@ -112,14 +117,12 @@ const dragDrop = (event) => {
         if (boardPlayer2.id === 'computer') {
             ComputerGameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
         }
-        // // gameLoop(boardPlayer1, boardPlayer2, $boardPlayer1, $boardPlayer2);
     }
 };
 
 const dragEnd = (event) => {
     // * Clear transfer data and CSS
     event.dataTransfer.clearData();
-    event.target.classList.remove('dragging-ship');
 
     // * Remove dragging image
     while (event.target.hasChildNodes()) {

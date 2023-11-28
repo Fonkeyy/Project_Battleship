@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-
 import Ship from '../JS-files/shipsFactory';
 
 const ship1 = Ship([1, 1], [1, 2]);

@@ -25,6 +25,7 @@
     display: grid;
     grid-template-columns: min-content auto;
     font-family: 'Bagel Fat One', cursive;
+    font-size: 0.9rem;
     color: var(--tertiary-color);
 }
 
@@ -151,9 +152,6 @@
     flex-direction: column;
 }
 
-.ship-cells {
-}
-
 .ship-cell {
     width: calc(0.1 * var(--grid-length));
     height: calc(0.1 * var(--grid-length));
@@ -161,11 +159,6 @@
     border: 1px solid black;
     transition: transform 0.3s ease;
 }
-
-/* .ship-cell.vertical {
-    transform: rotate(90deg);
-    flex-direction: column;
-} */
 
 #random-place-btn {
     background-image: url('../assets/svg/dice.svg');
@@ -208,6 +201,10 @@
         grid-template-columns: min-content auto;
     }
 
+    .board {
+        font-size: 1rem;
+    }
+
     .column-label {
         width: var(--grid-length);
     }
@@ -224,10 +221,8 @@
 
     /* *SHIPS LIST */
     #ships-list-container {
-        grid-template-columns: 1fr;
-        gap: 0;
-        grid-template-rows: repeat(5, calc(0.24 * var(--grid-length)));
-        min-width: calc(0.525 * var(--grid-length));
+        display: flex;
+        flex-direction: column;
     }
 
     .ship-item {
