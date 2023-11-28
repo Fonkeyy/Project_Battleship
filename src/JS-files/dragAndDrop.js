@@ -20,7 +20,6 @@ const dragStart = (event) => {
     target.classList.remove('ship-svg');
 
     // * Add it 1 cell per length unit
-
     for (let i = 0; i < target.dataset.length; i++) {
         const shipCell = document.createElement('div');
         shipCell.classList.add('ship-cell');

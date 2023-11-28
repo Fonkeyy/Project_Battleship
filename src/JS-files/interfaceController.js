@@ -283,12 +283,8 @@ const clickCellHandler = (e) => {
 };
 
 const updateGrids = (playerGameBoard, opponentGameBoard, $board, $opponentBoard) => {
-    // * Store gameBoards matrix to variables
-    const opponentMatrix = opponentGameBoard.matrix,
-        opponentBoard = opponentGameBoard.board;
-
     updateBoard(playerGameBoard, $board);
-    updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoard);
+    updateOpponentBoard(opponentGameBoard, $opponentBoard);
 };
 
 const updateBoard = (playerGameBoard, $board) => {
@@ -316,7 +312,10 @@ const updateBoard = (playerGameBoard, $board) => {
     });
 };
 
-const updateOpponentBoard = (opponentBoard, opponentMatrix, $opponentBoard) => {
+const updateOpponentBoard = (opponent, $opponentBoard) => {
+    const opponentBoard = opponent.board;
+    const opponentMatrix = opponent.matrix;
+
     // * Select all cells from the $board
     const $cells = $opponentBoard.querySelectorAll('.grid-cell');
 

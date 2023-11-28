@@ -29,7 +29,7 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
             // * Set time out to make moves more human like
             setTimeout(() => {
                 computerLogic(computer, boardPlayer1);
-                updateOpponentBoard(boardPlayer1.board, boardPlayer1.matrix, $boardPlayer1);
+                updateOpponentBoard(boardPlayer1, $boardPlayer1);
 
                 if (boardPlayer1.checkWinner()) {
                     handlePlayerWin(player2.name);
