@@ -13,8 +13,6 @@ export default function Ship([x1, y1], [x2, y2]) {
             const isVertical = y1 === y2;
 
             if (validateShipPlacement(gameBoard, isVertical)) {
-                // * Add ship object to gameBoard shipList
-
                 gameBoard.shipsList.push(ship);
                 return ship;
             } else if (isComputerBoard && !isRandomlyPlaced) {

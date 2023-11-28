@@ -2,10 +2,10 @@ import { getRandomCoords, getRandomInteger, shipsData } from './helpers';
 import { Computer, Player } from './player';
 import Ship from './shipsFactory';
 
-// * Initialize gameBoardList to keep track of different gameBoard
+// * Initialize gameBoardList to keep track of different gameBoards
 const gameBoardList = [];
 
-const gameBoard = (playerName, opponentName) => {
+const GameBoard = (playerName, opponentName) => {
     // * Initialize gameBoard Object and add it ID
     const gameBoard = {};
     gameBoard.id = playerName;
@@ -122,5 +122,5 @@ const gameBoard = (playerName, opponentName) => {
     return gameBoard;
 };
 
-export { gameBoard };
+export { GameBoard };
 export { gameBoardList };

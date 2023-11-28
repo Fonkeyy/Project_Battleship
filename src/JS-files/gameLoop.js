@@ -23,7 +23,7 @@ const ComputerGameLoop = (boardPlayer1, computer, $boardPlayer1, $computer) => {
         // document.removeEventListener('playerHasPlay', handlePlayerHasPlay);
 
         if (player1.active) {
-            // * Listen for event which appends on cell click
+            // * Listen for event that appends on cell click
             document.addEventListener('playerHasPlay', handlePlayerHasPlay);
         } else if (player2.active) {
             // * Set time out to make moves more human like

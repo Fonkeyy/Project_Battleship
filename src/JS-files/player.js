@@ -1,27 +1,34 @@
-function Computer() {
-    const computer = {};
-    computer.name = 'computer';
-    computer.moves = [];
-    computer.hitList = [];
+class Player {
+    constructor(name) {
+        this.name = name;
+        this.moves = [];
+        this.hitList = [];
+    }
 
-    computer.attack = ([x, y], boardAttacked) => {
+    attack = ([x, y], boardAttacked) => {
         boardAttacked.receiveAttack([x, y]);
     };
+}
+class Computer extends Player {
+    constructor() {
+        super();
+        this.name = 'computer';
+    }
 
-    computer.randomMove = () => {
+    randomMove = () => {
         const x = Math.ceil(Math.random() * 9);
         const y = Math.ceil(Math.random() * 9);
 
         return [x, y];
     };
 
-    computer.randomAttack = (opponentBoard) => {
+    randomAttack = (opponentBoard) => {
         const findAvailableMove = () => {
-            const coord = computer.randomMove();
+            const coord = this.randomMove();
             const x = coord[0];
             const y = coord[1];
 
-            let isCoordAvailable = !computer.moves.some((move) => move[0] === x && move[1] === y);
+            let isCoordAvailable = !this.moves.some((move) => move[0] === x && move[1] === y);
             return { coord, isCoordAvailable };
         };
 
@@ -32,25 +39,10 @@ function Computer() {
         }
 
         opponentBoard.receiveAttack(coord);
-        computer.moves.push(coord);
+        this.moves.push(coord);
 
         return coord;
     };
-
-    return computer;
-}
-
-function Player(name) {
-    const player = {};
-    player.name = name;
-    player.moves = [];
-    player.hitList = [];
-
-    player.attack = ([x, y], boardAttacked) => {
-        boardAttacked.receiveAttack([x, y]);
-    };
-
-    return player;
 }
 
 export { Computer, Player };

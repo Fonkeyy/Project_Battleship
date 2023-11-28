@@ -8,7 +8,7 @@ import {
     dragStart,
 } from './dragAndDrop';
 import { ComputerGameLoop } from './gameLoop';
-import { gameBoardList, gameBoard } from './gameBoardFactory';
+import { gameBoardList, GameBoard } from './gameBoardFactory';
 import { shipsData } from './helpers';
 
 const homeAnimation = () => {
@@ -28,8 +28,8 @@ const homeAnimation = () => {
 // //         const inputPlayer2 = document.querySelector('#input-player-2').value || 'Player 2';
 
 // //         // * Create gameBoard objects with players name as parameters
-// //         const gameBoardPlayer1 = gameBoard(inputPlayer1, inputPlayer2);
-// //         const gameBoardPlayer2 = gameBoard(inputPlayer2, inputPlayer1);
+// //         const gameBoardPlayer1 = GameBoardInputPlayer1, inputPlayer2);
+// //         const gameBoardPlayer2 = GameBoardInputPlayer2, inputPlayer1);
 
 // //         // * Create $Boards with gameBoard objects as parameters
 // //         const $boardPlayer1 = renderBoard(gameBoardPlayer1);
@@ -50,8 +50,8 @@ const handleStartComputerBtn = () => {
     const inputPlayer2 = 'computer';
 
     // * Create gameBoard objects with players name as parameters
-    const gameBoardPlayer1 = gameBoard(inputPlayer1, inputPlayer2);
-    const computerBoard = gameBoard(inputPlayer2, inputPlayer1);
+    const gameBoardPlayer1 = GameBoard(inputPlayer1, inputPlayer2);
+    const computerBoard = GameBoard(inputPlayer2, inputPlayer1);
 
     // * Create $Boards with gameBoard objects as parameters
     const $boardPlayer1 = renderBoard(gameBoardPlayer1);
@@ -195,13 +195,13 @@ const displayShipsList = () => {
     }
 
     // * Create btn to randomly place ships
-    const randomPlaceBtn = document.createElement('button');
-    randomPlaceBtn.id = 'random-place-btn';
-    randomPlaceBtn.addEventListener('click', handleRandomPlaceBtn);
-    shipsListContainer.appendChild(randomPlaceBtn);
+    const randomPlacementBtn = document.createElement('button');
+    randomPlacementBtn.id = 'random-place-btn';
+    randomPlacementBtn.addEventListener('click', handleRandomPlacementBtn);
+    shipsListContainer.appendChild(randomPlacementBtn);
 };
 
-const handleRandomPlaceBtn = () => {
+const handleRandomPlacementBtn = () => {
     const boardPlayer1 = gameBoardList[0];
     const boardPlayer2 = gameBoardList[1];
     const $boardPlayer1 = document.getElementById(boardPlayer1.id);
@@ -282,17 +282,17 @@ const clickCellHandler = (e) => {
     e.target.removeEventListener('click', clickCellHandler);
 };
 
-const updateGrids = (playergameBoard, opponentgameBoard, $board, $opponentBoard) => {
+const updateGrids = (playerGameBoard, opponentGameBoard, $board, $opponentBoard) => {
     // * Store gameBoards matrix to variables
-    const opponentMatrix = opponentgameBoard.matrix,
-        opponentBoard = opponentgameBoard.board;
+    const opponentMatrix = opponentGameBoard.matrix,
+        opponentBoard = opponentGameBoard.board;
 
-    updateBoard(playergameBoard, $board);
+    updateBoard(playerGameBoard, $board);
     updateOpponentBoard(opponentBoard, opponentMatrix, $opponentBoard);
 };
 
-const updateBoard = (playergameBoard, $board) => {
-    const board = playergameBoard.board;
+const updateBoard = (playerGameBoard, $board) => {
+    const board = playerGameBoard.board;
     // * Select all cells from the $board
     const $cells = $board.querySelectorAll('.grid-cell');
     //* For each cell, check the value of the gameBoard matrix and add it the corresponding class, except 'miss matrix"
