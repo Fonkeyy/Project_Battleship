@@ -13,9 +13,6 @@
 }
 
 .player-name {
-    /* font-family: 'Bagel Fat One', cursive; */
-    /* font-family: 'Luckiest Guy', cursive; */
-    /* font-family: 'Paytone One', sans-serif; */
     font-family: 'Rowdies', cursive;
     letter-spacing: 0.1rem;
     text-align: center;
@@ -27,7 +24,6 @@
 .board {
     display: grid;
     grid-template-columns: min-content auto;
-    /* font-family: 'Luckiest Guy', cursive; */
     font-family: 'Bagel Fat One', cursive;
     color: var(--tertiary-color);
 }
@@ -58,7 +54,6 @@
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    /* ? gap: 1px; */
     width: var(--grid-length);
     height: var(--grid-length);
     border: 1px solid var(--primary-color);
@@ -74,19 +69,16 @@
 }
 
 .occupied {
-    /* ?box-shadow: inset rgba(31, 188, 156, 1) 3px 3px 3px 2px, inset rgba(31, 188, 156, 1) -3px -3px 3px 2px; */
     box-shadow: inset rgba(31, 188, 156, 1) 2px 2px 5px 1px, inset rgba(31, 188, 156, 1) -2px -2px 5px 1px;
 }
 
 .hit {
     box-shadow: inset #ff702b 3px 3px 3px 2px, inset #ff702b -3px -3px 3px 2px;
-
     animation: cell-animation 0.2s ease-in-out;
 }
 
 .sunk {
     box-shadow: inset #ff3f38 3px 3px 3px 2px, inset #ff3f38 -3px -3px 3px 2px;
-
     animation: cell-animation 0.3s ease-in-out;
 }
 
@@ -129,9 +121,6 @@
     text-transform: capitalize;
     color: var(--primary-text-color);
 
-    /* font-family: 'Bagel Fat One', cursive; */
-    /* font-family: 'Luckiest Guy', cursive; */
-    /* font-family: 'Paytone One', sans-serif; */
     font-family: 'Rowdies', cursive;
     max-width: calc(var(--grid-length) / 3.1);
 }
@@ -158,6 +147,13 @@
     gap: 1px;
 }
 
+.vertical {
+    flex-direction: column;
+}
+
+.ship-cells {
+}
+
 .ship-cell {
     width: calc(0.1 * var(--grid-length));
     height: calc(0.1 * var(--grid-length));
@@ -166,9 +162,10 @@
     transition: transform 0.3s ease;
 }
 
-.ship-cell.vertical {
+/* .ship-cell.vertical {
     transform: rotate(90deg);
-}
+    flex-direction: column;
+} */
 
 #random-place-btn {
     background-image: url('../assets/svg/dice.svg');

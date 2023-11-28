@@ -188,7 +188,7 @@ const displayShipsList = () => {
         // * Attach drag and drop event listeners on container
         shipSvg.addEventListener('dragstart', dragStart);
         shipSvg.addEventListener('dragend', dragEnd);
-        shipSvg.addEventListener('dblclick', changeOrientation);
+        shipSvg.addEventListener('wheel', changeOrientation);
 
         shipContainer.append(shipSvg, shipLabel);
         shipsListContainer.appendChild(shipContainer);

@@ -27,6 +27,10 @@ const dragStart = (event) => {
         target.classList.add('ship-cells');
     }
 
+    if (event.target.dataset.orientation === 'vertical') {
+        target.classList.toggle('vertical');
+    }
+
     // * Store ship data to transfer
     event.dataTransfer.setData('text/plain', event.target.id);
     event.dataTransfer.setData('length', event.target.dataset.length);
